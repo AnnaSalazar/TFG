@@ -1,0 +1,334 @@
+---
+title: "Anàlisi descriptiva"
+author: "Anna Salazar"
+date: "`r Sys.Date()`"
+output: pdf_document
+header-includes:
+- \pagenumbering{gobble}
+- \usepackage{subfig}
+editor_options:
+  markdown:
+    wrap: 72
+---
+\vspace{130mm}
+
+<left>
+![](~/Documents/GitHub/01_02_/Imatges portada/fme.png){width="50%"}
+</left> <right>
+![](~/Documents/GitHub/01_02_/Imatges portada/UB.png){width="50%"}
+</right> \newpage
+
+\tableofcontents
+
+\pagebreak
+
+\pagenumbering{arabic}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+#install.packages("bigrquery")
+library(bigrquery)
+library(kableExtra)
+library(DBI)
+library(knitr)
+library(dplyr)
+library(VIM)
+library(tidyverse)
+library(summarytools)
+library(reshape2)
+library(ggplot2)
+library(devtools)
+library(knitr)
+
+
+projecte <- "level-oxygen-353005"
+
+dades <- dbConnect(
+  bigrquery::bigquery(),
+  project = projecte,
+  dataset = "examen_final",
+  billing = projecte
+)
+```
+
+
+# Descripció de la base de dades
+
+La base de dades està formada per les següents tres taules:
+
+**accident** és un llistat d’accidents de tràfic ocorreguts al desembre de 2015 als Estats Units:
+
+- ST_CASE: codi de l’accident (PK)
+
+- DAY: dia de l’accident (de l’1 al 31)
+
+- HOUR: hora de l’accident (99 = desconeguda)
+
+- MINUTE: minut de l’accident (99 = desconegut)
+
+- RUR_URB: informació sobre la localització (1 = Rural, 2 = Urbà, 6 = Via no classificada, 8 = No registrat, 9 = Desconegut)
+
+- DAY_WEEK: dia de la setmana (1 = Diumenge, 2 = Dilluns, ..., 7 = Dissabte)
+
+- FATALS: nombre de ferits a l’accident
+
+- DRUNK_DR: nombre de conductors beguts involucrats a l’accident
+
+**person** és un llistat de totes les persones (conductors, passatgers o vianants) involucrades als accidents
+
+- ST_CASE: codi de l’accident al qual està involucrada la persona (PK)
+
+- PER_NO: número de persona dins de cada accident (PK)
+
+- AGE: edat de la persona (998 = No registrada, 999 = Desconeguda)
+
+- SEX:  sexe de la persona (1 = home, 2 = dona, 8 = No registrat, 9 = Desconegut)
+
+- PER_TYP: tipus de persona (1 = conductor, 2 = ocupant, resta de codis = altres)
+
+- DOA: tipus de víctima (0 = sobreviu, 7 = mort a l’accident, 8 = mort al trasllat, 9 = Desconegut)
+	
+**vehicle** és un llistat de tots els vehicles involucrats als accidents
+
+- ST_CASE: codi de l’accident al qual està involucrat el vehicle (PK)
+
+- VEH_NO: número de vehicle dins de cada accident (PK)
+
+- HIT_RUN: identificador de vehicle fugit (0 = No, 1 = Sí, 9 = Desconegut)
+
+- TRAV_SP: velocitat estimada (mph)* del vehicle quan va tenir l’accident (997,998 i 999 = Desconegut)
+
+- PREV_SP: indicador d’existència de límit de velocitat permesa just abans de l’accident (997,998 i 999 = Desconegut)
+
+*mph vol dir milles per hora. 100 mph=161 Km/h
+
+\pagebreak
+
+# Anàlisi univariant
+
+## Variables categòriques
+
+```{r echo=FALSE}
+descriptiva <- function(X, nom,dades){
+  if (!(is.numeric(X) || class(X) == "Date")){ 
+    frecs <- table(as.factor(X), useNA = "no"); proportions <- frecs/n
+    dataf <- data.frame(x = levels(as.factor(X)), y = frecs)
+    par(mfrow=c(1,2))
+    print(ggplot(dataf, aes(x = "", y = frecs, fill = x)) + 
+            geom_bar(stat = "identity", width = 1) + 
+            scale_y_continuous(expand = c(0,0)) + coord_polar("y", start = 0) + 
+            theme_minimal())
+    print(ggplot(dataf, aes(x = x, y=frecs)) + geom_bar(stat = "identity", 
+          color = "lightblue", fill = "lightblue") + 
+            scale_y_continuous(expand = c(0,0)) + theme_void())
+    x <- data.frame(X)
+    colnames(x) <- nom
+    st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
+          style = 'grid', dfSummary.varnumbers = FALSE,
+          dfSummary.valid.col = FALSE, tmp.img.dir  = "img", round.digits = 3,
+          dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
+    dfSummary(x) 
+
+   }else{
+      print(ggplot(dades, aes(x = X)) + geom_bar(col = "lightblue", fill = 
+      "lightblue") + theme_minimal())
+       a <- descr(X, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", 
+                 "mean", "sd", "q3", "max", "iqr"), style = "rmarkdown", justify 
+                 = "center")
+       rownames(a) <- NULL
+       kable(a, caption = paste("Resum numèric de la variable", nom), 
+             format = "latex", position = "h!")
+   }
+}
+
+descriptiva2 <- function(X, nom,dades){
+  if (!(is.numeric(X) || class(X) == "Date")){ 
+    frecs <- table(as.factor(X), useNA = "no"); proportions <- frecs/n
+    dataf <- data.frame(x = levels(as.factor(X)), y = frecs)
+    par(mfrow=c(1,2))
+    print(ggplot(dataf, aes(x = "", y = frecs, fill = x)) + 
+            geom_bar(stat = "identity", width = 1) + 
+            scale_y_continuous(expand = c(0,0)) + coord_polar("y", start = 0) + 
+            theme_minimal())
+    print(ggplot(dataf, aes(x = x, y=frecs)) + geom_bar(stat = "identity", 
+          color = "lightblue", fill = "lightblue") + 
+            scale_y_continuous(expand = c(0,0)) + theme_void())
+   }else{
+      print(ggplot(dades, aes(x = X)) + geom_bar(col = "lightblue", fill = 
+      "lightblue") + theme_minimal())
+       a <- descr(X, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", 
+                 "mean", "sd", "q3", "max", "iqr"), style = "rmarkdown", justify 
+                 = "center")
+       rownames(a) <- NULL
+       kable(a, caption = paste("Resum numèric de la variable", nom), 
+             format = "latex", position = "h!")
+   }
+}
+```
+
+
+```{r, warning=FALSE, message=FALSE}
+accidents <- data.frame(dbGetQuery(dades, 
+            "SELECT * FROM `level-oxygen-353005.examen_final.accident`"))
+
+person <- data.frame(dbGetQuery(dades, 
+            "SELECT * FROM `level-oxygen-353005.examen_final.person`"))
+
+vehicle <- data.frame(dbGetQuery(dades, 
+            "SELECT * FROM `level-oxygen-353005.examen_final.vehicle`"))
+```
+
+
+```{r include=FALSE}
+accidents <- data.frame(accidents)
+for(i in c(2, 5, 6)) {
+  accidents[,i]<-as.factor(accidents[,i])
+}
+
+person <- data.frame(person)
+for(i in c(2, 4, 5, 6)) {
+  person[,i]<-as.factor(person[,i])
+}
+
+vehicle <- data.frame(vehicle)
+for(i in c(2, 3, 5)) {
+  vehicle[,i]<-as.factor(vehicle[,i])
+}
+```
+
+```{r include=FALSE}
+n <- nrow(accidents)
+```
+
+**Dia de l'accident**
+
+```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Dia", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
+par(mfrow=c(1,2))
+descriptiva2(accidents[,2], colnames(accidents)[2], dades = accidents)
+```
+
+**Hora de l'accident**
+
+```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Histograma de la variable Hora de l'accident"), results='asis', warning=FALSE}
+descriptiva(accidents[,3], "Hora de l'accident", dades = accidents)
+```
+
+\pagebreak
+
+**Minut de l'accident**
+
+```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Histograma de la variable Minut de l'accident"), results='asis', warning=FALSE}
+descriptiva(accidents[,4], "Minut de l'accident", dades = accidents)
+```
+
+**Localització**
+
+```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Localització", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
+par(mfrow=c(1,2))
+descriptiva(accidents[,5], colnames(accidents)[5], dades = accidents)
+```
+
+\pagebreak
+
+**Dia de la setmana**
+
+```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Dia de la setmana", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
+par(mfrow=c(1,2))
+descriptiva(accidents[,6], colnames(accidents)[6], dades = accidents)
+```
+
+**Nombre de ferits a l’accident**
+
+```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Histograma de la variable Nombre de ferits a l’accident"), results='asis', warning=FALSE}
+descriptiva(accidents[,7], "Nombre de ferits a l’accident", dades = accidents)
+```
+
+\pagebreak
+
+**Nombre de conductors beguts**
+
+```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Histograma de la variable Nombre de conductors beguts"), results='asis', warning=FALSE}
+descriptiva(accidents[,8], "Nombre de conductors beguts", dades = accidents)
+```
+
+\pagebreak
+
+```{r include=FALSE}
+n <- nrow(person)
+```
+
+**Nombre de la persona dins de l'accident**
+
+```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Nombre de la persona", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
+par(mfrow=c(1,2))
+descriptiva(person[,2], colnames(person)[2], dades = person)
+```
+
+\pagebreak
+
+**Edat**
+
+```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Histograma de la variable Edat"), results='asis', warning=FALSE}
+descriptiva(person[,3], "Edat", dades = person)
+```
+
+\pagebreak
+
+**Sexe**
+
+```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Sexe", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
+par(mfrow=c(1,2))
+descriptiva(person[,4], colnames(person)[4], dades = person)
+```
+
+\pagebreak
+
+**Tipus de persona**
+
+```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Tipus de persona", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
+par(mfrow=c(1,2))
+descriptiva(person[,5], colnames(person)[5], dades = person)
+```
+
+**Tipus de víctima**
+
+```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Tipus de víctima", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
+par(mfrow=c(1,2))
+descriptiva(person[,6], colnames(person)[6], dades = person)
+```
+
+\pagebreak
+
+```{r include=FALSE}
+n <- nrow(vehicle)
+```
+
+**Nombre del vehicle dins de l'accident**
+
+```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Nombre del vehicle", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
+par(mfrow=c(1,2))
+descriptiva(vehicle[,2], colnames(vehicle)[2], dades = vehicle)
+```
+
+**Identificació del vehicle**
+
+```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Identificació del vehicle", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
+par(mfrow=c(1,2))
+descriptiva(vehicle[,3], colnames(vehicle)[3], dades = vehicle)
+```
+
+**Velocitat estimada**
+
+```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Histograma de la variable Velocitat estimada"), results='asis', warning=FALSE}
+descriptiva(vehicle[,4], "Velocitat estimada", dades = vehicle)
+```
+
+**Indicador d’existència de límit de velocitat permesa just abans de l’accident**
+
+```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Indicador d’existència de límit de velocitat", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
+par(mfrow=c(1,2))
+descriptiva(vehicle[,5], colnames(vehicle)[5], dades = vehicle)
+```
+
+## Variables numèriques
+
