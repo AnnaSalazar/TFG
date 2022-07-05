@@ -38,6 +38,7 @@ library(summarytools)
 library(reshape2)
 library(ggplot2)
 library(devtools)
+library(naniar)
 library(knitr)
 
 
@@ -166,51 +167,78 @@ descriptiva2 <- function(X, nom,dades){
 }
 ```
 
-
 ```{r, warning=FALSE, message=FALSE}
-accidents <- data.frame(dbGetQuery(dades, 
-            "SELECT * FROM `level-oxygen-353005.examen_final.accident`"))
+bd <- data.frame(dbGetQuery(dades, 
+          "SELECT * FROM `level-oxygen-353005.examen_final.person` AS B
+ LEFT JOIN (SELECT T.*, HIT_RUN, TRAV_SP, PREV_SP
+            FROM (SELECT A.*, COUNT(C.ST_CASE) AS NO_VEHICLES
+                  FROM (SELECT `level-oxygen-353005.examen_final.accident`.*, 
+                  COUNT(B1.ST_CASE) AS NO_PER
+                        FROM `level-oxygen-353005.examen_final.accident` 
+                              INNER JOIN 
+                              `level-oxygen-353005.examen_final.person` AS B1
+                        ON `level-oxygen-353005.examen_final.accident`.ST_CASE = B1.ST_CASE
+                        GROUP BY `level-oxygen-353005.examen_final.accident`.ST_CASE, DAY, HOUR, MINUTE, RUR_URB, DAY_WEEK, FATALS, DRUNK_DR) AS A 
+                      INNER JOIN `level-oxygen-353005.examen_final.vehicle` AS C
+                      ON A.ST_CASE = C.ST_CASE
+                      GROUP BY A.ST_CASE, DAY, HOUR, MINUTE, RUR_URB, DAY_WEEK, FATALS, DRUNK_DR, NO_PER) AS T INNER JOIN `level-oxygen-353005.examen_final.vehicle` AS C2
+                      ON T.ST_CASE = C2.ST_CASE) AS T2
+          ON B.ST_CASE = T2.ST_CASE"))
+bd <- bd[,-c(1, 2, 7)]
+n <- nrow(bd)
 
-person <- data.frame(dbGetQuery(dades, 
-            "SELECT * FROM `level-oxygen-353005.examen_final.person`"))
-
-vehicle <- data.frame(dbGetQuery(dades, 
-            "SELECT * FROM `level-oxygen-353005.examen_final.vehicle`"))
-```
-
-
-```{r include=FALSE}
-accidents <- data.frame(accidents)
-for(i in c(2, 5, 6)) {
-  accidents[,i]<-as.factor(accidents[,i])
-}
-
-person <- data.frame(person)
-for(i in c(2, 4, 5, 6)) {
-  person[,i]<-as.factor(person[,i])
-}
-
-vehicle <- data.frame(vehicle)
-for(i in c(2, 3, 5)) {
-  vehicle[,i]<-as.factor(vehicle[,i])
+bd <- data.frame(bd)
+for(i in c(2, 3, 4, 5, 8, 9, 14, 16)) {
+  bd[,i]<-as.factor(bd[,i])
 }
 ```
 
-```{r include=FALSE}
-n <- nrow(accidents)
+
+## Tractament de les dades mancants
+
+### Variables numèriques
+
+```{r}
+bd <- bd %>% replace_with_na(replace = list(TRAV_SP = c(997, 998, 999)))
+bd <- bd %>% replace_with_na(replace = list(AGE = c(998, 999)))
+bd <- bd %>% replace_with_na(replace = list(MINUTE = c(99)))
+bd <- bd %>% replace_with_na(replace = list(HOUR = c(99)))
+
+sum(is.na(bd$TRAV_SP))/n*100
+sum(is.na(bd$AGE))/n*100
+sum(is.na(bd$MINUTE))/n*100
+sum(is.na(bd$HOUR))/n*100
+```
+
+
+## Variables qualitatives
+
+```{r}
+levels(bd$PER_TYP) <- c("Conductor", "Ocupant", "Altres", "Altres", "Altres", 
+                        "Altres", "Altres", "Altres")
+levels(bd$HIT_RUN) <- c("No", "Sí", "Desconegut")
+levels(bd$PREV_SP) <- c("0", "1", "2", "3", "4", "5", "7", "9", "Desconegut", 
+                        "Desconegut")
+levels(bd$DAY_WEEK) <- c("Diumenge", "Dilluns", "Dimarts", "Dimecres", "Dijous",
+                         "Divendres", "Dissabte")
+levels(bd$SEX) <- c("Home", "Dona", "No registrat", "Desconegut")
+levels(bd$RUR_URB) <- c("Rural", "Urbà", "Via no classificada", 
+                        "No registrat", "Desconegut")
+levels(bd$DOA) <- c("Sobreviu", "Mort a l'accident", "Mort al trasllat", 
+                    "Desconegut")
 ```
 
 **Dia de l'accident**
 
 ```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Dia", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
 par(mfrow=c(1,2))
-descriptiva2(accidents[,2], colnames(accidents)[2], dades = accidents)
+descriptiva2(bd[,5], colnames(bd)[5], dades = bd)
 ```
 
 **Hora de l'accident**
 
 ```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Histograma de la variable Hora de l'accident"), results='asis', warning=FALSE}
-descriptiva(accidents[,3], "Hora de l'accident", dades = accidents)
+descriptiva(bd[,6], "Hora de l'accident", dades = bd)
 ```
 
 \pagebreak
@@ -218,14 +246,14 @@ descriptiva(accidents[,3], "Hora de l'accident", dades = accidents)
 **Minut de l'accident**
 
 ```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Histograma de la variable Minut de l'accident"), results='asis', warning=FALSE}
-descriptiva(accidents[,4], "Minut de l'accident", dades = accidents)
+descriptiva(bd[,7], "Minut de l'accident", dades = bd)
 ```
 
 **Localització**
 
 ```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Localització", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
 par(mfrow=c(1,2))
-descriptiva(accidents[,5], colnames(accidents)[5], dades = accidents)
+descriptiva(bd[,8], "Localització", dades = bd)
 ```
 
 \pagebreak
@@ -234,13 +262,13 @@ descriptiva(accidents[,5], colnames(accidents)[5], dades = accidents)
 
 ```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Dia de la setmana", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
 par(mfrow=c(1,2))
-descriptiva(accidents[,6], colnames(accidents)[6], dades = accidents)
+descriptiva(bd[,9], "Dia de la setmana", dades = bd)
 ```
 
 **Nombre de ferits a l’accident**
 
 ```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Histograma de la variable Nombre de ferits a l’accident"), results='asis', warning=FALSE}
-descriptiva(accidents[,7], "Nombre de ferits a l’accident", dades = accidents)
+descriptiva(bd[,10], "Nombre de ferits a l’accident", dades = bd)
 ```
 
 \pagebreak
@@ -248,20 +276,17 @@ descriptiva(accidents[,7], "Nombre de ferits a l’accident", dades = accidents)
 **Nombre de conductors beguts**
 
 ```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Histograma de la variable Nombre de conductors beguts"), results='asis', warning=FALSE}
-descriptiva(accidents[,8], "Nombre de conductors beguts", dades = accidents)
+descriptiva(bd[,11], "Nombre de conductors beguts", dades = bd)
 ```
 
 \pagebreak
 
-```{r include=FALSE}
-n <- nrow(person)
-```
 
-**Nombre de la persona dins de l'accident**
+**Nombre de persones implicades en l'accident**
 
 ```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Nombre de la persona", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
 par(mfrow=c(1,2))
-descriptiva(person[,2], colnames(person)[2], dades = person)
+descriptiva(bd[,12], "Nombre de persones implicades en l'accident", dades = bd)
 ```
 
 \pagebreak
@@ -269,7 +294,7 @@ descriptiva(person[,2], colnames(person)[2], dades = person)
 **Edat**
 
 ```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Histograma de la variable Edat"), results='asis', warning=FALSE}
-descriptiva(person[,3], "Edat", dades = person)
+descriptiva(bd[,1], "Edat", dades = bd)
 ```
 
 \pagebreak
@@ -278,7 +303,7 @@ descriptiva(person[,3], "Edat", dades = person)
 
 ```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Sexe", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
 par(mfrow=c(1,2))
-descriptiva(person[,4], colnames(person)[4], dades = person)
+descriptiva(bd[,2], "Sexe", dades = bd)
 ```
 
 \pagebreak
@@ -287,47 +312,44 @@ descriptiva(person[,4], colnames(person)[4], dades = person)
 
 ```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Tipus de persona", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
 par(mfrow=c(1,2))
-descriptiva(person[,5], colnames(person)[5], dades = person)
+descriptiva(bd[,3], "Tipus de persona", dades = bd)
 ```
 
 **Tipus de víctima**
 
 ```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Tipus de víctima", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
 par(mfrow=c(1,2))
-descriptiva(person[,6], colnames(person)[6], dades = person)
+descriptiva(bd[,4], "Tipus de víctima", dades = bd)
 ```
 
 \pagebreak
 
-```{r include=FALSE}
-n <- nrow(vehicle)
-```
 
-**Nombre del vehicle dins de l'accident**
+**Nombre de vehicles involucrats en l'accident**
 
-```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Nombre del vehicle", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
+```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Nombre de vehicles involucrats en l'accident", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
 par(mfrow=c(1,2))
-descriptiva(vehicle[,2], colnames(vehicle)[2], dades = vehicle)
+descriptiva(bd[,13], "Nombre de vehicles involucrats en l'accident", dades = bd)
 ```
 
 **Identificació del vehicle**
 
 ```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Identificació del vehicle", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
 par(mfrow=c(1,2))
-descriptiva(vehicle[,3], colnames(vehicle)[3], dades = vehicle)
+descriptiva(bd[,14], "Identificació del vehicle", dades = bd)
 ```
 
 **Velocitat estimada**
 
 ```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Histograma de la variable Velocitat estimada"), results='asis', warning=FALSE}
-descriptiva(vehicle[,4], "Velocitat estimada", dades = vehicle)
+descriptiva(bd[,15], "Velocitat estimada", dades = bd)
 ```
 
 **Indicador d’existència de límit de velocitat permesa just abans de l’accident**
 
 ```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Indicador d’existència de límit de velocitat", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
 par(mfrow=c(1,2))
-descriptiva(vehicle[,5], colnames(vehicle)[5], dades = vehicle)
+descriptiva(bd[,16], "Indicador d’existència de límit de velocitat permesa just abans de l’accident", dades = bd)
 ```
 
 ## Variables numèriques
