@@ -173,18 +173,51 @@ kable(missings[,-2], caption = "Percentatge de missings per variable", col.names
 
 ## Variable resposta
 
+```{r echo=FALSE}
+descriptiva <- function(X, nom,dades){
+  if (!(is.numeric(X) || class(X) == "Date")){ 
+    frecs <- table(as.factor(X), useNA = "no"); proportions <- frecs/n
+    dataf <- data.frame(x = levels(as.factor(X)), y = frecs)
+    par(mfrow=c(1,2))
+    print(ggplot(dataf, aes(x = "", y = frecs, fill = x)) + 
+            geom_bar(stat = "identity", width = 1) + 
+            scale_y_continuous(expand = c(0,0)) + coord_polar("y", start = 0) +
+            scale_fill_brewer(palette = "YlGnBu") +
+            theme_minimal())
+    print(ggplot(dataf, aes(x = x, y=frecs)) + geom_bar(stat = "identity", 
+          color = "#1d91c0", fill = "#1d91c0") + 
+            scale_y_continuous(expand = c(0,0)) + theme_void())
+    x <- data.frame(X)
+    colnames(x) <- nom
+    st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
+          style = 'grid', dfSummary.varnumbers = FALSE,
+          dfSummary.valid.col = FALSE, tmp.img.dir  = "img", round.digits = 3,
+          dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
+    dfSummary(x) 
+
+   }else{
+      par(mfrow=c(1,2))
+      print(ggplot(dades, aes(x = X)) + geom_bar(col = "#1d91c0", fill = 
+      "#1d91c0") + theme_minimal())
+      print(ggplot(dades, aes(y = X)) + geom_boxplot(col = "#1d91c0", outlier.colour="red", outlier.shape=8,
+       outlier.size=4) + theme_minimal())
+       a <- descr(X, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", 
+                 "mean", "sd", "q3", "max", "iqr"), style = "rmarkdown", justify 
+                 = "center")
+       rownames(a) <- NULL
+       kable(a, caption = paste("Resum numèric de la variable", nom), 
+             format = "latex", position = "h!")
+   }
+}
+```
+
 Ja que un dels objectius del treball és el desenvolupament d'un model de predicció que ens permeti establir el tipus de víctima que serà cada persona, depenent les característiques de l'accident i els vehicles, la variable depenent o resposta del treball és `DOA`. 
 
 A continuació es pot veure un breu anàlisi descriptiu de la variable:
 
-```{r, results='asis', echo=FALSE}
-levels(bd$DOA) <- c("Sobreviu", "Mort a l'accident", "Mort al trasllat", 
-                    "Desconegut")
-st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
-          style = 'grid', dfSummary.varnumbers = FALSE,
-          dfSummary.valid.col = TRUE, tmp.img.dir  = "img", round.digits = 3,
-          dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
-dfSummary(bd[,4]) 
+```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Tipus de víctima", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
+par(mfrow=c(1,2))
+descriptiva(bd[,4], "Tipus de víctima", dades = bd)
 ```
 
 No hi ha cap dada mancant en aquesta variable, encara que hi ha $3$ persones de que quals el seu estat després de l'accident és desconegut. 
@@ -300,206 +333,113 @@ bd$DAY <- factor(bd$DAY, levels = lev)
 
 # Anàlisi univariant
 
-```{r echo=FALSE}
-descriptiva <- function(X, nom,dades){
-  if (!(is.numeric(X) || class(X) == "Date")){ 
-    frecs <- table(as.factor(X), useNA = "no"); proportions <- frecs/n
-    dataf <- data.frame(x = levels(as.factor(X)), y = frecs)
-    par(mfrow=c(1,2))
-    print(ggplot(dataf, aes(x = "", y = frecs, fill = x)) + 
-            geom_bar(stat = "identity", width = 1) + 
-            scale_y_continuous(expand = c(0,0)) + coord_polar("y", start = 0) +
-            scale_fill_brewer(palette = "YlGnBu") +
-            theme_minimal())
-    print(ggplot(dataf, aes(x = x, y=frecs)) + geom_bar(stat = "identity", 
-          color = "#1d91c0", fill = "#1d91c0") + 
-            scale_y_continuous(expand = c(0,0)) + theme_void())
-    x <- data.frame(X)
-    colnames(x) <- nom
-    st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
-          style = 'grid', dfSummary.varnumbers = FALSE,
-          dfSummary.valid.col = FALSE, tmp.img.dir  = "img", round.digits = 3,
-          dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
-    dfSummary(x) 
-
-   }else{
-      par(mfrow=c(1,2))
-      print(ggplot(dades, aes(x = X)) + geom_bar(col = "#1d91c0", fill = 
-      "#1d91c0") + theme_minimal())
-      print(ggplot(dades, aes(y = X)) + geom_boxplot(col = "#1d91c0", outlier.colour="red", outlier.shape=8,
-       outlier.size=4) + theme_minimal())
-       a <- descr(X, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", 
-                 "mean", "sd", "q3", "max", "iqr"), style = "rmarkdown", justify 
-                 = "center")
-       rownames(a) <- NULL
-       kable(a, caption = paste("Resum numèric de la variable", nom), 
-             format = "latex", position = "h!")
-   }
-}
-
-descriptiva2 <- function(X, nom, dades){
-  if (!(is.numeric(X) || class(X) == "Date")){ 
-    frecs <- table(X, useNA = "no"); proportions <- frecs/n
-    dataf <- data.frame(x = levels(X), y = frecs)
-    print(ggplot(dataf, aes(x = levels(X), y = frecs)) + geom_bar(stat = "identity", 
-          color = "#1d91c0", fill = "#1d91c0") + 
-            scale_y_continuous(expand = c(0,0)) +
-  scale_x_discrete(limits = lev) +  theme(
-        axis.text.x=element_text(angle = 90, size = 12),
-        axis.text.y=element_text(hjust = 1, vjust = 0.8, size = 15)) + theme_minimal())
-   }else{
-      print(ggplot(dades, aes(x = X)) + geom_bar(col = "#1d91c0", fill = 
-      "#1d91c0") + theme_minimal())
-       a <- descr(X, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", 
-                 "mean", "sd", "q3", "max", "iqr"), style = "rmarkdown", justify 
-                 = "center")
-       rownames(a) <- NULL
-       kable(a, caption = paste("Resum numèric de la variable", nom), 
-             format = "latex", position = "h!")
-   }
-}
-```
-
 ## Variables numèriques
 
 **HOUR**: Hora de l’accident (99 = desconeguda).  Tipus de variable: `r class(bd$HOUR)`
 
-```{r echo=FALSE, out.width="50%", comment = "", fig.cap=c("Anàlisi descriptiu de la variable Hora de l'accident"), fig.subcap=c("Histograma", "Boxplot"), results='asis', warning=FALSE}
-par(mfrow=c(1,2))
-descriptiva(bd[,6], "Hora de l'accident", dades = bd)
-```
-
 **MINUTE**: Minut de l’accident (99 = desconegut). Tipus de variable: `r class(bd$MINUTE)`
-
-```{r echo=FALSE, out.width="50%", fig.align = 'center', comment = "", fig.cap=c("Anàlisi descriptiu de la variable Minut de l'accident"), fig.subcap=c("Histograma", "Boxplot"), results='asis', warning=FALSE}
-descriptiva(bd[,7], "Minut de l'accident", dades = bd)
-```
-
-\pagebreak
 
 **FATALS**: Nombre de ferits a l’accident. Tipus de variable: `r class(bd$FATALS)`
 
-```{r echo=FALSE, out.width="50%", comment = "", fig.cap=c("Anàlisi descriptiu de la variable Nombre de ferits a l’accident"), fig.subcap=c("Histograma", "Boxplot"), results='asis', warning=FALSE}
-par(mfrow=c(1,2))
-descriptiva(bd[,10], "Nombre de ferits a l’accident", dades = bd)
-```
-
-\pagebreak
-
 **DRUNK_DR**: Nombre de conductors beguts involucrats a l’accident. Tipus de variable: `r class(bd$DRUNK_DR)`
-
-```{r echo=FALSE, out.width="50%", comment = "", fig.cap=c("Anàlisi descriptiu de la variable Nombre de conductors beguts"), fig.subcap=c("Histograma", "Boxplot"), results='asis', warning=FALSE}
-par(mfrow=c(1,2))
-descriptiva(bd[,11], "Nombre de conductors beguts", dades = bd)
-```
-
-\pagebreak
 
 **NO_PER**: Nombre de persones implicades en l’accident. Tipus de variable: `r class(bd$NO_PER)`
 
-```{r echo=FALSE, out.width="50%", comment = "", fig.cap=c("Anàlisi descriptiu de la variable Nombre de persones implicades en l'accident"), fig.subcap=c("Histograma", "Boxplot"), results='asis', warning=FALSE}
-par(mfrow=c(1,2))
-descriptiva(bd[,12], "Nombre de persones implicades en l'accident", dades = bd)
-```
-
-\pagebreak
-
 **AGE**: Edat de la persona (998 = No registrada, 999 = Desconeguda). Tipus de variable: `r class(bd$AGE)`
-
-```{r echo=FALSE, out.width="50%", comment = "", fig.cap=c("Anàlisi descriptiu de la variable Edat"), fig.subcap=c("Histograma", "Boxplot"), results='asis', warning=FALSE}
-par(mfrow=c(1,2))
-descriptiva(bd[,1], "Edat", dades = bd)
-```
-
-\pagebreak
 
 **NO_VEH**: Nombre de vehicles implicats en l’accident. Tipus de variable: `r class(bd$NO_VEH)`
 
-```{r echo=FALSE, out.width="50%", comment = "", fig.cap=c("Anàlisi descriptiu de la variable Nombre de vehicles involucrats en l'accident"), fig.subcap=c("Histograma", "Boxplot"),  results='asis', warning=FALSE}
-par(mfrow=c(1,2))
-descriptiva(bd[,13], "Nombre de vehicles involucrats en l'accident", dades = bd)
-```
-
-\pagebreak
-
 **TRAV_SP**: Velocitat estimada (km) del vehicle quan va tenir l’accident (997,998 i 999 = Desconegut). Tipus de variable: `r class(bd$TRAV_SP)`
 
-```{r echo=FALSE, out.width="50%", comment = "", fig.cap=c("Anàlisi descriptiu de la variable Velocitat estimada"), fig.subcap=c("Histograma", "Boxplot"), results='asis', warning=FALSE}
-#fig.align = 'center',
-par(mfrow=c(1,2))
-descriptiva(bd[,15], "Velocitat estimada", dades = bd)
+```{r, results='asis', echo=FALSE}
+a <- descr(bd[, c(1, 6, 7, 10, 11, 12, 13, 15)], transpose = TRUE, stats = 
+             c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max", "iqr"),
+           style = "rmarkdown", justify = "center")
+rownames(a) <- NULL
+kable(a, caption = "Resum de les variables numèriques", 
+             format = "latex", position = "h!")
 ```
 
-\pagebreak
 
 ## Variables categòriques
 
 **DAY**: Dia de l’accident (de l’1 al 31). Tipus de variable: `r class(bd$DAY)`
 
-```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Dia", fig.subcap=c("Bar plot"), results='asis'}
-
-descriptiva2(bd[,5], colnames(bd)[5], dades = bd)
+```{r, results='asis', echo=FALSE}
+st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
+          style = 'grid', dfSummary.varnumbers = FALSE,
+          dfSummary.valid.col = TRUE, tmp.img.dir  = "img", round.digits = 3,
+          dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
+dfSummary(bd[, 5]) 
 ```
-
-
-\pagebreak
 
 **RUR_URB**: Informació sobre la localització (1 = Rural, 2 = Urbà, 6 = Via no classificada, 8 = No registrat, 9 = Desconegut). Tipus de variable: `r class(bd$RUR_URB)`
 
-```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Localització", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
-par(mfrow=c(1,2))
-descriptiva(bd[,8], "Localització", dades = bd)
+```{r, results='asis', echo=FALSE}
+st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
+          style = 'grid', dfSummary.varnumbers = FALSE,
+          dfSummary.valid.col = TRUE, tmp.img.dir  = "img", round.digits = 3,
+          dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
+dfSummary(bd[,8]) 
 ```
-
-\pagebreak
 
 **DAY_WEEK**: Dia de la setmana (1 = Diumenge, 2 = Dilluns, . . . , 7 = Dissabte). Tipus de variable: `r class(bd$DAY_WEEK)`
 
-```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Dia de la setmana", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
-par(mfrow=c(1,2))
-descriptiva(bd[,9], "Dia de la setmana", dades = bd)
+```{r, results='asis', echo=FALSE}
+st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
+          style = 'grid', dfSummary.varnumbers = FALSE,
+          dfSummary.valid.col = TRUE, tmp.img.dir  = "img", round.digits = 3,
+          dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
+dfSummary(bd[,9]) 
 ```
-
 
 **SEX**: Sexe de la persona (1 = home, 2 = dona, 8 = No registrat, 9 = Desconegut). Tipus de variable: `r class(bd$SEX)`
 
-```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Sexe", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
-par(mfrow=c(1,2))
-descriptiva(bd[,2], "Sexe", dades = bd)
+```{r, results='asis', echo=FALSE}
+st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
+          style = 'grid', dfSummary.varnumbers = FALSE,
+          dfSummary.valid.col = TRUE, tmp.img.dir  = "img", round.digits = 3,
+          dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
+dfSummary(bd[,2]) 
 ```
-
-\pagebreak
 
 **PER_TYP**: Tipus de persona (1 = conductor, 2 = ocupant, resta de codis = altres). Tipus de variable: `r class(bd$PER_TYP)`
 
-```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Tipus de persona", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
-par(mfrow=c(1,2))
-descriptiva(bd[,3], "Tipus de persona", dades = bd)
+```{r, results='asis', echo=FALSE}
+st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
+          style = 'grid', dfSummary.varnumbers = FALSE,
+          dfSummary.valid.col = TRUE, tmp.img.dir  = "img", round.digits = 3,
+          dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
+dfSummary(bd[,3]) 
 ```
 
 **DOA**: Tipus de víctima (0 = sobreviu, 7 = mort a l’accident, 8 = mort al trasllat, 9 = Desconegut). Tipus de variable: `r class(bd$DOA)` 
 
-```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Tipus de víctima", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
-par(mfrow=c(1,2))
-descriptiva(bd[,4], "Tipus de víctima", dades = bd)
+```{r, results='asis', echo=FALSE}
+st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
+          style = 'grid', dfSummary.varnumbers = FALSE,
+          dfSummary.valid.col = TRUE, tmp.img.dir  = "img", round.digits = 3,
+          dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
+dfSummary(bd[, 4]) 
 ```
-
-\pagebreak
-
 
 **HIT_RUN**: Identificador de vehicle fugit (0 = No, 1 = Sí, 9 = Desconegut). Tipus de variable: `r class(bd$HIT_RUN)` 
 
-```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Identificació del vehicle", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
-par(mfrow=c(1,2))
-descriptiva(bd[,14], "Identificació del vehicle", dades = bd)
+```{r, results='asis', echo=FALSE}
+st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
+          style = 'grid', dfSummary.varnumbers = FALSE,
+          dfSummary.valid.col = TRUE, tmp.img.dir  = "img", round.digits = 3,
+          dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
+dfSummary(bd[,14]) 
 ```
-
-\pagebreak
 
 **PREV_SP**: Indicador d’existència de límit de velocitat permesa just abans de l’accident (997,998 i 999 = Desconegut). Tipus de variable: `r class(bd$PREV_SP)` 
 
-```{r, out.width="50%", fig.cap= "Anàlisi descriptiu de la variable Indicador d’existència de límit de velocitat", fig.subcap=c("Pie plot", "Bar plot"), results='asis'}
-par(mfrow=c(1,2))
-descriptiva(bd[,16], "Indicador d’existència de límit de velocitat permesa just abans de l’accident", dades = bd)
+```{r, results='asis', echo=FALSE}
+st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
+          style = 'grid', dfSummary.varnumbers = FALSE,
+          dfSummary.valid.col = TRUE, tmp.img.dir  = "img", round.digits = 3,
+          dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
+dfSummary(bd[,16]) 
 ```
 
