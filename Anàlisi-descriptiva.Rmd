@@ -75,7 +75,7 @@ B$MORT == 0
 B$MORT[B$DOA==7 | B$DOA==8 ] <- 1 
 ```
 
-Les bases de dades que seran utilitzades al llarg de l'estudi provenen d'una companyia d'assegurances per a vehicles i contenen tres taules, entre les quals s'hi troba un llistat d’accidents de tràfic ocorreguts al desembre de 2015 als Estats Units, juntament amb un recompte de totes les persones (conductors, passatgers o vianants) involucrades als accidents i, finalment, un inventari de tots els vehicles involucrats als accidents. 
+Les bases de dades que seran utilitzades al llarg de l'estudi provenen de l'agència estatal de trànsit dels Estats Units i contenen tres taules, entre les quals s'hi troba un llistat d’accidents de tràfic ocorreguts al desembre de 2015 als Estats Units, juntament amb un recompte de totes les persones (conductors, passatgers o vianants) involucrades als accidents i, finalment, un inventari de tots els vehicles involucrats als accidents. 
 
 L'enllaç a la base esmentada és el següent: 
 
@@ -401,6 +401,19 @@ A la següent figura es representa la variable nombre de persones (NO_PER), on e
 descriptiva(persones[,8], "Nombre de persones", dades = persones)
 ```
 
+Per tal d'assegurar-nos que aquesta dada no afecta al nostre anàlisi, i tenint en compte que disposem d'una base de dades molt gran, treurem aquests casos d'ambdues baeses de dades.
+
+```{r, echo=FALSE, include=FALSE}
+persones <- persones[persones[,8] != 53,] 
+accident <- accident[accident[,8] != 53,]
+```
+
+```{r, out.width="50%", fig.cap= "Histograma de la variable Nombre de persones després d'eliminar l'outlier", results='asis'}
+#par(mfrow=c(1,2))
+descriptiva(persones[,8], "Nombre de persones", dades = persones)
+```
+
+
 ## Categoritzar
 
 En el cas de les dades mancants que es troben en variables categòriques, el que es farà serà factoritzar-les i, seguidament, definir els nivells que presenta el factor. Així, per exemple, la variable **PER_TYP** presenta $8$ nivells que s'han d'agrupar en $3$ (*Conductor*, *Ocupant* i *Altres*). 
@@ -500,6 +513,7 @@ Per aquesta última variable, `DOA`, hi ha una categoria anomenada "Desconegut",
 
 ```{r, echo=FALSE, include=FALSE}
 persones <- persones[persones$DOA != "Desconegut",] 
+persones$DOA <- droplevels(persones$DOA)
 ```
 
 
