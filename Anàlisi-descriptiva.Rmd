@@ -322,7 +322,6 @@ Un cop s'ha aplicat l'algoritme per a les variables corresponents, es pot veure,
 
 Recordem que la taula mostra les bases de dades d'accidents i de les persones implicades en els accidents, respectivament:
 
-
 ```{r, out.width = "50%", results='asis'}
 
 propmiss <- function(dataframe) lapply(dataframe,function(x) data.frame(na = sum(is.na(x)),
@@ -464,6 +463,13 @@ de <- levels(persones$SEX)
 
 - Després: `r de`
 
+Per la variable variable `SEX` hi ha una categoria anomenada "Desconegut", que representa aquelles persones de les quals no tenim informació del seu sexe. Com aquesta categoria no ens aporta informació d'utilitat a l'hora de realitzar l'estudi ni per a relitzar models predictius, prescindirem dels individus que corresponguin aquesta categoria per a realitzar el nostre anàlisi.
+
+```{r, echo=FALSE, include=FALSE}
+persones <- persones[persones$SEX != "Desconegut",] 
+persones$SEX <- droplevels(persones$SEX)
+```
+
 **RUR_URB**: Informació sobre la localització (1 = Rural, 2 = Urbà, 6 = Via no classificada, 8 = No registrat, 9 = Desconegut). 
 
 ```{r}
@@ -525,6 +531,28 @@ persones$DAY <- factor(persones$DAY, levels = lev)
 accident$DAY <- factor(accident$DAY, levels = lev)
 ```
 
+**HOURS_agrupat**
+
+```{r}
+accident$HOUR_agrupat<- as.factor(accident$HOUR)
+levels(accident$HOUR_agrupat) <- c("Matinada","Matinada","Matinada", "Matinada", "Matinada", "Matinada", "Matí", "Matí", "Matí", "Matí", "Matí", "Matí", "Migdia", "Migdia","Migdia","Tarda","Tarda","Tarda","Tarda","Tarda", "Nit", "Nit", "Nit", "Nit", "Nit")
+
+persones$HOUR_agrupat <- as.factor(persones$HOUR)
+levels(persones$HOUR_agrupat) <- c("Matinada","Matinada","Matinada", "Matinada", "Matinada", "Matinada", "Matí", "Matí", "Matí", "Matí", "Matí", "Matí", "Migdia", "Migdia","Migdia","Tarda","Tarda","Tarda","Tarda","Tarda", "Nit", "Nit", "Nit", "Nit", "Nit")
+```
+
+
+**DIA_agrupat**
+
+```{r}
+accident$SETMANA <- accident$DAY
+levels(accident$SETMANA) <- c("Setmana 1", "Setmana 1", "Setmana 1", "Setmana 1", "Setmana 1", "Setmana 1", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 5", "Setmana 5", "Setmana 5", "Setmana 5")
+
+persones$SETMANA <- persones$DAY
+levels(persones$SETMANA) <- c("Setmana 1", "Setmana 1", "Setmana 1", "Setmana 1", "Setmana 1", "Setmana 1", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 5", "Setmana 5", "Setmana 5", "Setmana 5")
+```
+
+
 ## Variable resposta
 
 Per últim, definirem les variables resposta per a cada base de dades, és a dir, aquelles característiques que ens interessa poder predir tant en els futurs accidents com en les pròximes persones que es vegin involucrades en aquests.
@@ -576,30 +604,30 @@ write.csv(persones,"/Users/annasalazar/Documents/persones_bd.csv", row.names = F
 
 
 ```{r, results='asis', echo=FALSE}
-a1 <- descr(accident[, 2], transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max", "iqr"), style = "rmarkdown", justify = "center")
+a1 <- descr(accident$HOUR, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max", "iqr"), style = "rmarkdown", justify = "center")
 rownames(a1) <- NULL
 
-a2 <- descr(accident[, 3], transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max",
+a2 <- descr(accident$MINUTE, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max",
                                                        "iqr"), style = "rmarkdown", justify = "center")
 rownames(a2) <- NULL
 
-a3 <- descr(accident[, 6], transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max",
+a3 <- descr(accident$FATALS, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max",
                                                        "iqr"), style = "rmarkdown", justify = "center")
 rownames(a3) <- NULL
 
-a4 <- descr(accident[, 7], transpose = TRUE, stats =  c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", 
+a4 <- descr(accident$DRUNK_DR, transpose = TRUE, stats =  c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", 
                                                         "max", "iqr"), style = "rmarkdown", justify = "center")
 rownames(a4) <- NULL
 
-a5 <- descr(accident[, 8], transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", 
+a5 <- descr(accident$MORTS, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", 
                                                        "max", "iqr"), style = "rmarkdown", justify = "center")
 rownames(a5) <- NULL
 
-a6 <- descr(accident[, 9], transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max",
+a6 <- descr(accident$NO_PER, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max",
                                                        "iqr"), style = "rmarkdown", justify = "center")
 rownames(a6) <- NULL
 
-a7 <- descr(accident[, 10], transpose = TRUE, stats = 
+a7 <- descr(accident$NO_VEHICLE, transpose = TRUE, stats = 
              c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max", "iqr"),
            style = "rmarkdown", justify = "center")
 rownames(a7) <- NULL
@@ -628,41 +656,41 @@ kable(a, caption = "Resum de les variables numèriques vinculades als accidents"
 : Variables numèriques vinculades a les persones
        
 ```{r, results='asis', echo=FALSE}
-a1 <- descr(persones[, 2], transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max", "iqr"), style = "rmarkdown", justify = "center")
+a1 <- descr(persones$HOUR, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max", "iqr"), style = "rmarkdown", justify = "center")
 rownames(a1) <- NULL
 
-a2 <- descr(persones[, 3], transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max",
+a2 <- descr(persones$MINUTE, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max",
                                                        "iqr"), style = "rmarkdown", justify = "center")
 rownames(a2) <- NULL
 
-a3 <- descr(persones[, 6], transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max",
+a3 <- descr(persones$FATALS, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max",
                                                        "iqr"), style = "rmarkdown", justify = "center")
 rownames(a3) <- NULL
 
-a4 <- descr(persones[, 7], transpose = TRUE, stats =  c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", 
+a4 <- descr(persones$DRUNK_DR, transpose = TRUE, stats =  c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", 
                                                         "max", "iqr"), style = "rmarkdown", justify = "center")
 rownames(a4) <- NULL
 
-a5 <- descr(persones[, 8], transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", 
+a5 <- descr(persones$MORTS, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", 
                                                        "max", "iqr"), style = "rmarkdown", justify = "center")
 rownames(a5) <- NULL
 
-a6 <- descr(persones[, 9], transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max",
+a6 <- descr(persones$NO_PER, transpose = TRUE, stats = c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max",
                                                        "iqr"), style = "rmarkdown", justify = "center")
 rownames(a6) <- NULL
 
-a7 <- descr(persones[, 10], transpose = TRUE, stats = 
+a7 <- descr(persones$NO_VEHICLE, transpose = TRUE, stats = 
              c("N.Valid", "min", "q1", "med", "mean", "sd", "q3", "max", "iqr"),
            style = "rmarkdown", justify = "center")
 rownames(a7) <- NULL
 
-a8 <- descr(persones[, 11], transpose = TRUE, stats = c("N.Valid", "min", "q1", 
+a8 <- descr(persones$NO_FUGITS, transpose = TRUE, stats = c("N.Valid", "min", "q1", 
                                                         "med", "mean", "sd", "q3", 
                                                         "max", "iqr"),
            style = "rmarkdown", justify = "center")
 rownames(a8) <- NULL
 
-a9 <- descr(persones[, 12], transpose = TRUE, stats = c("N.Valid", "min", "q1", 
+a9 <- descr(persones$AGE, transpose = TRUE, stats = c("N.Valid", "min", "q1", 
                                                         "med", "mean", "sd", 
                                                         "q3", "max", "iqr"),
            style = "rmarkdown", justify = "center")
@@ -677,6 +705,7 @@ kable(a, caption = "Resum de les variables numèriques vinculades a les persones
 
 \pagebreak
 
+
 ## Variables categòriques
 
 ### Variables vinculades als accidents
@@ -688,7 +717,7 @@ st_options(plain.ascii  = FALSE,  headings = FALSE, footnote = NA,
           style = 'grid', dfSummary.varnumbers = FALSE,
           dfSummary.valid.col = TRUE, tmp.img.dir  = "img", round.digits = 3,
           dfSummary.silent = TRUE, dfSummary.graph.col= FALSE)
-dfSummary(accident[, 1]) 
+dfSummary(accident[,1]) 
 ```
 
 **RUR_URB**: Informació sobre la localització (1 = Rural, 2 = Urbà, 6 = Via no classificada, 8 = No registrat, 9 = Desconegut). Tipus de variable: `r class(persones$RUR_URB)`
@@ -755,6 +784,65 @@ dfSummary(persones[, 15])
 
 \pagebreak
 
+
 # Anàlisi descriptiva bivariant
 
+### Variables vinculades als accidents
 
+<center>
+
+![Nombre de conductors beguts segons el dia de la setmana](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph1.png){width="50%"}
+
+</center>
+
+Pel que fa al nombre de conductors beguts segons el dia de la setmana en el qual succeeix l'accident, s'observa de forma clara a la gràfica de dalt com la majoria dels conductors beguts es concentren al cap de setmana. Sembla que podria ser un patró perquè hi ha diferències notables entre la quantitat de conductor beguts a finals de la setmana, en comparació als dilluns, dimarts i dimecres.
+
+<center>
+
+![Quantitat d'accidents segons el dia de la setmana](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph2.png){width="50%"}
+
+</center> 
+
+Si ens fixem, en aquest cas, en el nombre de morts segons el dia de la setmana, el dilluns es troba altre vegada en l'última posició, ja que és el dia en que es donen menys morts en accidents de trànsit. Paralel·lament, els últims dies de la setmana presenten un major nombre d'accidents mortals. Si es té en compte la informació d'aquests últims gràfics, es podria pensar que existeix una relació entre el nombre de conductors beguts i el nombre de ferits mortals als accidents de trànsit. S'haurà de tenir en compte aquesta hipòtesi per anàlisis posteriors de les dades.
+
+<center>
+
+![Nombre de morts segons l'hora en que es produeix l'accident](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph6.png){width="50%"}
+
+</center> 
+
+Si centrem l'atenció en les hores del dia, 
+
+<center>
+
+![Nombre d'accidents segons el nombre de morts (hores)](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph5.png){width="50%"}
+
+</center> 
+
+<center>
+
+![Nombre de morts segons el nombre de conductor beguts els diferents dies de la setmana](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph7.png){width="50%"}
+
+</center> 
+
+\pagebreak
+
+### Variables vinculades a les persones
+
+<center>
+
+![Aquest no té molt sentit](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph8.png){width="50%"}
+
+</center> 
+
+<center>
+
+![Nombre de morts segons el nombre de conductor beguts a les diferents edats](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph9.png){width="50%"}
+
+</center> 
+
+<center>
+
+![Quantitat de supervivents segons el sexe](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph10.png){width="50%"}
+
+</center> 
