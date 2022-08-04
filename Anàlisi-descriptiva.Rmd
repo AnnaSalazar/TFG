@@ -805,19 +805,15 @@ Pel que fa al nombre de conductors beguts segons el dia de la setmana en el qual
 
 Si ens fixem, en aquest cas, en el nombre de morts segons el dia de la setmana, el dilluns es troba altre vegada en l'última posició, ja que és el dia en que es donen menys morts en accidents de trànsit. Paralel·lament, els últims dies de la setmana presenten un major nombre d'accidents mortals. Si es té en compte la informació d'aquests últims gràfics, es podria pensar que existeix una relació entre el nombre de conductors beguts i el nombre de ferits mortals als accidents de trànsit. S'haurà de tenir en compte aquesta hipòtesi per anàlisis posteriors de les dades.
 
-<center>
+```{r hores, echo=FALSE,out.width="49%", out.height="50%",fig.cap="Nombre de morts en funció del moment del dia", fig.subcap= c("Hores sense agrupar", "Hores agrupades"), fig.show='hold',fig.align='center', warning=FALSE, message=FALSE}
+knitr::include_graphics(c("~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph6.png","~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph3_1.png"))
+``` 
 
-![Nombre de morts segons l'hora en que es produeix l'accident](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph6.png){width="50%"}
+Si centrem l'atenció en les hores del dia, a la figura 7 \@ref(fig:hores) es poden veure les freqüències absolutes en quant a la quantitat de morts en els diferents moments del dia. A l'esquerra, es divideix el dia en les seves hores, i s'observa com l'hora en que es produeixen més accidents és a les 6 de la tarda. Per a que la gràfica sigui més informativa, s'han agrupat les hores segons els moments del dia per crear la gràfica de la dreta. 
 
-</center> 
+Comunment, es considera que el dia està format per 5 intervals de temps segons la posició del sol: la matinada (de les 0 a les 5 h incloses), el matí (de les 6 a les 11 h incloses), el migdia (de les 12 a les 14 h incloses), la tarda (de les 15 a les 19 h incloses) i la nit (de les 20 a les 23 h incloses). S'han fet servir aquests intervals per definir les categores que es mostren a la dreta de la figura 7 \@ref(fig:hores).
 
-Si centrem l'atenció en les hores del dia, 
-
-<center>
-
-![Nombre d'accidents segons el nombre de morts (hores)](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph5.png){width="50%"}
-
-</center> 
+En definitiva, de les dues gràfiques s'extreu que la majoria de les morts es produeixen a la tarda i a la matinada, mentre que el moment del dia on hi ha menys morts és el migdia.
 
 <center>
 
@@ -825,15 +821,11 @@ Si centrem l'atenció en les hores del dia,
 
 </center> 
 
+Com veiem a gràfics anteriors, i en favor de la hipòtesi plantejada sobre una possible relació entre el nombre de conductors beguts i el nombre de morts en l'accident, s'ha fet una gràfica de dispersió que sembla que mostra una relació positiva, això seria que a més conductors beguts, més morts es produeixen.
+
 \pagebreak
 
 ### Variables vinculades a les persones
-
-<center>
-
-![Aquest no té molt sentit](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph8.png){width="50%"}
-
-</center> 
 
 <center>
 
@@ -843,6 +835,18 @@ Si centrem l'atenció en les hores del dia,
 
 <center>
 
-![Quantitat de supervivents segons el sexe](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph10.png){width="50%"}
+![Nombre de morts segons el nombre de conductor beguts a les diferents edats](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph8_1.png){width="50%"}
+
+</center> 
+
+<center>
+
+![Nombre de morts segons el nombre de conductor beguts a les diferents edats](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph11.png){width="50%"}
+
+</center> 
+
+<center>
+
+![Quantitat de supervivents segons el sexe](~/Documents/GitHub/TFG/Data Studio/Gràfics/Table1.png){width="50%"}
 
 </center> 
