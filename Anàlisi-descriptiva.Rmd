@@ -790,7 +790,7 @@ dfSummary(persones[, 15])
 
 # Anàlisi descriptiva bivariant
 
-Per acabar l'anàlisi descriptiva de les dades, 
+Per acabar l'anàlisi descriptiva de les dades, s'estudiarà la relació que existeix entre diferents parells de variables. Aquest tipus d'anàlisi ajudarà a averiguar si existeix una associació entre les variables i, en cas afirmatiu, quina és la força d'aquesta.
 
 ### Variables vinculades als accidents
 
@@ -798,17 +798,17 @@ Per acabar l'anàlisi descriptiva de les dades,
 knitr::include_graphics(c("~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph1.png","~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph2.png"))
 ``` 
 
-Pel que fa al nombre de conductors beguts segons el dia de la setmana en el qual succeeix l'accident, s'observa de forma clara a la gràfica de dalt com la majoria dels conductors beguts es concentren al cap de setmana. Sembla que podria ser un patró perquè hi ha diferències notables entre la quantitat de conductor beguts a finals de la setmana, en comparació als dilluns, dimarts i dimecres.
+Pel que fa al nombre de conductors beguts segons el dia de la setmana en el qual succeeix l'accident, s'observa de forma clara a la gràfica esquerra de la figura 5 com la majoria dels conductors beguts es concentren al cap de setmana. Sembla que podria ser un patró perquè hi ha diferències notables entre la quantitat de conductor beguts a finals de la setmana, en comparació als dilluns, dimarts i dimecres.D'altra banda, si ens fixem, en aquest cas, en el nombre de morts segons el dia de la setmana, el dilluns es troba altre vegada en l'última posició, ja que és el dia en que es donen menys morts en accidents de trànsit. Paralel·lament, els últims dies de la setmana presenten un major nombre d'accidents mortals. Aquesta és la informació presenta la gràfica dreta de la figura 5.
 
-Si ens fixem, en aquest cas, en el nombre de morts segons el dia de la setmana, el dilluns es troba altre vegada en l'última posició, ja que és el dia en que es donen menys morts en accidents de trànsit. Paralel·lament, els últims dies de la setmana presenten un major nombre d'accidents mortals. Si es té en compte la informació d'aquests últims gràfics, es podria pensar que existeix una relació entre el nombre de conductors beguts i el nombre de ferits mortals als accidents de trànsit. S'haurà de tenir en compte aquesta hipòtesi per anàlisis posteriors de les dades.
+Si es té en compte la informació d'aquestes últimes gràfiques, es podria pensar que existeix una relació entre el nombre de conductors beguts i el nombre de ferits mortals als accidents de trànsit. S'haurà de tenir en compte aquesta hipòtesi per anàlisis posteriors de les dades.
 
 ```{r hores, echo=FALSE,out.width="49%", out.height="50%",fig.cap="Nombre de morts en funció del moment del dia", fig.subcap= c("Hores sense agrupar", "Hores agrupades"), fig.show='hold',fig.align='center', warning=FALSE, message=FALSE}
 knitr::include_graphics(c("~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph6.png","~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph3_1.png"))
 ``` 
 
-Si centrem l'atenció en les hores del dia, a la figura 7 \@ref(fig:hores) es poden veure les freqüències absolutes en quant a la quantitat de morts en els diferents moments del dia. A l'esquerra, es divideix el dia en les seves hores, i s'observa com l'hora en que es produeixen més accidents és a les 6 de la tarda. Per a que la gràfica sigui més informativa, s'han agrupat les hores segons els moments del dia per crear la gràfica de la dreta. 
+Si centrem l'atenció en les hores del dia, a la figura 6 es poden veure les freqüències absolutes en quant a la quantitat de morts en els diferents moments del dia. A l'esquerra, es divideix el dia en les seves hores, i s'observa com l'hora en que es produeixen més accidents és a les 6 de la tarda. Per a que la gràfica sigui més informativa, s'han agrupat les hores segons els moments del dia per crear la gràfica de la dreta. 
 
-Comunment, es considera que el dia està format per 5 intervals de temps segons la posició del sol: la matinada (de les 0 a les 5 h incloses), el matí (de les 6 a les 11 h incloses), el migdia (de les 12 a les 14 h incloses), la tarda (de les 15 a les 19 h incloses) i la nit (de les 20 a les 23 h incloses). S'han fet servir aquests intervals per definir les categores que es mostren a la dreta de la figura 7 \@ref(fig:hores).
+Comunment, es considera que el dia està format per 5 intervals de temps segons la posició del sol: la matinada (de les 0 a les 5 h incloses), el matí (de les 6 a les 11 h incloses), el migdia (de les 12 a les 14 h incloses), la tarda (de les 15 a les 19 h incloses) i la nit (de les 20 a les 23 h incloses). S'han fet servir aquests intervals per definir les categores que es mostren a la dreta de la figura 6.
 
 En definitiva, de les dues gràfiques s'extreu que la majoria de les morts es produeixen a la tarda i a la matinada, mentre que el moment del dia on hi ha menys morts és el migdia.
 
@@ -827,21 +827,17 @@ Com veiem a gràfics anteriors, i en favor de la hipòtesi plantejada sobre una 
 
 <center>
 
-![Nombre de morts segons el nombre de conductor beguts a les diferents edats](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph9.png){width="50%"}
+![Nombre de morts segons el nombre de conductor beguts a les diferents edats](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph12.png){width="50%"}
 
 </center> 
 
-<center>
+Pel que fa a la informació que tenim registrada sobre les persones involucrades en els accidents, i en la línea dels anàlisis anteriors, la figura 8 presenta una gràfica que mostra una clara relació éntre el nombre de conductors beguts i el nombre de morts en l'accident a les diferents edats de les persones implicades. Els punts més extrems d'aquesta gràfica (els que presenten major nombre de conductors beguts i, alhora, major nombre de morts) són les edats 22 i 23. Aquestes dades indueixen a pensar que hi ha més perill d'accidents mortals per a la gent jove a la carretera, si hi ha conductors beguts. Una altra manera d'interpretar aquesta gràfica podria ser que hi ha més conductors joves que agafen el cotxe beguts i, en conseqüència, el aquest grup d'edat pateix més accidents mortals.
 
-![Nombre de morts segons el nombre de conductor beguts a les diferents edats](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph8_1.png){width="50%"}
+```{r fugits, echo=FALSE,out.width="49%", out.height="50%",fig.cap="Nombre de vehicles fugits", fig.subcap= c("Segons el dia de la setmana", "Segons la setmana del mes"), fig.show='hold',fig.align='center', warning=FALSE, message=FALSE}
+knitr::include_graphics(c("~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph8_1.png","~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph11.png"))
+``` 
 
-</center> 
-
-<center>
-
-![Nombre de morts segons el nombre de conductor beguts a les diferents edats](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph11.png){width="50%"}
-
-</center> 
+ 
 
 <center>
 
