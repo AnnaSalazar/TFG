@@ -87,3 +87,19 @@ Estudiant aquesta base de dades sobre persones que s'han vist implicades, de for
 - Estudiar les relacions de dependència entre variables
 
 ## Estructura del projecte
+
+S'ha dividit l'anàlisi en diverses tasques:
+
+1. Investigar sobre BigQuery i familiaritzar-se amb les funcionalitats del programa
+
+2. Definició del projecte
+
+3. Preprocessament de les dades
+
+4. Familiaritzar-se amb l'entorn Data Studio i la seva connexió amb BigQuery
+
+5. Anàlisi descriptiva
+
+...
+
+
