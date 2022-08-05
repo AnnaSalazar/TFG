@@ -534,26 +534,46 @@ persones$DAY <- factor(persones$DAY, levels = lev)
 accident$DAY <- factor(accident$DAY, levels = lev)
 ```
 
+Per últim, es crearan dues variables noves a partir de `HOURS` i `DAY`, que ja són presents a ambdós conjunts de dades. Aquest pas es realitza perquè les variables `HOURS` i `DAY` tenen un rang de valors molt elevat que ens aporta poca informació. 
+
 **HOURS_agrupat**
+
+En el cas de la variable `HOURS`, es tindrà en compte que, comunament, es considera que el dia està format per 5 intervals de temps segons la posició del sol. Aquest són la matinada (de les 0 a les 5 h incloses), el matí (de les 6 a les 11 h incloses), el migdia (de les 12 a les 14 h incloses), la tarda (de les 15 a les 19 h incloses) i la nit (de les 20 a les 23 h incloses). S'han fet servir aquests intervals per definir la nova variable `HOURS_agrupat`
 
 ```{r}
 accident$HOUR_agrupat<- as.factor(accident$HOUR)
+ab <- levels(accident$HOUR_agrupat)
+
 levels(accident$HOUR_agrupat) <- c("Matinada","Matinada","Matinada", "Matinada", "Matinada", "Matinada", "Matí", "Matí", "Matí", "Matí", "Matí", "Matí", "Migdia", "Migdia","Migdia","Tarda","Tarda","Tarda","Tarda","Tarda", "Nit", "Nit", "Nit", "Nit", "Nit")
+de <- levels(accident$HOUR_agrupat)
 
 persones$HOUR_agrupat <- as.factor(persones$HOUR)
 levels(persones$HOUR_agrupat) <- c("Matinada","Matinada","Matinada", "Matinada", "Matinada", "Matinada", "Matí", "Matí", "Matí", "Matí", "Matí", "Matí", "Migdia", "Migdia","Migdia","Tarda","Tarda","Tarda","Tarda","Tarda", "Nit", "Nit", "Nit", "Nit", "Nit")
 ```
 
+- Abans: `r ab`
 
-**DIA_agrupat**
+- Després: `r de`
+
+
+**SETMANA**
+
+Pel que fa a la variable `SETMANA`, s'han definit les setmanes del mes en que es va realitzar el seguiment que presenten les dades. S'ha considerat el primer dia de la setmana el dilluns i l'últim el diumenge, tenint en compte que el dia 1 del mes era un dimarts. Per aquest motiu les setmanes 1 i 5 són les més curtes, especialment la cinquena, ja que el dia 31 va caure en dijous.
 
 ```{r}
 accident$SETMANA <- accident$DAY
+ab <- levels(accident$SETMANA)
+
 levels(accident$SETMANA) <- c("Setmana 1", "Setmana 1", "Setmana 1", "Setmana 1", "Setmana 1", "Setmana 1", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 5", "Setmana 5", "Setmana 5", "Setmana 5")
+de <- levels(accident$SETMANA)
 
 persones$SETMANA <- persones$DAY
 levels(persones$SETMANA) <- c("Setmana 1", "Setmana 1", "Setmana 1", "Setmana 1", "Setmana 1", "Setmana 1", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 2", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 3", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 4", "Setmana 5", "Setmana 5", "Setmana 5", "Setmana 5")
 ```
+
+- Abans: `r ab`
+
+- Després: `r de`
 
 
 ## Variable resposta
@@ -792,7 +812,7 @@ dfSummary(persones[, 15])
 
 Per acabar l'anàlisi descriptiva de les dades, s'estudiarà la relació que existeix entre diferents parells de variables. Aquest tipus d'anàlisi ajudarà a esbrinar si existeix una associació entre les variables i, en cas afirmatiu, quina és la força d'aquesta.
 
-Per a la visualització d'aquestes relacions entre variables s'ha fet d'ús d'una plataforma de Google anomenada ![Data Studio](https://datastudio.google.com/overview). Aquesta permet convertir les dades en panells o informes complets, fàcils de llegir i de compartir i totalment personalitzables. Algunes de les seves funcionalitats són:
+Per a la visualització d'aquestes relacions entre variables s'ha fet d'ús d'una plataforma de Google anomenada [Data Studio](https://datastudio.google.com/overview). Aquesta permet convertir les dades en panells o informes complets, fàcils de llegir i de compartir i totalment personalitzables. Algunes de les seves funcionalitats són:
 
 - Descriure les dades amb gràfiques, que inclouen gràfics de línies, de barres i circulars, mapes geogràfics, gràfics d'àrea i de bombolles, taules de dades dinàmiques i molt més.
 - Permet que els informes siguin interactius amb filtres de visualització.
@@ -817,20 +837,8 @@ knitr::include_graphics(c("~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph6.p
 
 Si centrem l'atenció en les hores del dia, a la figura 6 es poden veure les freqüències absolutes quant a la quantitat de morts en els diferents moments del dia. A l'esquerra, es divideix el dia en les seves hores, i s'observa com l'hora en què es produeixen més accidents és a les 6 de la tarda. Perquè la gràfica sigui més informativa, s'han agrupat les hores segons els moments del dia per crear la gràfica de la dreta. 
 
-Comunament, es considera que el dia està format per 5 intervals de temps segons la posició del sol: la matinada (de les 0 a les 5 h incloses), el matí (de les 6 a les 11 h incloses), el migdia (de les 12 a les 14 h incloses), la tarda (de les 15 a les 19 h incloses) i la nit (de les 20 a les 23 h incloses). S'han fet servir aquests intervals per definir les categories que es mostren a la dreta de la figura 6.
-
 En definitiva, de les dues gràfiques s'extreu que la majoria de les morts es produeixen a la tarda i a la matinada, mentre que el moment del dia on hi ha menys morts és el migdia.
 
-
-<center>
-
-![Nombre de morts segons el nombre de conductor beguts els diferents dies de la setmana](~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph7.png){width="50%"}
-
-</center> 
-
-Com veiem a gràfics anteriors, i en favor de la hipòtesi plantejada sobre una possible relació entre el nombre de conductors beguts i el nombre de morts en l'accident, s'ha fet una gràfica de dispersió que sembla que mostra una relació positiva, això seria que a més conductors beguts, més morts es produeixen.
-
-\pagebreak
 
 ### Variables vinculades a les persones
 
