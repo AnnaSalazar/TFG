@@ -403,7 +403,7 @@ A la següent figura es representa la variable nombre de persones (NO_PER), on e
 descriptiva(persones[,8], "Nombre de persones", dades = persones)
 ```
 
-Per tal d'assegurar-nos que aquesta dada no afecta al nostre anàlisi, i tenint en compte que disposem d'una base de dades molt gran, treurem aquests casos d'ambdues baeses de dades.
+Per tal d'assegurar-nos que aquesta dada no afecta al nostre anàlisi, i tenint en compte que disposem d'una base de dades molt gran, treurem aquests casos d'ambdues bases de dades.
 
 ```{r, echo=FALSE, include=FALSE}
 persones <- persones[persones[,8] != 53,] 
@@ -662,6 +662,16 @@ kable(a, caption = "Resum de les variables numèriques vinculades als accidents"
              format = "latex", position = "h!")
 ```
 
+Per a comprobar que les dades són correctes i que les dades s'han tractat bé en termes de *missings* i *outliers*, farem ús del resum numèric de cada variable que es mostra a la taula superior (taula 13). 
+
+Les variables `HOUR`i `MINUTE` prenen valors entre 0 i 23 i entre 0 i 59 respectivament, els quals són rangs esperats i no donen peu a cap dada atípica en la seva distribució. A la tercera fila de la taula es troba el nombre de ferits a l'accident, `FATALS`, que senyala que no hi ha cap accidents en què no hi hagi, com a mínim, un ferit. També veiem com el nombre màxim que ferits és 5, però en termes generals i en base als quartils 1 i 2 i la mitjana s'observa que la gran majoria dels accidents només presenten una persona ferida. Així mateix, pel que fa al nombre de conductors beguts involucrats a l'accident, `DRUNK_DR`, no involucren a cap conductor begut, és a dir, aquesta variable pren el valor 0 en la majoria dels casos (el 75\% com a mínim, com indica el tercer quartil). Això no obstant, hi ha casos en que hi ha fins a 2 conductors beguts involucrats en un mateix accident. 
+
+-Mirar variables NO_PER i MORTS-
+
+Per últim, en tots els accidents de trànsit hi ha un mínim d'un vehicle, i així ho mostra la variable `NO_VEHICLE`. L'accident amb més vehicles implicats en té 6.
+
+En quant als *missings*, la primera columna de la taula és un recompte dels casos vàlids per a cada variable, és a dir, aquells que no presenten valors mancants per a aquella variable concreta. Es pot comprobar com el mètode de imputació s'ha realitzat correctament, perquè totes les variables presenten el mateix recompte de casos vàlids, que coincideix amb el nombre d'accidents total a la base de dades.
+
 ### Variables vinculades a les persones
 
 | Variable            | Tipus         | Descripció                                                                                                      |
@@ -725,6 +735,12 @@ a <- cbind(variable,a)
 kable(a, caption = "Resum de les variables numèriques vinculades a les persones", 
              format = "latex", position = "h!")
 ```
+
+En quant a les variables vinculades a les persones, només varien les variables `NO_FUGITS` i `EDAT` respecte a la taula anterior. De fet, la distribució de les variables `HOUR`, `MINUTE`, `FATALS`, `DRUNK_DR`, `NO_PER`, `MORTS` i `NO_VEHICLE` no presenta canvis rellevants respecte a la distribució que es troba a la taula anterior. No es troba cap cas de dada atípica ni cap dada mancant per aquestes variables. Per aquest motiu, ens centrarem ara en els resums de les variables `NO_FUGITS` i `EDAT`.
+
+Pel que fa al nombre de vehicles fugits a l'accident, el tercer quartil indica que al 75\% dels casos no hi ha cap vehicle fugit, i si en fixem en el valor màxim que pren aquesta variable, el cas amb més vehicles fugits en presenta 3. Finalment, en quant a l'edat de les persones, el rang de valors va des de 0 a 98 anys, és a dir, en alguns accidents hi ha implicats nadons, i en d'altres persones de mitjana edat. 
+
+Novament, ens trobem amb que la primera columna de la taula és un recompte dels casos vàlids per a cada variable, és a dir, aquells que no presenten valors mancants per a aquella variable concreta. Es pot comprobar com el mètode de imputació s'ha realitzat correctament, perquè totes les variables presenten el mateix recompte de casos vàlids, que coincideix amb el nombre d'accidents total a la base de dades.
 
 \pagebreak
 
