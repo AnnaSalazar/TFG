@@ -1,0 +1,78 @@
+\documentclass[12pt,longbibliography]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper, margin=2.7cm]{geometry}
+
+\usepackage{amsmath, amsthm, amsfonts, amssymb}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+
+\usepackage{mathrsfs} 
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue,breaklinks]{hyperref}
+
+\usepackage{bbm} 
+
+\usepackage{hyperref}
+\usepackage{graphicx}
+\graphicspath{ {Imatges portada/} }
+
+\title{Big Query}
+\author{Anna Salazar}
+
+\renewcommand{\contentsname}{Índex}
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Taula}
+
+\begin{document}
+\begin{titlepage}
+\maketitle
+
+\vspace{130mm}
+
+\par
+\raisebox{-.5\height}{\includegraphics[width=6cm]{fme}}%
+\hfill
+\raisebox{-.5\height}{\includegraphics[width=6cm]{UB}}%
+\par
+
+\end{titlepage}
+
+\tableofcontents
+
+\pagebreak
+
+\pagenumbering{arabic}
+
+\section{Què és BigQuery?}
+
+BigQuery és un motor d’anàlisi de macrodades (Big Data) que permet executar consultes SQL al núvol sobre les dades emmagatzemades en aquest, sense importar el volum de les dades ni el tipus de consultes que es volen fer. El motor de consulta és capaç de treballar sobre terabytes de dades en qüestió de segons, i sobre petabytes en pocs minuts.
+Avui en dia, les empreses estan adoptant cada cop més la presa de decisions basades en dades i fomentant una cultura oberta en la qual les dades no estan aïllades dins dels departaments. BigQuery, en proporcionar els mitjans tecnològics per a promoure un canvi cultural cap a l’agilitat i l’obertura, realitza un paper molt important en l’augment del ritme de la innovació.
+
+Treballar amb dades a BigQuery implica 3 aspectes principals: l’emmagatzemament, la incorporació de les dades i la consulta d’aquestes, Google s’encarrega de tota la resta. Com BigQuery és un servei totalment gestionat, no és necessari configurar ni instal·lar res en el nostre ordinador i, pel mateix motiu, no necessitem un administrador de la base de dades. Simplement, podem entrar en el nostre projecte de Google Cloud des del nostre navegador i començar a analitzar.
+
+Pel que fa a l’emmagatzemament, les dades es guarden en una taula estructurada, la qual cosa significa que es pot utilitzar l’SQL estàndard per a facilitar la consulta i l’anàlisi de dades. BigQuery és perfecta pel Big Data perquè gestiona tot aquest emmagatzemament i està proveïda d’operacions d’escalabilitat que funcionen de forma automàtica sense que l’usuari s’hagi d’involucrar. Part de la consideració de disseny darrere de BigQuery és animar als usuaris a centrar-se en els coneixements en lloc de la infraestructura. Quan s’introdueixen les dades a BigQuery no és necessari pensar en els diferents tipus d’emmagatzemament, ni en els seus avantatges pel que fa a velocitat i cost; l’emmagatzemament està totalment gestionat.
+
+Per a més informació sobre BigQuery, es pot consultar la pàgina de \href{https://cloud.google.com/bigquery/docs/introduction}{Google Cloud}.
+
+
+\pagebreak
+
+\section{Com s'utilitza BigQuery?}
+
+Per utilitzar aquesta eina d’anàlisi només ens caldrà crear un compte a Google Cloud i treballar a la zona de proves que ofereix Google per treballar de forma gratuïta.
+Per fer servir la zona de proves (Sandbox) seguirem els passos següents: 
+
+1. En primer lloc, ens dirigim a la interfície d’usuari de \href{https://console.cloud.google.com}{BigQuery.}
+
+2. Accedeix al teu compte de Google o crea un nou compte si encara no en tens cap. Si és el primer cop que inicies sessió a Google Cloud, hauràs de marcar el país i acceptar les condicions de servei.
+
+3. Per tal de fer servir la zona de proves, hauràs de crear un projecte.
+
+
+\end{document}
