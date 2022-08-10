@@ -68,11 +68,11 @@ Per a més informació sobre BigQuery, es pot consultar la pàgina de \href{http
 
 \subsection{Per què hauríem d'utilitzar BigQuery en lloc d'altres eines?}
 
-Una de les característiques més rellevants que presenta BigQuery és que es tracta d'una plataforma sense servidor, és a dir, que els servidors s'executen en segon pla, sense l'intervenció de l'usuari. A més, presenta una alta disponibilitat, la qual cosa es tradueix en que no cal preocupar-se per la caiguda dels servidors, ja que el servei s'encarrega d'això. Per últim, BigQuery també té propietats d'escalabilitat automàtica que fan possible gestionar fins a petabytes de dades. Aquestes característiques no estan disponibles a la majoria de plataformes d'emmagatzament de dades tradicionals, cosa que fa destacar BigQuery entre moltes.
+Una de les característiques més rellevants que presenta BigQuery és que es tracta d'una plataforma sense servidor, és a dir, que els servidors s'executen en segon pla, sense l'intervenció de l'usuari. A més, presenta una alta disponibilitat, la qual cosa es tradueix en que no cal preocupar-se per la caiguda dels servidors, ja que la plataforma s'encarrega d'això. Per últim, BigQuery també té propietats d'escalabilitat automàtica que fan possible gestionar fins a petabytes de dades. Aquestes característiques no estan disponibles a la majoria de plataformes d'emmagatzament de dades tradicionals, cosa que fa destacar BigQuery entre moltes.
 
 \vspace{2mm}
 
-Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb moltes fonts de dades diferents. Pot extreure dades del seu propi sistema d'arxius, de Google Cloud Storage i de moltes fonts més. Després de fer-ho, es poden consultar aquestes dades utilitzant SQL estàndard o SQL heretat, el rendiment en qualsevol cas és excel·lent. Els resultats de les consultes solen emmagatzemar-se en la memòria cau durant 24 hores, de manera que les següents execucions d'aquesta consulta només hauran d'obtenir les dades de la cau en lloc de fer-ho del disc. 
+Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb moltes fonts de dades diferents. Podem pujar les dades des del nostre propi sistema d'arxius, de Google Cloud Storage, de Google Drive i de moltes fonts més. Després de fer-ho, es poden consultar aquestes dades utilitzant SQL estàndard o SQL heretat, el rendiment en qualsevol cas és excel·lent. Els resultats de les consultes solen emmagatzemar-se en la memòria cau durant 24 hores, de manera que les següents execucions d'aquesta consulta només hauran d'obtenir les dades de la memòria cau en lloc de fer-ho del disc. 
 
 
 \pagebreak
@@ -84,28 +84,25 @@ Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb mol
 \graphicspath{ {BigQuery/Imatges tutorial/} }
 
 Per utilitzar aquesta eina d’anàlisi només ens caldrà crear un compte a Google Cloud i treballar a la zona de proves que ofereix Google per treballar de forma gratuïta.
-Per fer servir la zona de proves (Sandbox) seguirem els passos següents: 
+Per fer servir la zona de proves (\textit{Sandbox}) seguirem els passos següents: 
 
-1. En primer lloc, ens dirigim a la interfície d’usuari de \href{https://console.cloud.google.com}{BigQuery.}. Des d'aquesta interfície es poden realitzar la majoria de les operacions.
+1. En primer lloc, ens dirigim a la interfície d’usuari de \href{https://console.cloud.google.com}{BigQuery}. Des d'aquesta interfície es poden realitzar la majoria de les operacions.
 
-2. Accedeix al teu compte de Google o crea un nou compte si encara no en tens cap. Si és el primer cop que inicies sessió a Google Cloud, hauràs de marcar el país i acceptar les condicions de servei.
+2. Accedim al nostre compte de Google o creem un nou compte si encara no en tenim cap. Si és el primer cop que iniciem sessió a Google Cloud, haurem de marcar el país on som i acceptar les condicions de servei.
 
 3. Un cop dins, podem veure com és l'espai de treball SQL. Hi ha una secció de l'Explorador a l'esquerra que ens permet navegar en projectes, conjunts de dades i taules.Per tal de fer servir la zona de proves, haurem de crear un projecte.
 
-\begin{center}
-\includegraphics[width=7cm]{bq1}
-\end{center}
-
 Introdueix un nom al teu projecte i fes clic a Create. En el nostre cas, hem anomenat el projecte \textit{El meu projecte}, i treballarem sobre aquest per il·lustrar el funcionament de la plataforma.
 
-\begin{center}
-\includegraphics[width=7cm]{bq2}
-\end{center}
+\par
+\raisebox{-.5\height}{\includegraphics[width=6cm]{bq1}}%
+\hfill
+\raisebox{-.5\height}{\includegraphics[width=6cm]{bq2}}%
+\par
 
-4. Un cop creat el projecte, seràs redirigit a la interfície web de BigQuery.
+4. Un cop creat el projecte, el navegador ens redirigigeix a la interfície web de BigQuery.
 
-5. Ara ja pots carregar o consultar dades en el teu projecte sense cap compte de
-facturació adjunta.
+5. Ara ja podrem carregar o consultar dades en el nostre projecte sense cap compte de facturació adjunta.
 
 \begin{center}
 \includegraphics[width=7cm]{bq3}
