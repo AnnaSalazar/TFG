@@ -104,10 +104,6 @@ Introdueix un nom al teu projecte i fes clic a Create. En el nostre cas, hem ano
 
 5. Ara ja podrem carregar o consultar dades en el nostre projecte sense cap compte de facturació adjunta.
 
-\begin{center}
-\includegraphics[width=7cm]{bq3}
-\end{center}
-
 \subsubsection{Limitacions}
 
 Per a l’ús de la zona de proves gratuïta que ofereix Google, haurem de tenir en compte un seguit de limitacions.
@@ -124,16 +120,27 @@ Una altra característica destacable és que els projectes de la zona de proves 
 
 - Servei de transferència de dades de BigQuery
 
+\newpage
+
 \subsection{Creació d'un conjunt de dades}
 
-\begin{center}
-\includegraphics[width=7cm]{bq4}
-\end{center}
+Ha arribat el moment de crear un nou conjunt de dades dins d'un projecte. 
+
+Es pot pensar en un conjunt de dades a \testit{BigQuery} com una agrupació lògica de taules. Alhora, diferents cojunts de dades s'integren en un mateix projecte, per tant, crearem el nou conjunt de dades dins del nostre projecte. 
+
+Per a crear un, només s'ha de desplegar el menú i triar l'opció de crear un nou conjunt de dades. Tot seguit hi ha diversos detalls per al conjunt de dades que es poden establir. En primer lloc, hi ha l'opció de canviar el projecte en el qual serà aprovisionat. Això farà que aparegui un navegador on es pot especificar el projecte. Una altra possibilitat serà escollir la ubicació de les dades. Això determina on s'aprovisionaran els recursos subjacents, com la computació i l'emmagatzematge, per al servei *BigQuery*. Les consideracions a l'hora de triar una ubicació inclouran el rendiment per als usuaris finals, l'alta disponibilitat i també qualsevol restricció d'auditoria o compliment. En lloc d'estar lligat a una ubicació específica, també existeix l'opció de múltiples regions als EUA o a la UE, que pot ser aplicable a la seva organització. I després podem establir un temps d'expiració per defecte per a les taules dins d'un conjunt de dades.
+
+\par
+\raisebox{-.5\height}{\includegraphics[width=6cm]{bq3}}%
+\hfill
+\raisebox{-.5\height}{\includegraphics[width=6cm]{bq4}}%
+\par
+
+I notaràs que el conjunt de dades \textit{dades_projecte} ara apareix dins del meu projecte. I ampliant això s'observa que no hi ha taules dins d'això. Ara, si vols donar un cop d'ull als detalls associats a aquest conjunt de dades. Des d'aquest menú, podem triar obrir-lo, moment en el qual la informació del conjunt de dades apareix a la dreta. Aquí podem confirmar l'ANEU del conjunt de dades, que també assenyala el projecte en el qual s'ha creat el conjunt de dades, i després altres detalls que inclouen les hores de creació i modificació. Aquesta és la interfície que utilitzarem si volem compartir el conjunt de dades amb altres usuaris. Veuràs que també hi ha opcions per a copiar i eliminar aquest conjunt de dades. I després, a editar detalls, podem reconfigurar el temps de caducitat de les taules, establir una descripció o afegir etiquetes. Per exemple, si volem marcar aquest conjunt de dades com a pertanyent a un equip, podem establir una etiqueta amb la clau d'equip i el valor corresponent. Després, quan guardem aquest conjunt de dades, notaràs que les etiquetes apareixen en informació.
 
 \begin{center}
 \includegraphics[width=7cm]{bq5}
 \end{center}
-
 
 
 \subsection{Definició d'una taula de BigQuery des de la interfície d'usuari}
