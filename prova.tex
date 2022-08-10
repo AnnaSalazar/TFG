@@ -110,6 +110,22 @@ facturació adjunta.
 \includegraphics[width=7cm]{bq3}
 \end{center}
 
+\subsubsection{Limitacions}
+
+Per a l’ús de la zona de proves gratuïta que ofereix Google, haurem de tenir en compte un seguit de limitacions.
+
+En primer lloc, ens trobem amb un màxim de 10 Gb d’emmagatzemament i 10 Tb de consulta al mes. Al llarg d’aquest projecte no utilitzarem un volum de dades més gran ni sobrepassarem el límit d’espai de consulta, però s’han de tenir en compte aquestes limitacions si l’objectiu és treballar amb el format gratuït.
+
+A més, ens trobem que tots els conjunts de dades tenen el temps de caducitat de la taula per defecte establerta en 60 dies. Per tant, totes les taules, vistes o particions de les taules caducaran automàticament passats els 60 dies.
+
+Una altra característica destacable és que els projectes de la zona de proves no són compatibles amb:
+
+- La transmissió de dades
+
+- Sentència de llenguatge de manipulació de dades (DML)
+
+- Servei de transferència de dades de BigQuery
+
 \subsection{Creació d'un conjunt de dades}
 
 \begin{center}
@@ -119,6 +135,8 @@ facturació adjunta.
 \begin{center}
 \includegraphics[width=7cm]{bq5}
 \end{center}
+
+
 
 \subsection{Definició d'una taula de BigQuery des de la interfície d'usuari}
 
