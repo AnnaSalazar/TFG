@@ -80,7 +80,45 @@ Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb mol
 
 \subsection{Configuració de la Plataforma de Google Cloud (GCP)}
 
+\graphicspath{ {BigQuery/Imatges tutorial/} }
+
+Per utilitzar aquesta eina d’anàlisi només ens caldrà crear un compte a Google Cloud i treballar a la zona de proves que ofereix Google per treballar de forma gratuïta.
+Per fer servir la zona de proves (Sandbox) seguirem els passos següents: 
+
+1. En primer lloc, ens dirigim a la interfície d’usuari de \href{https://console.cloud.google.com}{BigQuery.}. Des d'aquesta interfície es poden realitzar la majoria de les operacions.
+
+2. Accedeix al teu compte de Google o crea un nou compte si encara no en tens cap. Si és el primer cop que inicies sessió a Google Cloud, hauràs de marcar el país i acceptar les condicions de servei.
+
+3. Un cop dins, podem veure com és l'espai de treball SQL. Hi ha una secció de l'Explorador a l'esquerra que ens permet navegar en projectes, conjunts de dades i taules.Per tal de fer servir la zona de proves, haurem de crear un projecte.
+
+\begin{center}
+\includegraphics[width=7cm]{bq1}
+\end{center}
+
+Introdueix un nom al teu projecte i fes clic a Create. En el nostre cas, hem anomenat el projecte \textit{El meu projecte}, i treballarem sobre aquest per il·lustrar el funcionament de la plataforma.
+
+\begin{center}
+\includegraphics[width=7cm]{bq2}
+\end{center}
+
+4. Un cop creat el projecte, seràs redirigit a la interfície web de BigQuery.
+
+5. Ara ja pots carregar o consultar dades en el teu projecte sense cap compte de
+facturació adjunta.
+
+\begin{center}
+\includegraphics[width=7cm]{bq3}
+\end{center}
+
 \subsection{Creació d'un conjunt de dades}
+
+\begin{center}
+\includegraphics[width=7cm]{bq4}
+\end{center}
+
+\begin{center}
+\includegraphics[width=7cm]{bq5}
+\end{center}
 
 \subsection{Definició d'una taula de BigQuery des de la interfície d'usuari}
 
@@ -93,15 +131,6 @@ Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb mol
 \subsection{Creació d'una taula a partir d'un resultat de consulta}
 
 \subsection{Creació d'una consulta a partir d'un filtre}
-
-Per utilitzar aquesta eina d’anàlisi només ens caldrà crear un compte a Google Cloud i treballar a la zona de proves que ofereix Google per treballar de forma gratuïta.
-Per fer servir la zona de proves (Sandbox) seguirem els passos següents: 
-
-1. En primer lloc, ens dirigim a la interfície d’usuari de \href{https://console.cloud.google.com}{BigQuery.}
-
-2. Accedeix al teu compte de Google o crea un nou compte si encara no en tens cap. Si és el primer cop que inicies sessió a Google Cloud, hauràs de marcar el país i acceptar les condicions de servei.
-
-3. Per tal de fer servir la zona de proves, hauràs de crear un projecte.
 
 \newpage
 
