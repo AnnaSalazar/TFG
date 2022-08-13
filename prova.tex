@@ -277,9 +277,60 @@ Ara es pot comprobar que \verb|accidents_bd| apareix sota el conjunt de dades \v
 
 \subsection{Consulta de dades i visualització d'estadístiques de consultes}
 
+Ara, per a executar consultes en aquesta taula, ens dirigim al botó de consulta. Això ens permetrà obrir una nova pestanya de consulta. Aquesta pot ser una pestanya completament nova que ocultarà aquesta vista de detalls, mentre que una pestanya dividida ens permetrà fer referència a aquesta vista de detalls per a la taula mentre construïm una consulta. Observarà que ha aparegut una nova pestanya cap a la dreta, i que la consulta per defecte que apareix aquí inclou una clàusula SELECT però no hi ha camps després de SELECT. Precisament per això hi ha un error de sintaxi. Ara, per a completar la clàusula SELECT, podríem escriure els noms dels camps, o bé BigQuery inclou aquesta funció en la qual podem seleccionar els camps des de la vista de l'esquema. Per exemple, podem fer la consulta més bàsica a la base de dades, que ens retornarà la taula sencera:
+
+\begin{verbatim}
+SELECT *
+FROM `[nom_projecte].[nom_base_de_dades].[nom_taula]`LIMIT 1000
+\end{verbatim}
+
+\vspace{2mm}
+
+Executarem aquesta consulta prement Executar. Els resultats han aparegut, i aquesta consulta s'ha executat en uns 0,3 segons per a mi. Per descomptat, podem desplaçar-nos i donar un cop d'ull a tots els resultats. No obstant això, el que és més interessant si ets nou en BigQuery són els detalls addicionals en el panell inferior. En concret, si ens dirigim a la secció d'Historial Personal, podem donar un cop d'ull als diferents treballs que s'han creat per a cada operació que hem realitzat. Per exemple, cada treball es classifica com QUERY si es realitza un SELECT o fins i tot un INSERT. Després es pot registrar una operació LLOEU per a quan carreguem les dades de l'arxiu CSV. Aquesta interfície sí que ens permet accedir a informació addicional per a cadascun dels treballs. Per exemple, si es mostren els detalls de l'últim treball creat, podem veure el que BigQuery ha fet per nosaltres per a assegurar-se que aquesta consulta s'executi i retorni els resultats. Aquí podem veure l'usuari que va iniciar aquest treball, quan es va crear exactament el treball, quan va començar i va acabar, i el més important, el nombre de bytes processats i el nombre de bytes facturats. Aquí podràs observar que el nombre de bytes facturats és de 10 megaoctets, que és de fet la quantitat mínima facturada per a cada consulta per Google Cloud Platform amb la finalitat de tenir en compte les despeses generals. Per a consultes més realistes que impliquin diversos megaoctets, o fins i tot gigaoctets, els bytes processats i els bytes facturats seran bastant similars. Sortint d'aquesta vista, passem a l'Historial del Projecte, que ens donarà els detalls dels treballs de tot el projecte i no sols del nostre propi usuari. I després està la secció de Consultes Guardades. Aquí és on es pot accedir a les consultes que hàgim guardat, encara que aquestes apareixeran en el menú de l'Explorador al costat dels nostres projectes i conjunts de dades.
+
+\vspace{2mm}
+
+
+Si escrivim a l’editor la nostra consulta, apareixerà un validador d’aquesta a la part superior dreta de la finestra. Aquest validador pot agafar dues formes:
+- Si la consulta és vàlida, apareixerà un icona de verificación verd.
+- Si la consulta no és vàlida, aparaixerà un icona d’exclamació Vermell
+A més, el validador també mostra la quantitat de dades que la consulta processarà quan s’executi. Per exemple, si demanem en una consulta que ens retorni una columna selncera, el validador de la dreta ens marca que es processaran una quantitat de gairebé 22KB, tal i com es pot veure a la figura ~\ref{fig_bq16}.
+
+\vspace{2mm}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{bq16}
+\end{center}
+\caption{Exemple del funcionament del validador de consultes}
+\label{fig:bq16}
+\end{figure}
+\vspace{2mm}
+
 \subsection{Creació d'una taula a partir d'un resultat de consulta}
 
-\subsection{Creació d'una consulta a partir d'un filtre}
+Després d'haver introduït dades de fonts externes en BigQuery. Ara veurem com podem crear noves taules a partir de les existents. En concret, la taula en l'Editor de Consultes. Ara he inserit una consulta que selecciona una sèrie de camps diferents, incloent-hi el nom, la companyia, el gènere i el director de la taula en el conjunt de dades. Es tracta de pel·lícules el pressupost de les quals és superior a 100 milions de dòlars. L'objectiu és crear una nova taula a partir dels resultats d'aquesta consulta concreta. Aquí apliquem un filtre, no sols eliminant els rols a causa de la clàusula where i seleccionant només camps específics. Però vostè notarà en línia número dos que també creguem una nova columna anomenada benefici, que es computa mitjançant el càlcul de la diferència entre el creixement de les pel·lícules. És a dir, la quantitat de diners que va ingressar i després restant el pressupost d'aquesta. Per descomptat, per a veure el cost associat a aquesta consulta. Podem minimitzar l'Explorador. I ara sabem que encara que el cost calculat apareix com 492 kilobytes en aquest cas. El cost real serà de 10 megaoctets que és el mínim per a BigQuery. Quan executem això, els resultats apareixen i hi ha un total de 315 files de dades. Ara hem d'exportar totes aquestes dades a una nova taula. Revisa algunes de les opcions d'exportació. Podem donar un cop d'ull al menú Guardar resultats. Vostè observarà que hi ha un nombre de diferents opcions aquí per a la manera de guardar els resultats. Podem guardar-los com un arxiu CSV en Google Drive o en un arxiu local. El format JSON també està disponible com una opció d'exportació. No obstant això, el que oferirem aquí és exportar el contingut a una nova taula de BigQuery. Una vegada feta aquesta selecció, podem decidir el nom del projecte i el conjunt de dades on s'aprovisionarà la taula i després establir un nom de taula. La cridaré simplement. Llavors, quan guardem les coses, això haurà iniciat un nou treball per a aprovisionar la nova taula i carregar-la amb dades. Una vegada que tanquem aquesta notificació, podem treure el pin de l'Explorador i baix, apareix com una taula. En obrir-la confirmem que l'esquema apunta a les mateixes columnes que havíem referenciat en la clàusula select de la consulta que va crear aquesta taula, encara que hi ha una columna anomenada profit el tipus de la qual s'ha establert com un enter. Des dels detalls podem confirmar que el nombre de files coincideix amb el dels resultats de la consulta, concretament 315. I després la vista prèvia ens mostrarà quins són exactament les dades. Desplacem-nos i confirmem que la columna de beneficis es deriva, efectivament, del creixement i del pressupost. Quin és llavors la finalitat d'aquesta taula? Bé, atès que només conté un subconjunt de la taula original. Significa que les consultes contra això tindran potencialment menys dades per a processar que les consultes que s'executen directament contra. Si només volem analitzar les pel·lícules de gran pressupost amb un pressupost de més de 100 milions, és millor executar les nostres consultes en aquesta taula més petita, que inclou tota la informació que necessitem i probablement tindrà un cost de consulta menor. Per a executar una consulta d'aquest tipus, obrirem l'Editor de Consultes i a substituir aquesta consulta directament contra per aquesta altra que es dirigeix a la taula recentment creada. Observarà que els camps de la clàusula select són idèntics als quals teníem anteriorment, però la clàusula where és una mica diferent. I mentre que la consulta anterior va processar 492 kilobytes, aquesta només funcionarà amb 34,7. Seguim endavant i executem aquesta consulta. I els resultats confirmen que les consultes contra aquesta taula funcionen com s'espera que ho facin.
+
+sèrie temporal de 31 observacions, on per cada dia digui el nombre d’accidents ocorreguts amb víctimes.
+
+\begin{verbatim}
+SELECT DAY, COUNT(*) AS FREQ
+FROM `level-oxygen-353005.examen_final.accident`
+GROUP BY DAY
+\end{verbatim}
+
+\vspace{2mm}
+\begin{figure}[h!]
+\par
+\raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq17}}%
+\hfill
+\raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq18}}%
+\par
+
+\caption{Creació d'una taula a partir d'una consulta}
+\label{fig:bq17}
+\end{figure}
+\vspace{2mm}
+
 
 \newpage
 
