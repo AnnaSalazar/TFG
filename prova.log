@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.3.15)  13 AUG 2022 15:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.3.15)  13 AUG 2022 17:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -583,42 +583,77 @@ rojecte[]\T1/cmr/m/n/12 .
  []
 
 [7 <./BigQuery/Imatges tutorial/bq12.png> <./BigQuery/Imatges tutorial/bq13.png
->] [8] (./prova.lof)
+>]
+
+LaTeX Warning: Reference `fig_bq16' on page 8 undefined on input line 298.
+
+<BigQuery/Imatges tutorial/bq16.png, id=179, 930.47626pt x 133.49875pt>
+File: BigQuery/Imatges tutorial/bq16.png Graphic file (type png)
+<use BigQuery/Imatges tutorial/bq16.png>
+Package pdftex.def Info: BigQuery/Imatges tutorial/bq16.png  used on input line
+ 303.
+(pdftex.def)             Requested size: 284.52756pt x 40.82195pt.
+[8 <./BigQuery/Imatges tutorial/bq16.png>] [9]
+<bq17.png, id=190, 1139.25626pt x 602.25pt>
+File: bq17.png Graphic file (type png)
+<use bq17.png>
+Package pdftex.def Info: bq17.png  used on input line 325.
+(pdftex.def)             Requested size: 206.28247pt x 109.04358pt.
+<bq18.png, id=191, 1139.25626pt x 602.25pt>
+File: bq18.png Graphic file (type png)
+<use bq18.png>
+Package pdftex.def Info: bq18.png  used on input line 327.
+(pdftex.def)             Requested size: 206.28247pt x 109.04358pt.
+ [10 <./bq17.png> <./bq18.png>]
+[11] (./prova.lof)
 \tf@lof=\write5
 \openout5 = `prova.lof'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 301.
- [9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 301.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 353.
+ [12]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 353.
  (./prova.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 301.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 301.
-Package rerunfilecheck Info: File `prova.out' has not changed.
-(rerunfilecheck)             Checksum: 70AF60D0F2A130890BB7040615AAE7F6;1609.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 301.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 353.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 353.
+
+
+Package rerunfilecheck Warning: File `prova.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `prova.out':
+(rerunfilecheck)             Before: 70AF60D0F2A130890BB7040615AAE7F6;1609
+(rerunfilecheck)             After:  C8794FF1A6E23EF89DD3BF6ABD9D037A;1513.
+
+LaTeX Warning: There were undefined references.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 353.
  ) 
 Here is how much of TeX's memory you used:
- 7978 strings out of 480608
- 117154 string characters out of 5903630
- 393553 words of memory out of 5000000
- 23658 multiletter control sequences out of 15000+600000
+ 8007 strings out of 480608
+ 117550 string characters out of 5903630
+ 397693 words of memory out of 5000000
+ 23682 multiletter control sequences out of 15000+600000
  547306 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,9n,34p,1527b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
-{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<
-/usr/local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></u
-sr/local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr
-/local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/l
-ocal/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/loc
-al/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local
-/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/t
-exlive/2020/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/tex
-live/2020/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on prova.pdf (11 pages, 1867875 bytes).
+ 34i,9n,34p,3905b,368s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{subsection.2.7} has been referenced but does not 
+exist, replaced by a fixed one
+
+{/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/
+usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</u
+sr/local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr
+/local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/l
+ocal/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/loc
+al/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local
+/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/t
+exlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/tex
+live/2020/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texli
+ve/2020/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on prova.pdf (14 pages, 2281886 bytes).
 PDF statistics:
- 237 PDF objects out of 1000 (max. 8388607)
- 186 compressed objects within 2 object streams
- 37 named destinations out of 1000 (max. 500000)
- 207 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 260 PDF objects out of 1000 (max. 8388607)
+ 200 compressed objects within 2 object streams
+ 42 named destinations out of 1000 (max. 500000)
+ 222 words of extra memory for PDF output out of 10000 (max. 10000000)
 
