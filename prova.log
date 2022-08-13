@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.3.15)  12 AUG 2022 16:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.3.15)  13 AUG 2022 15:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -489,83 +489,136 @@ File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 File: BigQuery/Imatges tutorial/bq1.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq1.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq1.png  used on input line 
-102.
+104.
 (pdftex.def)             Requested size: 206.28247pt x 61.69745pt.
-<BigQuery/Imatges tutorial/bq2.png, id=116, 614.295pt x 459.7175pt>
+<BigQuery/Imatges tutorial/bq2.png, id=116, 570.13pt x 228.855pt>
 File: BigQuery/Imatges tutorial/bq2.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq2.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq2.png  used on input line 
-104.
-(pdftex.def)             Requested size: 206.28247pt x 154.37283pt.
+106.
+(pdftex.def)             Requested size: 206.28247pt x 82.80328pt.
 
 [2 <./BigQuery/Imatges tutorial/bq1.png> <./BigQuery/Imatges tutorial/bq2.png>]
-<BigQuery/Imatges tutorial/bq3.png, id=125, 1144.275pt x 715.67375pt>
+<BigQuery/Imatges tutorial/bq3.png, id=126, 1144.275pt x 715.67375pt>
 File: BigQuery/Imatges tutorial/bq3.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq3.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq3.png  used on input line 
-146.
+152.
 (pdftex.def)             Requested size: 206.28247pt x 129.01227pt.
-<BigQuery/Imatges tutorial/bq4.png, id=126, 1144.275pt x 715.67375pt>
+<BigQuery/Imatges tutorial/bq4.png, id=127, 1144.275pt x 715.67375pt>
 File: BigQuery/Imatges tutorial/bq4.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq4.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq4.png  used on input line 
-148.
+154.
 (pdftex.def)             Requested size: 206.28247pt x 129.01227pt.
-<BigQuery/Imatges tutorial/bq5.png, id=127, 1144.275pt x 715.67375pt>
+<BigQuery/Imatges tutorial/bq5.png, id=128, 1144.275pt x 715.67375pt>
 File: BigQuery/Imatges tutorial/bq5.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq5.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq5.png  used on input line 
-158.
+166.
 (pdftex.def)             Requested size: 284.52756pt x 177.957pt.
-[3 <./BigQuery/Imatges tutorial/bq3.png> <./BigQuery/Imatges tutorial/bq4.png>]
 
-Overfull \hbox (23.36444pt too wide) in paragraph at lines 163--164
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Overfull \hbox (23.36444pt too wide) in paragraph at lines 173--174
 []\T1/cmr/m/n/12 Un cop cre-at, el con-junt de da-des [][]\T1/cmtt/m/n/12 dades
 _projecte []\T1/cmr/m/n/12 ara apa-reix dins de [][]\T1/cmtt/m/n/12 el_meu_proj
 ecte[]\T1/cmr/m/n/12 ,
  []
 
-[4 <./BigQuery/Imatges tutorial/bq5.png>] [5]
-Overfull \hbox (5.2648pt too wide) in paragraph at lines 183--184
-\T1/cmr/m/n/12 Mentre que an-te-ri-or-ment vam veu-re com po-dem cre-ar una tau
--la bui-da i des-prés emplenar-
+[3 <./BigQuery/Imatges tutorial/bq3.png> <./BigQuery/Imatges tutorial/bq4.png>]
+<BigQuery/Imatges tutorial/bq6.png, id=137, 648.4225pt x 365.365pt>
+File: BigQuery/Imatges tutorial/bq6.png Graphic file (type png)
+<use BigQuery/Imatges tutorial/bq6.png>
+Package pdftex.def Info: BigQuery/Imatges tutorial/bq6.png  used on input line 
+186.
+(pdftex.def)             Requested size: 206.28247pt x 116.23346pt.
+<BigQuery/Imatges tutorial/bq7 copia.png, id=138, 1142.2675pt x 615.29875pt>
+File: BigQuery/Imatges tutorial/bq7 copia.png Graphic file (type png)
+<use BigQuery/Imatges tutorial/bq7 copia.png>
+Package pdftex.def Info: BigQuery/Imatges tutorial/bq7 copia.png  used on input
+ line 188.
+(pdftex.def)             Requested size: 206.28247pt x 111.11514pt.
+[4 <./BigQuery/Imatges tutorial/bq5.png> <./BigQuery/Imatges tutorial/bq6.png> 
+<./BigQuery/Imatges tutorial/bq7 copia.png>]
+<BigQuery/Imatges tutorial/bq8.png, id=149, 1142.2675pt x 615.29875pt>
+File: BigQuery/Imatges tutorial/bq8.png Graphic file (type png)
+<use BigQuery/Imatges tutorial/bq8.png>
+Package pdftex.def Info: BigQuery/Imatges tutorial/bq8.png  used on input line 
+200.
+(pdftex.def)             Requested size: 284.52756pt x 153.26099pt.
+ [5 <./BigQuery/Imatges tutorial/bq8.png>]
+<BigQuery/Imatges tutorial/bq9.png, id=161, 1364.09625pt x 663.47874pt>
+File: BigQuery/Imatges tutorial/bq9.png Graphic file (type png)
+<use BigQuery/Imatges tutorial/bq9.png>
+Package pdftex.def Info: BigQuery/Imatges tutorial/bq9.png  used on input line 
+235.
+(pdftex.def)             Requested size: 206.28247pt x 100.32742pt.
+<BigQuery/Imatges tutorial/bq10.png, id=162, 1044.90375pt x 534.99875pt>
+File: BigQuery/Imatges tutorial/bq10.png Graphic file (type png)
+<use BigQuery/Imatges tutorial/bq10.png>
+Package pdftex.def Info: BigQuery/Imatges tutorial/bq10.png  used on input line
+ 237.
+(pdftex.def)             Requested size: 206.28247pt x 105.61823pt.
+ [6 <./BigQuery/Imatges tutorial/bq9.png> <./BigQuery/Imatges tutorial/bq10.png
+>]
+<BigQuery/Imatges tutorial/bq12.png, id=169, 1144.275pt x 598.235pt>
+File: BigQuery/Imatges tutorial/bq12.png Graphic file (type png)
+<use BigQuery/Imatges tutorial/bq12.png>
+Package pdftex.def Info: BigQuery/Imatges tutorial/bq12.png  used on input line
+ 262.
+(pdftex.def)             Requested size: 206.28247pt x 107.84195pt.
+<BigQuery/Imatges tutorial/bq13.png, id=170, 1144.275pt x 598.235pt>
+File: BigQuery/Imatges tutorial/bq13.png Graphic file (type png)
+<use BigQuery/Imatges tutorial/bq13.png>
+Package pdftex.def Info: BigQuery/Imatges tutorial/bq13.png  used on input line
+ 264.
+(pdftex.def)             Requested size: 206.28247pt x 107.84195pt.
+
+Overfull \hbox (34.016pt too wide) in paragraph at lines 276--277
+[]\T1/cmr/m/n/12 Ara es pot com-pro-bar que [][]\T1/cmtt/m/n/12 accidents_bd []
+\T1/cmr/m/n/12 apa-reix so-ta el con-junt de da-des [][]\T1/cmtt/m/n/12 dades_p
+rojecte[]\T1/cmr/m/n/12 .
  []
 
-[6] [7] [8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 206.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 206.
+[7 <./BigQuery/Imatges tutorial/bq12.png> <./BigQuery/Imatges tutorial/bq13.png
+>] [8] (./prova.lof)
+\tf@lof=\write5
+\openout5 = `prova.lof'.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 301.
+ [9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 301.
  (./prova.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 206.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 206.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 301.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 301.
 Package rerunfilecheck Info: File `prova.out' has not changed.
 (rerunfilecheck)             Checksum: 70AF60D0F2A130890BB7040615AAE7F6;1609.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 206.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 301.
  ) 
 Here is how much of TeX's memory you used:
- 7904 strings out of 480608
- 115671 string characters out of 5903630
- 397167 words of memory out of 5000000
- 23598 multiletter control sequences out of 15000+600000
+ 7978 strings out of 480608
+ 117154 string characters out of 5903630
+ 393553 words of memory out of 5000000
+ 23658 multiletter control sequences out of 15000+600000
  547306 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,6n,34p,3422b,396s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,9n,34p,1527b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<
-/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
-usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></us
-r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/
-local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/lo
-cal/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/loca
-l/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/
-texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/te
-xlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texl
-ive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/texliv
-e/2020/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/
-2020/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on prova.pdf (10 pages, 1060106 bytes).
+/usr/local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></u
+sr/local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr
+/local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/l
+ocal/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/loc
+al/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local
+/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/t
+exlive/2020/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/tex
+live/2020/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on prova.pdf (11 pages, 1867875 bytes).
 PDF statistics:
- 207 PDF objects out of 1000 (max. 8388607)
- 168 compressed objects within 2 object streams
- 27 named destinations out of 1000 (max. 500000)
- 172 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 237 PDF objects out of 1000 (max. 8388607)
+ 186 compressed objects within 2 object streams
+ 37 named destinations out of 1000 (max. 500000)
+ 207 words of extra memory for PDF output out of 10000 (max. 10000000)
 
