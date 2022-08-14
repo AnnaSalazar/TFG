@@ -313,47 +313,62 @@ Ara es pot comprobar que \verb|accidents_bd| apareix sota el nostre conjunt de d
 
 \subsection{Consulta de dades i visualització d'estadístiques de consultes}
 
-Ara, per a executar consultes en aquesta taula, ens dirigim al botó de consulta. Això ens permetrà obrir una nova pestanya de consulta. Aquesta pot ser una pestanya completament nova que ocultarà aquesta vista de detalls, mentre que una pestanya dividida ens permetrà fer referència a aquesta vista de detalls per a la taula mentre construïm una consulta. Observarà que ha aparegut una nova pestanya cap a la dreta, i que la consulta per defecte que apareix aquí inclou una clàusula SELECT però no hi ha camps després de SELECT. Precisament per això hi ha un error de sintaxi. Ara, per a completar la clàusula SELECT, podríem escriure els noms dels camps, o bé BigQuery inclou aquesta funció en la qual podem seleccionar els camps des de la vista de l'esquema. Per exemple, podem fer la consulta més bàsica a la base de dades, que ens retornarà la taula sencera:
+Per a executar consultes en aquesta taula, ens dirigim al botó de consulta i s'obrirà en una nova pestanya. Aquesta pot ser una pestanya completament nova que ocultarà aquesta vista de detalls, mentre que una pestanya dividida ens permetrà fer referència a aquesta vista de detalls per a la taula mentre construïm una consulta. Mitjançant aquest procés, ha aparegut una nova pestanya cap a la dreta, i la consulta que apareix per defecte inclou una clàusula \verb|SELECT|, però no inclou cap camp (Figura ~\ref{fig:bq14}). Precisament per això hi ha un error de sintaxi, com es mostra a la dreta de la figura. 
+
+\vspace{2mm}
+\begin{figure}[h!]
+\par
+\raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq14}}%
+\hfill
+\raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq15}}%
+\par
+
+\caption{Elaboració d'una consulta}
+\label{fig:bq14}
+\end{figure}
+\vspace{2mm}
+
+Ara, per a completar la clàusula \verb|SELECT|, podríem escriure els noms dels atributs que volem consultar, a més de condicions, per exemple, mitjançant la clàususla \verb|WHERE|. Concretament, l'esquema que s'haurà de seguir per a consultar la base de dades té la forma següent:
+
 
 \begin{verbatim}
-SELECT *
+SELECT atribut1, atribut2,...
 FROM `[nom_projecte].[nom_base_de_dades].[nom_taula]`
-LIMIT 1000
+(WHERE condició)
 \end{verbatim}
 
 \vspace{2mm}
 
-Executarem aquesta consulta prement Executar. Els resultats han aparegut, i aquesta consulta s'ha executat en uns 0,3 segons per a mi. Per descomptat, podem desplaçar-nos i donar un cop d'ull a tots els resultats. No obstant això, el que és més interessant si ets nou en BigQuery són els detalls addicionals en el panell inferior. En concret, si ens dirigim a la secció d'Historial Personal, podem donar un cop d'ull als diferents treballs que s'han creat per a cada operació que hem realitzat. Per exemple, cada treball es classifica com QUERY si es realitza un SELECT o fins i tot un INSERT. Després es pot registrar una operació LLOEU per a quan carreguem les dades de l'arxiu CSV. Aquesta interfície sí que ens permet accedir a informació addicional per a cadascun dels treballs. Per exemple, si es mostren els detalls de l'últim treball creat, podem veure el que BigQuery ha fet per nosaltres per a assegurar-se que aquesta consulta s'executi i retorni els resultats. Aquí podem veure l'usuari que va iniciar aquest treball, quan es va crear exactament el treball, quan va començar i va acabar, i el més important, el nombre de bytes processats i el nombre de bytes facturats. Aquí podràs observar que el nombre de bytes facturats és de 10 megaoctets, que és de fet la quantitat mínima facturada per a cada consulta per Google Cloud Platform amb la finalitat de tenir en compte les despeses generals. Per a consultes més realistes que impliquin diversos megaoctets, o fins i tot gigaoctets, els bytes processats i els bytes facturats seran bastant similars. Sortint d'aquesta vista, passem a l'Historial del Projecte, que ens donarà els detalls dels treballs de tot el projecte i no sols del nostre propi usuari. I després està la secció de Consultes Guardades. Aquí és on es pot accedir a les consultes que hàgim guardat, encara que aquestes apareixeran en el menú de l'Explorador al costat dels nostres projectes i conjunts de dades.
-
-\vspace{2mm}
-
-
-Si escrivim a l’editor la nostra consulta, apareixerà un validador d’aquesta a la part superior dreta de la finestra. Aquest validador pot agafar dues formes:
+Si escrivim a l’editor la nostra consulta, apareixerà un validador d’aquesta a la part superior dreta de la finestra. Aquest validador l'hem vist anteriorment quan ens indicava un error al voler executar una consulta fent servir llenguatge de manipulació de dades (DML), i pot agafar dues formes:
 - Si la consulta és vàlida, apareixerà un icona de verificación verd.
 - Si la consulta no és vàlida, aparaixerà un icona d’exclamació Vermell
-A més, el validador també mostra la quantitat de dades que la consulta processarà quan s’executi. Per exemple, si demanem en una consulta que ens retorni una columna selncera, el validador de la dreta ens marca que es processaran una quantitat de gairebé 22KB, tal i com es pot veure a la figura ~\ref{fig_bq16}.
+A més, el validador també mostra la quantitat de dades que la consulta processarà quan s’executi. Per exemple, si demanem en una consulta que ens retorni la columna sencera \verb|DAY|, el validador de la dreta ens marca que es processaran una quantitat de gairebé 22KB, tal i com es pot veure a la figura ~\ref{fig:bq19}.
 
 \vspace{2mm}
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{bq16}
+\includegraphics[width=10cm]{bq19}
 \end{center}
-\caption{Exemple del funcionament del validador de consultes}
-\label{fig:bq16}
+\caption{Primera consulta}
+\label{fig:bq19}
 \end{figure}
+\vspace{2mm}
+
+Executarem aquesta consulta prement \verb|Executar|. Els resultats apareixen sota la finestra d'editor i mostra certs detalls com, per exemple, que s'ha executat en uns 0 segons per a mi. Per descomptat, podem desplaçar-nos i donar un cop d'ull a tots els resultats (a la dreta de la Figura ~\ref{fig:bq19}). Entre els detalls que es mostren per a cada consulta s'hi troben la informació del treball, els resultats en forma de taula, els resultats en format JSON i certs detalls de l'execució de la consulta. Si posem el focus en la informació del treball, es troba l'identificador d'aquest, l'usuari que l'ha executat, la ubicació on s'emmagatzemen les dades, l'hora de la creació i l'execució d'aquesta, el temps d'execució i els bytes processats i facturats. Veiem que el nombre de bytes facturats és de 10 MB, aquesta és la quantitat mínima que surt per defecte per a cada consulta per \textit{Google Cloud Platform}, i té en compte les despeses generals. Per a consultes a bases de dades més extenses, aquesta facturació serà major i ens impedirà l'ús de la zona de proves. L'última característica que crida l'atenció de la informació del treball és que els resultats s'emmagatzemen en una taula temporal. Això vol dir que aquesta taula resultant no es guardarà com una més en el nostre conjunt de dades i, per tant, no la podrem consultar.
+
 \vspace{2mm}
 
 \subsection{Creació d'una taula a partir d'un resultat de consulta}
 
-Després d'haver introduït dades de fonts externes en BigQuery. Ara veurem com podem crear noves taules a partir de les existents. En concret, la taula en l'Editor de Consultes. Ara he inserit una consulta que selecciona una sèrie de camps diferents, incloent-hi el nom, la companyia, el gènere i el director de la taula en el conjunt de dades. Es tracta de pel·lícules el pressupost de les quals és superior a 100 milions de dòlars. L'objectiu és crear una nova taula a partir dels resultats d'aquesta consulta concreta. Aquí apliquem un filtre, no sols eliminant els rols a causa de la clàusula where i seleccionant només camps específics. Però vostè notarà en línia número dos que també creguem una nova columna anomenada benefici, que es computa mitjançant el càlcul de la diferència entre el creixement de les pel·lícules. És a dir, la quantitat de diners que va ingressar i després restant el pressupost d'aquesta. Per descomptat, per a veure el cost associat a aquesta consulta. Podem minimitzar l'Explorador. I ara sabem que encara que el cost calculat apareix com 492 kilobytes en aquest cas. El cost real serà de 10 megaoctets que és el mínim per a BigQuery. Quan executem això, els resultats apareixen i hi ha un total de 315 files de dades. Ara hem d'exportar totes aquestes dades a una nova taula. Revisa algunes de les opcions d'exportació. Podem donar un cop d'ull al menú Guardar resultats. Vostè observarà que hi ha un nombre de diferents opcions aquí per a la manera de guardar els resultats. Podem guardar-los com un arxiu CSV en Google Drive o en un arxiu local. El format JSON també està disponible com una opció d'exportació. No obstant això, el que oferirem aquí és exportar el contingut a una nova taula de BigQuery. Una vegada feta aquesta selecció, podem decidir el nom del projecte i el conjunt de dades on s'aprovisionarà la taula i després establir un nom de taula. La cridaré simplement. Llavors, quan guardem les coses, això haurà iniciat un nou treball per a aprovisionar la nova taula i carregar-la amb dades. Una vegada que tanquem aquesta notificació, podem treure el pin de l'Explorador i baix, apareix com una taula. En obrir-la confirmem que l'esquema apunta a les mateixes columnes que havíem referenciat en la clàusula select de la consulta que va crear aquesta taula, encara que hi ha una columna anomenada profit el tipus de la qual s'ha establert com un enter. Des dels detalls podem confirmar que el nombre de files coincideix amb el dels resultats de la consulta, concretament 315. I després la vista prèvia ens mostrarà quins són exactament les dades. Desplacem-nos i confirmem que la columna de beneficis es deriva, efectivament, del creixement i del pressupost. Quin és llavors la finalitat d'aquesta taula? Bé, atès que només conté un subconjunt de la taula original. Significa que les consultes contra això tindran potencialment menys dades per a processar que les consultes que s'executen directament contra. Si només volem analitzar les pel·lícules de gran pressupost amb un pressupost de més de 100 milions, és millor executar les nostres consultes en aquesta taula més petita, que inclou tota la informació que necessitem i probablement tindrà un cost de consulta menor. Per a executar una consulta d'aquest tipus, obrirem l'Editor de Consultes i a substituir aquesta consulta directament contra per aquesta altra que es dirigeix a la taula recentment creada. Observarà que els camps de la clàusula select són idèntics als quals teníem anteriorment, però la clàusula where és una mica diferent. I mentre que la consulta anterior va processar 492 kilobytes, aquesta només funcionarà amb 34,7. Seguim endavant i executem aquesta consulta. I els resultats confirmen que les consultes contra aquesta taula funcionen com s'espera que ho facin.
-
-sèrie temporal de 31 observacions, on per cada dia digui el nombre d’accidents ocorreguts amb víctimes.
+Una altra alternativa a les taules temporals serà crear una taula en el nostre conjunt de dades a partir d'una taula temporal o vista. En aquest cas, farem una sèrie temporal de 31 observacions que ens compti el nombre d'accidents ocorreguts cada dia del mes a partir de la consulta següent:
 
 \begin{verbatim}
 SELECT DAY, COUNT(*) AS FREQ
-FROM `level-oxygen-353005.examen_final.accident`
+FROM `el-meu-projecte-358912.dades_projecte.accidents_bd`
 GROUP BY DAY
 \end{verbatim}
+
+Un cop realitzada la consulta, hem d'exportar totes aquestes dades a una nova taula i, per a fer-ho, revisarem algunes de les opcions d'exportació que es troben al menú \verb|Guardar resultats|. En aquest, apareixen diverses opcions per a la manera de guardar els resultats (Figura ~\ref{fig:bq17}). Podem guardar-los com un arxiu CSV en Google Drive o en un arxiu local. En el nostre cas, exportarem el contingut a una nova taula de BigQuery. Una vegada feta aquesta selecció, podem decidir el nom del projecte i el conjunt de dades on s'aprovisionarà la taula i, a més, establir un nom de taula. 
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -369,13 +384,62 @@ GROUP BY DAY
 \vspace{2mm}
 
 
+Llavors, quan guardem les coses, això haurà iniciat un nou treball per a guardar la nova taula i carregar-la amb dades. Una vegada que tanquem aquesta notificació, podem treure el pin de l'Explorador i baix, apareix com una taula. En obrir-la confirmem que l'esquema apunta a les mateixes columnes que havíem referenciat en la clàusula select de la consulta que va crear aquesta taula. Des dels detalls podem confirmar que el nombre de files coincideix amb el dels resultats de la consulta, concretament 31. I després la vista prèvia ens mostrarà quines són les dades exactament. 
+
+\vspace{2mm}
+
+Hom es pot preguntar : \textit{Quina és la finalitat d'aquesta taula?}. Bé, atès que només conté un subconjunt de la taula original, les consultes cap a aquesta taula tindran potencialment menys dades per a processar que les consultes que s'executen directament a la taula original. Potser en aquest cas no tornarem a necessitar aquesta consulta, però imaginem que només ens interessa estudiar els accidents que s'hagin produït a zones rurals i creem una consulta que filtri aquest tipus de casos. En aquesta situació, serà millor executar la resta de consultes sobre la taula petita, que inclou tota la informació que necessitem i probablement tindrà un cost de consulta menor.
+
 \newpage
 
 \section{Execució de consultes i visualització de resultats}
 
-\subsection{Conjunts de dades públics a BigQuery}
+\subsection{Conjunts de dades públiques a BigQuery}
 
-Mentre es familiaritza amb BigQuery, li serà útil fer ús d'alguns dels conjunts de dades disponibles públicament per a executar consultes i simplement acostumar-se al servei i les seves diverses característiques. Aquests conjunts de dades públiques es troben en un projecte anomenat BigQuery Public Data. Per a arribar a ells, utilitzem la funció de cerca del panell de l'Explorador. Tingues en compte que podem ampliar la nostra cerca per a incloure tots els projectes d'accés públic i BigQuery Public Data hauria d'aparèixer en els resultats. Pot donar un cop d'ull als diferents conjunts de dades i taules d'aquest projecte. Però si faràs referència a ell periòdicament, t'ajudarà ancorar-ho perquè sigui fàcilment accessible en el panell de l'Explorador. Ara treballarem amb un conjunt de dades i una taula específics dins d'aquest projecte. Per a això, deixa'm netejar una mica les coses en aquesta vista de l'Explorador. I després, dins del projecte de dades públiques de BigQuery, haurem de navegar fins a un conjunt de dades específic que conté informació sobre la població mundial recopilada pel Banc Mundial. És possible que hàgim d'ampliar els resultats primer. I després, en desplaçar-nos cap a la part inferior, trobarem el conjunt de dades de població mundial del Banc Mundial. Dins d'aquest, hi ha una taula anomenada població per país. Aquesta, per descomptat, és només una de les taules que estan disponibles en aquest projecte i que podem utilitzar per a familiaritzar-nos amb BigQuery. Abans d'iniciar qualsevol consulta, l'obrirem per a poder veure la seva informació i fer-nos una idea de les dades que conté. En l'esquema, podem veure que hi ha una columna de país i després tenim diverses columnes que assenyalen la població del país en diferents moments. A continuació, passem a la pestanya Detalls, on observem que aquesta taula és bastant petita, amb només uns 125 kilobytes i 264 files. També observarà que aquesta taula està particionada. Així que les seves dades es dividiran en diversos nodes. I aquesta partició es basarà en el temps d'injecció. Això està implícit en la propietat Partitioned on Field que té un valor de temps de partició, que és de fet una pseudo-columna i que no veurem en l'esquema d'aquesta taula. Passem llavors a la vista prèvia. Aquí, veiem que hi ha una columna de país al costat d'un codi de país, i després desplaçant-nos, observem que els valors de població per a la majoria dels anys inicials no són presents per a unes certes files, però les dades particionados estan disponibles per als anys més recents. Tornant enrere, podem veure que aquesta taula inclou no sols la població de diversos països, sinó també diversos grups de països. Per exemple, aquí hi ha un grup anomenat Europa i Àsia Central.
+Mentre seguim familiaritzant-nos amb la plataforma, podem explorar una altra opció que ofereix BigQuery, que són dades que estan disponibles públicament per a que qualsevol usuari pugui executar les seves consultes. Aquests conjunts de dades públiques es troben en un projecte anomenat BigQuery Public Data. Per a arribar a ells, utilitzem la funció de cerca del panell de l'Explorador(Figura ~\ref{fig:bq20}).
+
+\vspace{2mm}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{bq20}
+\end{center}
+\caption{Accés als conjunts de dades públiques}
+\label{fig:bq20}
+\end{figure}
+\vspace{2mm}
+
+Podem donar un cop d'ull als diferents conjunts de dades i taules d'aquest projecte. Ara treballarem amb un conjunt de dades i una taula específics dins d'aquest projecte. I després, dins del projecte de dades públiques de BigQuery, haurem de navegar fins a un conjunt de dades específic que sigui del nostre interès. Per exemple, entre totes aquestes taules s'hi troba una que conté informació sobre la població catalana recopilada per l'aplicació \textit{GenCat Mobile Coverage} (Figura ~\ref{fig:bq21}). Dins d'aquesta taula s'hi troben dades recollides mitjançant \textit{crowdsourcing} i tenen informació sobre l'estat de la cobertura de la telefonia mòbil a Catalunya. La plataforma utilitza una aplicació Android per a registrar les dades dels ciutadans a través dels seus dispositius mòbils sobre el nivell de cobertura per operador, xarxa (2G, 3G i 4G) i la ubicació del dispositiu. Aquestes dades en concret van ser recopilades durant el període 2015-2017.
+
+\vspace{2mm}
+\begin{figure}[h!]
+\par
+\raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq21}}%
+\hfill
+\raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq22}}%
+\par
+
+\caption{Creació d'una taula a partir d'una consulta}
+\label{fig:bq21}
+\end{figure}
+\vspace{2mm}
+
+Si volguèssim descarregar la taula i situar-la dins del nostre projecte, BigQuery ens permet aquesta operació si premem \textit{Visualtzar conjunt de dades} seguit de \textit{crear taula}. Això no obstant, també és possible consultar la taula sense necessitat de descarregar-la dins del nostre projecte, que és el que farem en aquest cas.
+
+\vspace{2mm}
+
+Dins la informació de la taula que ens proporciona la plataforma, apareix una secció amb consultes suggerides (a la dreta de la Figura ~\ref{fig:bq21}). D'entre aquestes, la primera fa referència a les 10 ciutats catalanes amb pitjor cobertura de mòvil.  Si premem a \verb|Run this query|, el navegador ens redirigeix a l'editor amb la consulta preparada, i nosaltres la podem executar sense cap cost, ja que tant la taula com el resultat de la consulta estan emmagatzemats a BigQuery (Figura ~\ref{fig:bq23}).
+
+\vspace{2mm}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{bq23}
+\end{center}
+\caption{Consulta a un conjunt de dades públic}
+\label{fig:bq23}
+\end{figure}
+\vspace{2mm}
+
+Els resultats d'aquesta consulta ens diu que les ciutats catalanes amb menys cobertura mòvil són Canejan, Boadella i les Escaules, Cabó, la Vajol, Gaià, Farrera, Gisclareny, Viver i Serrateix, Savallà del Comtat i Torroja del Priorat. A més, els bytes processats en aquesta consulta apareixen com un paràmetre indefinit, ja que aquests resultats estan emmagatzemats a la memòria cau de BigQuery.
 
 \subsection{Configuració i ús de memòria cau de BigQuery}
 
