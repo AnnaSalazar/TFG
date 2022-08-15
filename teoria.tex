@@ -408,7 +408,7 @@ Mentre continuem familiaritzant-nos amb la plataforma, podem explorar una altra 
 \end{figure}
 \vspace{2mm}
 
-Podem donar un cop d'ull als diferents conjunts de dades i taules d'aquest projecte i navegar entre les diferents opcions per a poder triar aquells que cridin la nostra atenció i, en definitiva, amb els que treballarem. Per exemple, entre totes aquestes taules s'hi troba una que conté informació sobre la població catalana recopilada per l'aplicació \textit{GenCat Mobile Coverage} (Figura ~\ref{fig:bq21}). Dins d'aquesta taula s'hi troben dades recollides mitjançant crowdsourcing\footnote[1]{La práctica de obtener información o aportaciones a una tarea o proyecto recurriendo a los servicios de un gran número de personas, remuneradas o no, normalmente a través de Internet.} i tenen informació sobre l'estat de la cobertura de la telefonia mòbil a Catalunya. La plataforma utilitza una aplicació Android per a registrar les dades dels ciutadans a través dels seus dispositius mòbils sobre el nivell de cobertura per operador, xarxa (2G, 3G i 4G) i la ubicació del dispositiu. Aquestes dades en concret van ser recopilades durant el període 2015-2017.
+Podem donar un cop d'ull als diferents conjunts de dades i taules d'aquest projecte i navegar entre les diferents opcions per a poder triar aquells que cridin la nostra atenció i, en definitiva, amb els que treballarem. Per exemple, entre totes aquestes taules s'hi troba una que conté informació sobre la població catalana recopilada per l'aplicació \textit{GenCat Mobile Coverage} (Figura ~\ref{fig:bq21}). Dins d'aquesta taula s'hi troben dades recollides mitjançant crowdsourcing\footnote[1]{La pràctica d'obtenir informació o aportacions a una tasca o projecte recorrent als serveis d'un gran nombre de persones, remunerades o no, normalment a través d'Internet.} i tenen informació sobre l'estat de la cobertura de la telefonia mòbil a Catalunya. La plataforma utilitza una aplicació Android per a registrar les dades dels ciutadans a través dels seus dispositius mòbils sobre el nivell de cobertura per operador, la xarxa utilitzada (2G, 3G i 4G) i la ubicació del dispositiu. Aquestes dades en concret van ser recopilades durant els anys 2015-2017.
 
 
 
@@ -425,11 +425,11 @@ Podem donar un cop d'ull als diferents conjunts de dades i taules d'aquest proje
 \end{figure}
 \vspace{2mm}
 
-Si volguéssim descarregar la taula i situar-la dins del nostre projecte, BigQuery ens permet aquesta operació si premem \textit{Visualitzar conjunt de dades} seguit de \textit{crear taula}. Això no obstant, també és possible consultar la taula sense necessitat de descarregar-la dins del nostre projecte, que és el que farem en aquest cas.
+Si volguéssim descarregar la taula i situar-la dins del nostre projecte, BigQuery ens permet aquesta operació si premem \verb|Visualitzar conjunt de dades| seguit de \verb|crear taula|. Això no obstant, també és possible consultar la taula sense necessitat de descarregar-la dins del nostre projecte, fent servir el projecte \verb|bigquey-public-data|, que és el que farem en aquest cas.
 
 \vspace{2mm}
 
-Dins la informació de la taula que ens proporciona la plataforma, apareix una secció amb consultes suggerides (a la dreta de la Figura ~\ref{fig:bq21}). D'entre aquestes, la primera fa referència als 10 pobles catalans amb pitjor cobertura de mòbil.  Si premem a \verb|Run this query|, el navegador ens redirigeix a l'editor amb la consulta preparada, i nosaltres la podem executar sense cap cost, ja que tant la taula com el resultat de la consulta estan emmagatzemats a BigQuery (Figura ~\ref{fig:bq23}).
+Dins la informació de la taula que ens proporciona la plataforma, apareix una secció amb consultes suggerides (les podem trobar a la dreta de la Figura ~\ref{fig:bq21}). D'entre aquestes, la primera fa referència als 10 pobles catalans amb pitjor cobertura de mòbil.  Si premem el botó \verb|Run this query|, el navegador ens redirigeix a l'editor amb la consulta preparada, i nosaltres la podem executar sense cap cost, ja que tant la taula com el resultat de la consulta estan emmagatzemats a BigQuery i les dades no s'han de processar (Figura ~\ref{fig:bq23}).
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -445,7 +445,7 @@ Els resultats d'aquesta consulta ens diu que els pobles catalans amb menys cober
 
 \vspace{2mm}
 
-Tal com hem vist, BigQuery emmagatzema a la seva memòria cau els resultats de la consulta perquè les dades puguin ser recuperades més ràpidament la pròxima vegada que s'executi la consulta. No obstant això, cal tenir en compte que només s'accedeix a les dades de la memòria cau quan s'executa la mateixa consulta després de la seva creació. Per exemple, si es modifiqués una mica aquesta consulta i, per exemple, demanés que em retornés tan sols el nom del poble en comptes d'aquest i la mitjana del senyal mòbil, podríem arribar a pensar que els resultats de la consulta d'aquesta execució haurien de retornar-nos un subconjunt de les dades que ja són presents en la memòria cau (ja que és un subconjunt de la nostra consulta anterior). Això no obstant, per la forma en què funciona la memòria cau de BigQuery, quan executem això, observarem que la informació no s'ha recuperat d'aquesta. En canvi, quan aquesta consulta es torna a executar, és quan la memòria cau s'activa, i és d'on es recuperen les dades. 
+Tal com hem vist, BigQuery emmagatzema a la seva memòria cau els resultats de la consulta perquè les dades puguin ser recuperades més ràpidament la pròxima vegada que s'executi una mateixa consulta. No obstant això, cal tenir en compte que només s'accedeix a les dades de la memòria cau quan s'executa la mateixa consulta després de la seva creació. Per exemple, si es modifiqués una mica aquesta consulta i, per exemple, demanés tan sols el nom del poble, en comptes d'aquest i la mitjana del senyal mòbil, podríem arribar a pensar que els resultats de la consulta d'aquesta execució haurien de retornar-nos un subconjunt de les dades que ja són presents en la memòria cau (ja que és un subconjunt de la nostra consulta anterior). Això no obstant, per la forma en què funciona la memòria cau de BigQuery, quan executem això, observarem que la informació no s'ha recuperat d'aquesta. En canvi, quan aquesta consulta es torna a executar, és quan la memòria cau s'activa, i és d'on es recuperen les dades. 
 
 \vspace{2mm}
 
@@ -453,7 +453,7 @@ Per tant, la memòria cau només funciona si és la mateixa consulta la que es t
 
 \subsection{Taules externes de BigQuery}
 
-Una altra funció que presenta la plataforma és la lectura d'arxius externs que s'actualitzen de forma periòdica. Això és d'especial utilitat en els casos en què la informació de la qual es disposa és a temps real. Per a il·lustrar el funcionament de BigQuery en aquests casos, crearé una nova taula que estarà vinculada, en aquest cas, a \textit{Google Drive} (Figura ~\ref{fig:bq24}). És molt important que el propietari de la taula sigui el mateix compte que està vinculat a BigQuery, perquè en cas contrari sorgeix un missatge d'error.
+Una altra funció que presenta la plataforma és la lectura d'arxius externs que s'actualitzen de forma periòdica. Això és d'especial utilitat en els casos en què la informació de la qual es disposa és a temps real, que és una característica prou habitual quan es treballa amb volums de dades molt elevats. Per a il·lustrar el funcionament de BigQuery en aquests casos, crearem una nova taula que estarà vinculada, en aquest cas, a Google Drive, concretament a \verb|Hojas de cálculo| (Figura ~\ref{fig:bq24}). És molt important que el propietari de la taula sigui el mateix compte que està vinculat a BigQuery, perquè en cas contrari sorgeix un missatge d'error i no és capaç de vincular la taula externa.
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -518,8 +518,6 @@ FROM `el-meu-projecte-358912.dades_projecte.accidents_bd`
 GROUP BY DAY
 \end{verbatim}
 
-Per a visualitzar la taula resultant, podem ampliar el menú \verb|Explorar dades|, tot seguit d'\verb|Explorar amb Data Studio| (Figura ~\ref{fig:bq26}).
-
 \vspace{2mm}
 \begin{figure}[h!]
 \begin{center}
@@ -529,6 +527,8 @@ Per a visualitzar la taula resultant, podem ampliar el menú \verb|Explorar dade
 \label{fig:bq26}
 \end{figure}
 \vspace{2mm}
+
+Per a visualitzar la taula resultant, podem ampliar el menú \verb|Explorar dades|, tot seguit d'\verb|Explorar amb Data Studio| (Figura ~\ref{fig:bq26}).
 
 Quan fem aquesta selecció, notaràs que ha sorgit una interfície, que ja té una taula que conté alguna informació agregada i un histograma amb la informació d'aquesta (Figura ~\ref{fig:bq27}).
 
@@ -559,7 +559,7 @@ Data Studio, per defecte, ha entès que una taula de recompte es visualitza norm
 
 \subsection{Ús de Data Studio des de la pròpia plataforma}
 
-Per a utilitzar aquesta eina és necessari disposar d’un compte a Google. Per accedir a la pàgina, navega \href{https://datastudio.google.com}{aquí} i inicia sessió amb el teu compte. Un cop dins de Data Studio, veuràs una pantalla d’inici amb les característiques següents:
+Per a utilitzar aquesta eina és necessari disposar d’un compte a Google. Per accedir a la pàgina, naveguem \href{https://datastudio.google.com}{a aquesta pàgina} i iniciem sessió amb el nostre compte de Google. Un cop dins de Data Studio, es troba una pantalla d’inici amb les característiques següents:
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -575,15 +575,52 @@ A la pàgina d’inici hi ha una sèrie de plantilles, que són una forma entret
 
 \vspace{2mm}
 \begin{figure}[h!]
-\begin{center}
-\includegraphics[width=10cm]{ds2}
-\end{center}
+\par
+\raisebox{-.5\height}{\includegraphics[width=7.25cm]{ds2}}%
+\hfill
+\raisebox{-.5\height}{\includegraphics[width=7.25cm]{ds3}}%
+\par
+
 \caption{Afegir dades a Data Studio}
 \label{fig:ds2}
 \end{figure}
 \vspace{2mm}
 
-Després podem canviar el nom d'aquesta pestanya particular en la visualització. Li donaré un nom representatiu de prodvalor per estat. Més enllà d'això, també podem establir un nom per a tota la visualització. Cridaré a aquesta mel de producció, i després premi guardar. I una vegada guardat aquest informe, podem seguir endavant i afegir una segona pestanya en la qual inclourem un gràfic diferent. Per al gràfic, ampliarem el menú de gràfics. Aquesta vegada inclourem un gràfic de sèries temporals suavitzades. Observarem que, per defecte, és la columna de l'any la que apareix en l'eix X, i és el valor de la producció de mel el que apareix en l'eix I. No obstant això, hi ha una línia separada per a cada estat. Si observa la configuració del gràfic, observarà que és la columna de l'any la que apareix com a dimensió principal, però també hi ha una columna de desglossament que apunta a l'estat. Això significa que sota el capó s'ha realitzat una operació d'agrupació per basada en els camps d'any i estat. A més, tingui en compte que les visualitzacions generades en Data Studio són interactives. Es pot obtenir informació addicional passant el ratolí per sobre de diferents punts del gràfic. No obstant això, mantinguem aquest gràfic simple i eliminem aquest camp de desglossament, la qual cosa ens dona un gràfic més simple i menys sorollós. Amb aquesta nova pestanya en el seu lloc, repetirem els passos que realitzem anteriorment establint un nou nom per a aquesta pestanya. La diré Valor de producció total en el temps. Assegura't que aquest gràfic s'ha guardat amb els canvis. I ara en cas que t'estiguis preguntant com pots accedir a aquesta visualització. Bé, pots copiar aquesta URL datastudio.google.com per a accedir a aquest servei. Navegaré a aquest enllaç en una nova pestanya. Això farà que aparegui el teu propi panell de control de Data Studio en el qual pots navegar a l'Explorador. I si els continguts estan ordenats en ordre descendent de temps, Producció de Mel hauria d'aparèixer en la part superior aquí. Quan es fa clic en això, és la mateixa visualització en la qual acabem de treballar. Per descomptat, podem confirmar-ho accedint a la segona pestanya. Efectivament, apareix el gràfic de sèries temporals. Cal tenir en compte que també podem compartir aquest informe amb altres usuaris. Amb això hem completat un ràpid cop d'ull a Data Studio i la seva integració amb BigQuery.
+Per a crear un gràfic, podem clicar a \verb|Añadir un gráfico| i, d'aquesta manera, escollir el que ens interessa representar en el panell de la dreta, ajustant la dimensió i la mètrica del nostre interès. Un cop creat el gràfic, es pot editar la seva mida fent-lo més gran o més petit, segons la nostra preferència, i es pot moure de lloc dins la pàgina.
+
+\vspace{2mm}
+
+A més de gràfiques, es poden decorar les pàgines per fer-les més boniques, o per afegir informació. També podem afegir un nom a la pàgina, i crear-ne tantes com en necessitem per al nostre informe. Més enllà d'això, també podem establir un nom per a tot l'informe, perquè a l'hora de guardar-lo i compartir-lo sigui més fàcilment interpretable.
+
+Per exemple, un informe de dues pàgines pot tenir un aspecte semblant a la Figura ~\ref{fig:ds4}.
+
+\vspace{2mm}
+\begin{figure}[h!]
+\par
+\raisebox{-.5\height}{\includegraphics[width=7.25cm]{ds4}}%
+\hfill
+\raisebox{-.5\height}{\includegraphics[width=7.25cm]{ds5}}%
+\par
+
+\caption{Informe a Data Studio}
+\label{fig:ds4}
+\end{figure}
+\vspace{2mm}
+
+Per acabar, podem compartir el nostre informe de manera que altres usuaris puguin tenir accés. Això ho podem fer des de la pantalla d'inici de Data Studio, seleccionant l'opció de \verb|Compartir| l'informe i afegint les direccions de correu dels qui vulguem fer \textit{lectors} de l'informe (aquells qui poden veure l'informe, però no tenen permisos d'edició) o bé \textit{editors} (poden veure i editar l'informe). Figura ~\ref{fig:ds6}
+
+\vspace{2mm}
+\begin{figure}[h!]
+\par
+\raisebox{-.5\height}{\includegraphics[width=7.25cm]{ds6}}%
+\hfill
+\raisebox{-.5\height}{\includegraphics[width=7.25cm]{ds7}}%
+\par
+
+\caption{Compartir un informe}
+\label{fig:ds6}
+\end{figure}
+\vspace{2mm}
 
 \newpage
 
