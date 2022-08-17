@@ -624,6 +624,58 @@ Per acabar, podem compartir el nostre informe de manera que altres usuaris pugui
 
 \newpage
 
+\section{Connexió d'R a BigQuery}
+
+\subsection{Connectem R a BigQuery}
+
+Per a realitzar les nostres consultes a la base de dades sense haver d'importar les dades a R es pot fer servir la llibreria `bigrquery`. 
+
+\begin{verbatim}
+install.packages("bigrquery")
+library(bigrquery)
+\end{verbatim}
+
+\begin{verbatim}
+projecte <- "level-oxygen-353005"
+library(DBI)
+
+dades <- dbConnect(
+  bigrquery::bigquery(),
+  project = projecte,
+  dataset = "examen_final",
+  billing = projecte
+)
+\end{verbatim}
+
+En primer lloc, obtenim les llibreries corresponents i ens autentifiquem amb la nostra clau API creada mitjançant el correu electrònic vinculat al nostre compre de *Google Cloud*.
+
+Un cop fet això, ja podrem començar a consultar les nostres dades de BigQuery, així com els conjunts de dades públics. 
+
+\subsection{Sobre el paquet `bigrquery`}
+
+El paquet `bigrquery` facilita el treball amb les dades emmagatzemades en Google BigQuery, ja que permet consultar les taules de BigQuery i recuperar metadades sobre els projectes, conjunts de dades, taules i treballs. Aquest paquet proporciona els següents 3 nivells d'abstracció:
+
+- La API[^1] de baix nivell proporciona fins sobre la API REST[^2] subjacent. Totes les funcions de baix nivell comencen amb **bq_**, i en la seva majoria tenen la forma **bq_nom_verb()**. Aquest nivell d'abstracció és el més apropiat si estàs familiaritzat amb la API REST i vols fer alguna cosa que no està suportat en les APIs d'alt nivell.
+
+- La interfície **DBI** embolica la API de baix nivell i fa que treballar amb BigQuery sigui com treballar amb qualsevol altre sistema de base de dades. Aquesta és la capa més convenient si vols executar consultes SQL en BigQuery o carregar quantitats més petites (és a dir, inferiors a 100 MB) de dades.
+
+- La interfície **dplyr** li permet tractar les taules de BigQuery com si fossin marcs de dades en memòria. Aquesta és la capa més convenient si no vols escriure SQL, sinó que vols que `dplyr` ho escrigui per tu. 
+
+[^1]: El terme API és una abreviatura de *Application Programming Interfaces*, que en català significa interfície de programació d'aplicacions. Es tracta d'un conjunt de definicions i protocols que s'utilitzen per a desenvolupar i integrar el programari de les aplicacions, permetent la comunicació entre dues aplicacions a través d'un conjunt de regles.
+
+[^2]: Una API de REST és una interfície de programació d'aplicacions (API o API web) que s'ajusta als límits de l'arquitectura REST i permet la interacció amb els serveis web de RESTful.
+
+\subsection{Consultes amb `bigrquery`}
+
+\begin{verbatim}
+query1 <- "SELECT ST_CASE 
+           FROM `level-oxygen-353005.examen_final.accident`
+           WHERE (DAY = 1 or DAY = 7) and HOUR = 21 and MINUTE = 0"
+kable(dbGetQuery(dades, query1, n = 10), format = "simple")
+\end{verbatim}
+
+\newpage
+
 \listoffigures
 
 
