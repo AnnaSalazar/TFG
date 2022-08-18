@@ -39,22 +39,8 @@ editor_options:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-#install.packages("bigrquery")
-library(bigrquery)
-library(kableExtra)
-library(DBI)
-library(knitr)
-library(dplyr)
-library(VIM)
-library(tidyverse)
-library(summarytools)
-library(reshape2)
-library(ggplot2)
-library(devtools)
-library(naniar)
-library(knitr)
-library(forcats)
-library(sqldf)
+x <- c("bigrquery", "kableExtra", "DBI", "knitr", "dplyr", "VIM", "tidyverse", "summarytools", "reshape2", "ggplot2", "devtools", "naniar", "forcats", "sqldf")
+lapply(x, require, character.only = TRUE)
 
 projecte <- "level-oxygen-353005"
 
