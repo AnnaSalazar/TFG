@@ -3,6 +3,9 @@
 \usepackage[T1]{fontenc}
 \usepackage[catalan]{babel}
 \usepackage[a4paper, margin=2.7cm]{geometry}
+\renewcommand{\thefootnote}{\arabic{footnote}}
+\usepackage{multicol}
+\setlength{\columnsep}{10mm}
 
 \usepackage{amsmath, amsthm, amsfonts, amssymb}
 \newtheorem{thm}{Theorem}[section]
@@ -31,7 +34,9 @@
 \renewcommand{\tablename}{Taula}
 
 \begin{document}
+
 \begin{titlepage}
+
 \maketitle
 
 \vspace{140mm}
@@ -60,7 +65,7 @@ Treballar amb dades a BigQuery implica 3 aspectes principals: l’emmagatzemamen
 
 \vspace{2mm}
 
-Pel que fa a l’emmagatzemament, les dades es guarden en una taula estructurada, la qual cosa significa que es pot utilitzar SQL estàndard per a facilitar la consulta i l’anàlisi de dades. BigQuery és perfecta pel \textit{Big Data} perquè gestiona tot aquest emmagatzemament i està proveïda d’operacions d’escalabilitat que funcionen de forma automàtica sense que l’usuari s’hagi d’involucrar,  per la qual cosa mai haurem de preocupar-nos per la grandària de les dades amb els quals treballem. Part de la consideració de disseny darrere de BigQuery és animar als usuaris a centrar-se en els coneixements en lloc de la infraestructura. Quan s’introdueixen les dades a BigQuery no és necessari pensar en els diferents tipus d’emmagatzemament, ni en els seus avantatges pel que fa a velocitat i cost; l’emmagatzemament està totalment gestionat.
+Pel que fa a l’emmagatzemament, les dades es guarden en una taula estructurada, la qual cosa significa que es pot utilitzar SQL estàndard per a facilitar la consulta i l’anàlisi de dades. BigQuery és perfecta pel \textit{Big Data} perquè gestiona tot aquest emmagatzemament i està proveïda d’operacions d’escalabilitat que funcionen de forma automàtica sense que l’usuari s’hagi d’involucrar,  per la qual cosa mai haurem de preocupar-nos per la grandària de les dades amb els quals treballem. Part de la consideració de disseny darrere de BigQuery és animar als usuaris a centrar-se en els coneixements en lloc de la infraestructura. 
 
 \vspace{2mm}
 \noindent
@@ -68,11 +73,11 @@ Per a més informació sobre BigQuery, es pot consultar la pàgina de \href{http
 
 \subsection{Per què hauríem d'utilitzar BigQuery en lloc d'altres eines?}
 
-Una de les característiques més rellevants que presenta BigQuery és que es tracta d'una plataforma sense servidor, és a dir, que els servidors s'executen en segon pla, sense la intervenció de l'usuari. A més, presenta una alta disponibilitat, la qual cosa es tradueix en que no cal preocupar-se per la caiguda dels servidors, ja que la plataforma s'encarrega d'això. Finalment, BigQuery també té propietats d'escalabilitat automàtica que fan possible gestionar fins a petabytes de dades. Aquestes característiques no estan disponibles a la majoria de plataformes d'emmagatzemament de dades tradicionals, i fan destacar BigQuery entre moltes.
+Una de les característiques més rellevants que presenta BigQuery és que es tracta d'una plataforma sense servidor, és a dir, que els servidors s'executen en segon pla, sense la intervenció de l'usuari. A més, presenta una alta disponibilitat, la qual cosa es tradueix en que no cal preocupar-se per la caiguda dels servidors, ja que la plataforma s'encarrega d'això. També té propietats d'escalabilitat automàtica que fan possible gestionar fins a petabytes de dades. Aquestes característiques no estan disponibles a la majoria de plataformes d'emmagatzemament de dades tradicionals, i fan destacar BigQuery entre moltes.
 
 \vspace{2mm}
 
-Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb moltes fonts de dades diferents. Podem pujar les dades des del nostre propi sistema d'arxius, de Google Cloud Storage, de Google Drive i de moltes fonts més. Després de fer-ho, es poden consultar aquestes dades utilitzant SQL estàndard o SQL heretat, el rendiment en qualsevol cas és excel·lent. Els resultats de les consultes solen emmagatzemar-se en la memòria cau durant 24 hores, de manera que les següents execucions d'aquesta consulta només hauran d'obtenir les dades de la memòria cau en lloc de fer-ho del disc. 
+Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb moltes fonts de dades diferents. Es poden pujar les dades des del propi sistema d'arxius, des de Google Cloud Storage o des de Google Drive, entre moltes més fonts. Després de fer-ho, es poden consultar aquestes dades utilitzant SQL estàndard o SQL heretat. Els resultats de les consultes solen emmagatzemar-se en la memòria cau durant 24 hores, de manera que les següents execucions d'aquesta consulta només hauran d'obtenir les dades de la memòria cau en lloc de fer-ho del disc. 
 
 
 \pagebreak
@@ -628,51 +633,84 @@ Per acabar, podem compartir el nostre informe de manera que altres usuaris pugui
 
 \subsection{Connectem R a BigQuery}
 
-Per a realitzar les nostres consultes a la base de dades sense haver d'importar les dades a R es pot fer servir la llibreria `bigrquery`. 
+Per a entendre com funciona la connexió entre BigQuery i R, primer s'ha de definir el concepte de \emph{API} o interfície de programació d'aplicacions.
+
+\vspace{2mm}
+
+Una API és un conjunt de processos, funcions i mètodes que ofereix una determinada biblioteca de programació que serveix com a capa d'abstracció perquè sigui emprada per un altre programa informàtic. Dit d'una altra manera, podem entendre les APIs com un codi que indica a les aplicacions com comunicar-se entre elles, de manera que pugui interactuar.
+
+\vspace{2mm}
+
+En el nostre cas, volem que R sigui capaç d'interactuar amb BigQuery, perquè així ens permeti realitzar les nostres consultes a la base de dades sense haver d'importar les dades a R. Haurem d'utilitzar les llibreries \texttt{bigrquery}\footnote{Una interfície per a la API de 'BigQuery' de Google} i \texttt{DBI}\footnote{Una definició d'interfície de base de dades per a la comunicació entre R i els sistemes de gestió de bases de dades relacionals. Totes les classes d'aquest paquet són virtuals i han de ser esteses per les diferents implementacions de R/SGBD.} per aconseguir-ho. 
 
 \begin{verbatim}
 install.packages("bigrquery")
 library(bigrquery)
+library(DBI)
 \end{verbatim}
 
-\begin{verbatim}
-projecte <- "level-oxygen-353005"
-library(DBI)
+Asignem a l'objecte \texttt{projecte} el nom del nostre projecte, que a l'exemple correspon a \emph{el-meu-projecte-358912}
 
+\begin{verbatim}
+projecte <- "el-meu-projecte-358912"
+\end{verbatim}
+
+I per últim, mitjançant la funció \texttt{dbConnect()} obrirem la connexió amb Bigquery indicant el nom del nostre projecte i la base de dades a la que volem accedir dins d'aquest, \texttt{dades\_projecte}. A l'apartat \emph{billing} s'haurà d'introduir l'identificador del projecte amb la font de facturació. Nosaltres indiquem el nom del nostre projecte, que està sotmès a les limitacions de la \emph{Sandbox} o zona de proves gratuïta.
+
+\begin{verbatim}
 dades <- dbConnect(
   bigrquery::bigquery(),
   project = projecte,
-  dataset = "examen_final",
+  dataset = "dades_projecte",
   billing = projecte
 )
 \end{verbatim}
 
-En primer lloc, obtenim les llibreries corresponents i ens autentifiquem amb la nostra clau API creada mitjançant el correu electrònic vinculat al nostre compre de *Google Cloud*.
+Executant aquest codi no es produeix gran cosa, tret que es crea una variable de connexió. Però la primera vegada que intentem fer ús d'aquesta connexió (per exemple, fent una consulta a una de les taules de la base de dades), se'ns demana que ens autentifiquem a través del nostre compte de Google en una finestra del navegador. Un cop fet això, ja podrem començar a consultar les nostres dades de BigQuery, així com els conjunts de dades públics. 
 
-Un cop fet això, ja podrem començar a consultar les nostres dades de BigQuery, així com els conjunts de dades públics. 
-
-\subsection{Sobre el paquet `bigrquery`}
-
-El paquet `bigrquery` facilita el treball amb les dades emmagatzemades en Google BigQuery, ja que permet consultar les taules de BigQuery i recuperar metadades sobre els projectes, conjunts de dades, taules i treballs. Aquest paquet proporciona els següents 3 nivells d'abstracció:
-
-- La API[^1] de baix nivell proporciona fins sobre la API REST[^2] subjacent. Totes les funcions de baix nivell comencen amb **bq_**, i en la seva majoria tenen la forma **bq_nom_verb()**. Aquest nivell d'abstracció és el més apropiat si estàs familiaritzat amb la API REST i vols fer alguna cosa que no està suportat en les APIs d'alt nivell.
-
-- La interfície **DBI** embolica la API de baix nivell i fa que treballar amb BigQuery sigui com treballar amb qualsevol altre sistema de base de dades. Aquesta és la capa més convenient si vols executar consultes SQL en BigQuery o carregar quantitats més petites (és a dir, inferiors a 100 MB) de dades.
-
-- La interfície **dplyr** li permet tractar les taules de BigQuery com si fossin marcs de dades en memòria. Aquesta és la capa més convenient si no vols escriure SQL, sinó que vols que `dplyr` ho escrigui per tu. 
-
-[^1]: El terme API és una abreviatura de *Application Programming Interfaces*, que en català significa interfície de programació d'aplicacions. Es tracta d'un conjunt de definicions i protocols que s'utilitzen per a desenvolupar i integrar el programari de les aplicacions, permetent la comunicació entre dues aplicacions a través d'un conjunt de regles.
-
-[^2]: Una API de REST és una interfície de programació d'aplicacions (API o API web) que s'ajusta als límits de l'arquitectura REST i permet la interacció amb els serveis web de RESTful.
 
 \subsection{Consultes amb `bigrquery`}
 
+Per a mostrar com seria una cosulta a la nostra taula des de R buscarem el llistat d'accidents que van ocórrer un cap de setmana a les 21:00.
+
 \begin{verbatim}
 query1 <- "SELECT ST_CASE 
-           FROM `level-oxygen-353005.examen_final.accident`
+           FROM `el-meu-projecte-358912.dades_projecte.accidents_bd`
            WHERE (DAY = 1 or DAY = 7) and HOUR = 21 and MINUTE = 0"
-kable(dbGetQuery(dades, query1, n = 10), format = "simple")
 \end{verbatim}
+
+Un cop hem formulat la nostra \emph{query}, a través de la funció \texttt{dbGetQuery()}, ens comunicarem amb la API de Google. 
+
+\begin{multicols}{2}
+
+\begin{verbatim}
+dbGetQuery(connexió, consulta, n)
+\end{verbatim}
+
+\columnbreak
+
+\begin{verbatim}
+dbGetQuery(dades, query1, n = 10)
+\end{verbatim}
+
+\end{multicols}
+
+Essent \emph{n} el nombre de casos a mostrar (si calen restriccions).
+
+\vspace{2mm}
+
+En executar aquesta consulta, R retorna la següent taula:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|}
+\hline
+\textbf{ST\_CASE} \\ \hline
+62353             \\ \hline
+\end{tabular}
+\end{table}
+
+Aquesta correspon a que únicament va ocórrer un accident un cap de setmana a les 21:00, i aquest té l'identificador \texttt{62353}.
 
 \newpage
 
