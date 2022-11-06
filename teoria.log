@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.3.15)  5 NOV 2022 21:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.3.15)  6 NOV 2022 22:25
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -150,6 +150,11 @@ Package: multicol 2019/12/09 v1.8y multicolumn formatting (FMi)
 \mult@nat@firstbox=\box89
 \colbreak@box=\box90
 \mc@col@check@num=\count189
+)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyphenat/hyphenat.sty
+Package: hyphenat 2009/09/02 v2.3c hyphenation utilities
+\langwohyphens=\language86
+LaTeX Info: Redefining \_ on input line 43.
 )
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2020/01/20 v2.17e AMS math features
@@ -398,24 +403,24 @@ LaTeX Warning: Unused global option(s):
 (./teoria.aux)
 \openout1 = `teoria.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Info: Redefining \l on input line 36.
-LaTeX Info: Redefining \L on input line 36.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Info: Redefining \l on input line 37.
+LaTeX Info: Redefining \L on input line 37.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -460,7 +465,7 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 147.
 )
-Package hyperref Info: Link coloring ON on input line 36.
+Package hyperref Info: Link coloring ON on input line 37.
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
@@ -474,9 +479,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count280
 )
-LaTeX Info: Redefining \ref on input line 36.
-LaTeX Info: Redefining \pageref on input line 36.
-LaTeX Info: Redefining \nameref on input line 36.
+LaTeX Info: Redefining \ref on input line 37.
+LaTeX Info: Redefining \pageref on input line 37.
+LaTeX Info: Redefining \nameref on input line 37.
  (./teoria.out) (./teoria.out)
 \@outlinefile=\write3
 \openout3 = `teoria.out'.
@@ -504,19 +509,19 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    Trying to load font information for U+msa on input line 41.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 42.
 
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 41.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 42.
 
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 41
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 42
 .
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/jknapltx/ursfs.fd
@@ -525,12 +530,12 @@ File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 <Imatges portada/fme.png, id=84, 436.63126pt x 116.435pt>
 File: Imatges portada/fme.png Graphic file (type png)
 <use Imatges portada/fme.png>
-Package pdftex.def Info: Imatges portada/fme.png  used on input line 45.
+Package pdftex.def Info: Imatges portada/fme.png  used on input line 46.
 (pdftex.def)             Requested size: 170.71652pt x 45.52316pt.
 <Imatges portada/UB.png, id=85, 1284.8pt x 386.44376pt>
 File: Imatges portada/UB.png Graphic file (type png)
 <use Imatges portada/UB.png>
-Package pdftex.def Info: Imatges portada/UB.png  used on input line 47.
+Package pdftex.def Info: Imatges portada/UB.png  used on input line 48.
 (pdftex.def)             Requested size: 170.71652pt x 51.348pt.
  [1
 
@@ -543,15 +548,21 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.55 
-      [1]pdfTeX warning (ext4): destination with the same identifier (name{page
-.1}) has been already used, duplicate ignored
+l.56 
+      [1]
+Overfull \hbox (1.28227pt too wide) in paragraph at lines 61--62
+\T1/cmr/m/n/12 BigQuery és un mo-tor d'a-nà-li-si de ma-cro-da-des (\T1/cmr/m/i
+t/12 Big Da-ta\T1/cmr/m/n/12 ) que per-met exe-cu-tar con-sul-tes
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.84 
+l.85 
       [1]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
-06.
+07.
  (/usr/local/texlive/2020/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
@@ -559,13 +570,13 @@ File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 File: BigQuery/Imatges tutorial/bq1.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq1.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq1.png  used on input line 
-111.
+112.
 (pdftex.def)             Requested size: 206.28247pt x 61.69745pt.
 <BigQuery/Imatges tutorial/bq2.png, id=133, 570.13pt x 228.855pt>
 File: BigQuery/Imatges tutorial/bq2.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq2.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq2.png  used on input line 
-113.
+114.
 (pdftex.def)             Requested size: 206.28247pt x 82.80328pt.
 
 [2 <./BigQuery/Imatges tutorial/bq1.png> <./BigQuery/Imatges tutorial/bq2.png>]
@@ -573,35 +584,48 @@ Package pdftex.def Info: BigQuery/Imatges tutorial/bq2.png  used on input line
 File: BigQuery/Imatges tutorial/bq3.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq3.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq3.png  used on input line 
-159.
+160.
 (pdftex.def)             Requested size: 206.28247pt x 129.01227pt.
 <BigQuery/Imatges tutorial/bq4.png, id=143, 1144.275pt x 715.67375pt>
 File: BigQuery/Imatges tutorial/bq4.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq4.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq4.png  used on input line 
-161.
+162.
 (pdftex.def)             Requested size: 206.28247pt x 129.01227pt.
 <BigQuery/Imatges tutorial/bq5.png, id=145, 1144.275pt x 715.67375pt>
 File: BigQuery/Imatges tutorial/bq5.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq5.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq5.png  used on input line 
-173.
+174.
 (pdftex.def)             Requested size: 284.52756pt x 177.957pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+
+Overfull \hbox (31.19582pt too wide) in paragraph at lines 181--182
+[]\T1/cmr/m/n/12 Un cop cre-at [][]\T1/cmtt/m/n/12 dades_projecte[]\T1/cmr/m/n/
+12 , es pot com-pro-var que ara apa-reix dins de [][]\T1/cmtt/m/n/12 el_meu_pro
+jecte
+ []
+
 [3 <./BigQuery/Imatges tutorial/bq3.png> <./BigQuery/Imatges tutorial/bq4.png>]
+
+Overfull \hbox (7.47975pt too wide) in paragraph at lines 187--187
+[]\T1/cmr/bx/n/14.4 Definició d'u-na tau-la de Big-Query des de la in-ter-fí-ci
+e d'u-su-a-ri 
+ []
+
 <BigQuery/Imatges tutorial/bq6.png, id=156, 648.4225pt x 365.365pt>
 File: BigQuery/Imatges tutorial/bq6.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq6.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq6.png  used on input line 
-193.
+194.
 (pdftex.def)             Requested size: 206.28247pt x 116.23346pt.
 <BigQuery/Imatges tutorial/bq7 copia.png, id=157, 1142.2675pt x 615.29875pt>
 File: BigQuery/Imatges tutorial/bq7 copia.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq7 copia.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq7 copia.png  used on input
- line 195.
+ line 196.
 (pdftex.def)             Requested size: 206.28247pt x 111.11514pt.
 [4 <./BigQuery/Imatges tutorial/bq5.png> <./BigQuery/Imatges tutorial/bq6.png> 
 <./BigQuery/Imatges tutorial/bq7 copia.png>]
@@ -609,115 +633,118 @@ Package pdftex.def Info: BigQuery/Imatges tutorial/bq7 copia.png  used on input
 File: BigQuery/Imatges tutorial/bq8.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq8.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq8.png  used on input line 
-207.
+208.
 (pdftex.def)             Requested size: 284.52756pt x 153.26099pt.
  [5 <./BigQuery/Imatges tutorial/bq8.png>]
 <BigQuery/Imatges tutorial/bq9.png, id=180, 1364.09625pt x 663.47874pt>
 File: BigQuery/Imatges tutorial/bq9.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq9.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq9.png  used on input line 
-246.
+248.
 (pdftex.def)             Requested size: 206.28247pt x 100.32742pt.
 <BigQuery/Imatges tutorial/bq10.png, id=181, 1044.90375pt x 534.99875pt>
 File: BigQuery/Imatges tutorial/bq10.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq10.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq10.png  used on input line
- 248.
+ 250.
 (pdftex.def)             Requested size: 206.28247pt x 105.61823pt.
 <BigQuery/Imatges tutorial/bq11.png, id=183, 782.925pt x 145.54375pt>
 File: BigQuery/Imatges tutorial/bq11.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq11.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq11.png  used on input line
- 271.
+ 273.
 (pdftex.def)             Requested size: 341.43306pt x 63.4709pt.
- [6 <./BigQuery/Imatges tutorial/bq9.png> <./BigQuery/Imatges tutorial/bq10.png
-> <./BigQuery/Imatges tutorial/bq11.png>]
-<BigQuery/Imatges tutorial/bq12.png, id=193, 1144.275pt x 598.235pt>
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[6 <./BigQuery/Imatges tutorial/bq9.png> <./BigQuery/Imatges tutorial/bq10.png>
+]
+<BigQuery/Imatges tutorial/bq12.png, id=192, 1144.275pt x 598.235pt>
 File: BigQuery/Imatges tutorial/bq12.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq12.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq12.png  used on input line
- 285.
+ 289.
 (pdftex.def)             Requested size: 206.28247pt x 107.84195pt.
-<BigQuery/Imatges tutorial/bq13.png, id=194, 1144.275pt x 598.235pt>
+<BigQuery/Imatges tutorial/bq13.png, id=193, 1144.275pt x 598.235pt>
 File: BigQuery/Imatges tutorial/bq13.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq13.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq13.png  used on input line
- 287.
+ 291.
 (pdftex.def)             Requested size: 206.28247pt x 107.84195pt.
-<BigQuery/Imatges tutorial/bq13_2.png, id=196, 1099.10625pt x 490.83376pt>
+ [7 <./BigQuery/Imatges tutorial/bq11.png> <./BigQuery/Imatges tutorial/bq12.pn
+g> <./BigQuery/Imatges tutorial/bq13.png>]
+<BigQuery/Imatges tutorial/bq13_2.png, id=203, 1099.10625pt x 490.83376pt>
 File: BigQuery/Imatges tutorial/bq13_2.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq13_2.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq13_2.png  used on input li
-ne 308.
+ne 316.
 (pdftex.def)             Requested size: 206.28247pt x 92.12097pt.
-<BigQuery/Imatges tutorial/bq13_3.png, id=197, 1099.10625pt x 490.83376pt>
+<BigQuery/Imatges tutorial/bq13_3.png, id=204, 1099.10625pt x 490.83376pt>
 File: BigQuery/Imatges tutorial/bq13_3.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq13_3.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq13_3.png  used on input li
-ne 310.
+ne 318.
 (pdftex.def)             Requested size: 206.28247pt x 92.12097pt.
 
+Overfull \hbox (2.9877pt too wide) in paragraph at lines 327--327
+[]\T1/cmr/bx/n/14.4 Consulta de da-des i vi-su-a-lit-za-ció d'es-ta-dís-ti-ques
+ de con-sul-tes 
+ []
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[7 <./BigQuery/Imatges tutorial/bq12.png> <./BigQuery/Imatges tutorial/bq13.png
->]
-<BigQuery/Imatges tutorial/bq14.png, id=207, 781.92125pt x 127.47626pt>
+<BigQuery/Imatges tutorial/bq14.png, id=206, 781.92125pt x 127.47626pt>
 File: BigQuery/Imatges tutorial/bq14.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq14.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq14.png  used on input line
- 326.
+ 334.
 (pdftex.def)             Requested size: 206.28247pt x 33.62932pt.
-<BigQuery/Imatges tutorial/bq15.png, id=208, 781.92125pt x 127.47626pt>
+<BigQuery/Imatges tutorial/bq15.png, id=207, 781.92125pt x 127.47626pt>
 File: BigQuery/Imatges tutorial/bq15.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq15.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq15.png  used on input line
- 328.
+ 336.
 (pdftex.def)             Requested size: 206.28247pt x 33.62932pt.
-<BigQuery/Imatges tutorial/bq19.png, id=210, 766.865pt x 490.83376pt>
-File: BigQuery/Imatges tutorial/bq19.png Graphic file (type png)
-<use BigQuery/Imatges tutorial/bq19.png>
-Package pdftex.def Info: BigQuery/Imatges tutorial/bq19.png  used on input line
- 355.
-(pdftex.def)             Requested size: 284.52756pt x 182.11493pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
 [8 <./BigQuery/Imatges tutorial/bq13_2.png> <./BigQuery/Imatges tutorial/bq13_3
 .png> <./BigQuery/Imatges tutorial/bq14.png> <./BigQuery/Imatges tutorial/bq15.
 png>]
-<BigQuery/Imatges tutorial/bq17.png, id=223, 1139.25626pt x 602.25pt>
+<BigQuery/Imatges tutorial/bq19.png, id=219, 766.865pt x 490.83376pt>
+File: BigQuery/Imatges tutorial/bq19.png Graphic file (type png)
+<use BigQuery/Imatges tutorial/bq19.png>
+Package pdftex.def Info: BigQuery/Imatges tutorial/bq19.png  used on input line
+ 366.
+(pdftex.def)             Requested size: 284.52756pt x 182.11493pt.
+ [9 <./BigQuery/Imatges tutorial/bq19.png>]
+<BigQuery/Imatges tutorial/bq17.png, id=228, 1139.25626pt x 602.25pt>
 File: BigQuery/Imatges tutorial/bq17.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq17.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq17.png  used on input line
- 381.
+ 396.
 (pdftex.def)             Requested size: 206.28247pt x 109.04358pt.
-<BigQuery/Imatges tutorial/bq18.png, id=224, 1139.25626pt x 602.25pt>
+<BigQuery/Imatges tutorial/bq18.png, id=229, 1139.25626pt x 602.25pt>
 File: BigQuery/Imatges tutorial/bq18.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq18.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq18.png  used on input line
- 383.
+ 398.
 (pdftex.def)             Requested size: 206.28247pt x 109.04358pt.
- [9 <./BigQuery/Imatges tutorial/bq19.png>] [10 <./BigQuery/Imatges tutorial/bq
-17.png> <./BigQuery/Imatges tutorial/bq18.png>]
+ [10 <./BigQuery/Imatges tutorial/bq17.png> <./BigQuery/Imatges tutorial/bq18.p
+ng>]
 <BigQuery/Imatges tutorial/bq20.png, id=238, 476.78125pt x 327.2225pt>
 File: BigQuery/Imatges tutorial/bq20.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq20.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq20.png  used on input line
- 409.
+ 424.
 (pdftex.def)             Requested size: 284.52756pt x 195.28647pt.
 <BigQuery/Imatges tutorial/bq21.png, id=241, 747.79375pt x 530.98375pt>
 File: BigQuery/Imatges tutorial/bq21.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq21.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq21.png  used on input line
- 423.
+ 438.
 (pdftex.def)             Requested size: 206.28247pt x 146.47064pt.
 <BigQuery/Imatges tutorial/bq22.png, id=242, 747.79375pt x 530.98375pt>
 File: BigQuery/Imatges tutorial/bq22.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq22.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq22.png  used on input line
- 425.
+ 440.
 (pdftex.def)             Requested size: 206.28247pt x 146.47064pt.
 
 
@@ -728,123 +755,141 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: BigQuery/Imatges tutorial/bq23.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq23.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq23.png  used on input line
- 442.
+ 457.
 (pdftex.def)             Requested size: 284.52756pt x 194.97011pt.
- [12 <./BigQuery/Imatges tutorial/bq21.png> <./BigQuery/Imatges tutorial/bq22.p
-ng> <./BigQuery/Imatges tutorial/bq23.png>]
+
+Overfull \hbox (8.89279pt too wide) in paragraph at lines 464--465
+[]\T1/cmr/m/n/12 Els re-sul-tats d'a-ques-ta con-sul-ta ens di-uen que els po-b
+les ca-ta-lans amb menys co-ber-tu-ra
+ []
+
+[12 <./BigQuery/Imatges tutorial/bq21.png> <./BigQuery/Imatges tutorial/bq22.pn
+g> <./BigQuery/Imatges tutorial/bq23.png>]
+Overfull \hbox (6.113pt too wide) in paragraph at lines 476--477
+\T1/cmr/m/n/12 Una al-tra fun-ció que pre-sen-ta la pla-ta-for-ma és la lec-tu-
+ra d'ar-xius ex-terns que s'ac-tu-a-lit-zen
+ []
+
 <BigQuery/Imatges tutorial/bq24.png, id=267, 1125.20375pt x 614.295pt>
 File: BigQuery/Imatges tutorial/bq24.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq24.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq24.png  used on input line
- 466.
+ 481.
 (pdftex.def)             Requested size: 284.52756pt x 155.33556pt.
- [13 <./BigQuery/Imatges tutorial/bq24.png>]
+[13 <./BigQuery/Imatges tutorial/bq24.png>]
 <BigQuery/Imatges tutorial/bq25.png, id=276, 890.32625pt x 614.295pt>
 File: BigQuery/Imatges tutorial/bq25.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq25.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq25.png  used on input line
- 479.
+ 494.
 (pdftex.def)             Requested size: 284.52756pt x 196.31595pt.
  [14 <./BigQuery/Imatges tutorial/bq25.png>]
 <BigQuery/Imatges tutorial/bq26.png, id=282, 729.72626pt x 425.59pt>
 File: BigQuery/Imatges tutorial/bq26.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq26.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq26.png  used on input line
- 529.
+ 544.
 (pdftex.def)             Requested size: 284.52756pt x 165.94046pt.
  [15 <./BigQuery/Imatges tutorial/bq26.png>]
 <BigQuery/Imatges tutorial/bq27.png, id=291, 1138.2525pt x 610.28pt>
 File: BigQuery/Imatges tutorial/bq27.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq27.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq27.png  used on input line
- 543.
+ 560.
 (pdftex.def)             Requested size: 284.52756pt x 152.551pt.
+
+Overfull \hbox (5.69516pt too wide) in paragraph at lines 567--568
+[]\T1/cmr/m/n/12 Data Stu-dio, per de-fec-te, ha en-tès que una tau-la de re-co
+mp-te es vi-su-a-lit-za nor-mal-ment
+ []
+
 <BigQuery/Imatges tutorial/bq28.png, id=293, 798.985pt x 610.28pt>
 File: BigQuery/Imatges tutorial/bq28.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq28.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq28.png  used on input line
- 555.
+ 572.
 (pdftex.def)             Requested size: 206.28247pt x 157.56091pt.
 <BigQuery/Imatges tutorial/bq29.png, id=294, 742.775pt x 467.7475pt>
 File: BigQuery/Imatges tutorial/bq29.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/bq29.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/bq29.png  used on input line
- 557.
+ 574.
 (pdftex.def)             Requested size: 206.28247pt x 129.89781pt.
 <BigQuery/Imatges tutorial/ds1.png, id=296, 1142.2675pt x 510.90875pt>
 File: BigQuery/Imatges tutorial/ds1.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/ds1.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/ds1.png  used on input line 
-572.
+589.
 (pdftex.def)             Requested size: 284.52756pt x 127.25912pt.
- [16 <./BigQuery/Imatges tutorial/bq27.png> <./BigQuery/Imatges tutorial/bq28.p
-ng> <./BigQuery/Imatges tutorial/bq29.png>]
+[16 <./BigQuery/Imatges tutorial/bq27.png> <./BigQuery/Imatges tutorial/bq28.pn
+g> <./BigQuery/Imatges tutorial/bq29.png>]
 <BigQuery/Imatges tutorial/ds2.png, id=307, 1431.3475pt x 706.64pt>
 File: BigQuery/Imatges tutorial/ds2.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/ds2.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/ds2.png  used on input line 
-584.
+601.
 (pdftex.def)             Requested size: 206.28247pt x 101.82939pt.
 <BigQuery/Imatges tutorial/ds3.png, id=308, 1431.3475pt x 706.64pt>
 File: BigQuery/Imatges tutorial/ds3.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/ds3.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/ds3.png  used on input line 
-586.
+603.
 (pdftex.def)             Requested size: 206.28247pt x 101.82939pt.
 <BigQuery/Imatges tutorial/ds4.png, id=310, 753.81625pt x 561.09625pt>
 File: BigQuery/Imatges tutorial/ds4.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/ds4.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/ds4.png  used on input line 
-605.
+624.
 (pdftex.def)             Requested size: 206.28247pt x 153.54424pt.
 <BigQuery/Imatges tutorial/ds5.png, id=311, 753.81625pt x 561.09625pt>
 File: BigQuery/Imatges tutorial/ds5.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/ds5.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/ds5.png  used on input line 
-607.
+626.
 (pdftex.def)             Requested size: 206.28247pt x 153.54424pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<BigQuery/Imatges tutorial/ds6.png, id=313, 1442.38875pt x 768.8725pt>
+[17 <./BigQuery/Imatges tutorial/ds1.png> <./BigQuery/Imatges tutorial/ds2.png>
+ <./BigQuery/Imatges tutorial/ds3.png>]
+<BigQuery/Imatges tutorial/ds6.png, id=324, 1442.38875pt x 768.8725pt>
 File: BigQuery/Imatges tutorial/ds6.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/ds6.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/ds6.png  used on input line 
-620.
+641.
 (pdftex.def)             Requested size: 206.28247pt x 109.95262pt.
-<BigQuery/Imatges tutorial/ds7.png, id=314, 1442.38875pt x 768.8725pt>
+<BigQuery/Imatges tutorial/ds7.png, id=325, 1442.38875pt x 768.8725pt>
 File: BigQuery/Imatges tutorial/ds7.png Graphic file (type png)
 <use BigQuery/Imatges tutorial/ds7.png>
 Package pdftex.def Info: BigQuery/Imatges tutorial/ds7.png  used on input line 
-622.
+643.
 (pdftex.def)             Requested size: 206.28247pt x 109.95262pt.
-[17 <./BigQuery/Imatges tutorial/ds1.png> <./BigQuery/Imatges tutorial/ds2.png>
- <./BigQuery/Imatges tutorial/ds3.png>] [18 <./BigQuery/Imatges tutorial/ds4.pn
-g> <./BigQuery/Imatges tutorial/ds5.png> <./BigQuery/Imatges tutorial/ds6.png> 
-<./BigQuery/Imatges tutorial/ds7.png>] [19] [20] (./teoria.lof)
+ [18 <./BigQuery/Imatges tutorial/ds4.png> <./BigQuery/Imatges tutorial/ds5.png
+> <./BigQuery/Imatges tutorial/ds6.png> <./BigQuery/Imatges tutorial/ds7.png>] 
+[19] [20] (./teoria.lof)
 \tf@lof=\write5
 \openout5 = `teoria.lof'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 720.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 742.
  [21]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 720.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 742.
 
 (./teoria.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 720.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 720.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 742.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 742.
 Package rerunfilecheck Info: File `teoria.out' has not changed.
 (rerunfilecheck)             Checksum: B996B35695B1E7E8419CEC2FD81C64A4;1773.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 720.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 742.
  ) 
 Here is how much of TeX's memory you used:
- 8336 strings out of 480608
- 124064 string characters out of 5903630
- 400316 words of memory out of 5000000
- 23972 multiletter control sequences out of 15000+600000
+ 8371 strings out of 480608
+ 124585 string characters out of 5903630
+ 401102 words of memory out of 5000000
+ 24003 multiletter control sequences out of 15000+600000
  550410 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,9n,34p,1402b,370s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,10n,34p,1103b,477s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<
 /usr/local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></u
@@ -858,7 +903,7 @@ live/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texli
 ve/2020/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/texlive
 /2020/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2
 020/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on teoria.pdf (23 pages, 6153147 bytes).
+Output written on teoria.pdf (23 pages, 6153235 bytes).
 PDF statistics:
  434 PDF objects out of 1000 (max. 8388607)
  316 compressed objects within 4 object streams
