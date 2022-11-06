@@ -6,6 +6,7 @@
 \renewcommand{\thefootnote}{\arabic{footnote}}
 \usepackage{multicol}
 \setlength{\columnsep}{10mm}
+\usepackage[none]{hyphenat}
 
 \usepackage{amsmath, amsthm, amsfonts, amssymb}
 \newtheorem{thm}{Theorem}[section]
@@ -73,11 +74,11 @@ Per a més informació sobre BigQuery, es pot consultar la pàgina de \href{http
 
 \subsection{Per què hauríem d'utilitzar BigQuery en lloc d'altres eines?}
 
-Una de les característiques més rellevants que presenta BigQuery és que es tracta d'una plataforma sense servidor, és a dir, que els servidors s'executen en segon pla, sense la intervenció de l'usuari. A més, presenta una alta disponibilitat, la qual cosa es tradueix en que no cal preocupar-se per la caiguda dels servidors, ja que la plataforma s'encarrega d'això. També té propietats d'escalabilitat automàtica que fan possible gestionar fins a petabytes de dades. Aquestes característiques no estan disponibles a la majoria de plataformes d'emmagatzemament de dades tradicionals, i fan destacar BigQuery entre moltes.
+Una de les característiques més rellevants que presenta BigQuery és que es tracta d'una plataforma sense servidor, és a dir, que els servidors s'executen en segon pla, sense la intervenció de l'usuari. A més, presenta una alta disponibilitat, la qual cosa es tradueix en que no cal preocupar-se per la caiguda dels servidors, ja que la plataforma s'encarrega del seu manteniment. També té propietats d'escalabilitat automàtica que fan possible gestionar fins a petabytes de dades. Aquestes característiques no estan disponibles a la majoria de plataformes d'emmagatzemament de dades tradicionals, i fan destacar BigQuery entre moltes.
 
 \vspace{2mm}
 
-Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb moltes fonts de dades diferents. Es poden pujar les dades des del propi sistema d'arxius, des de Google Cloud Storage o des de Google Drive, entre moltes més fonts. Després de fer-ho, es poden consultar aquestes dades utilitzant SQL estàndard o SQL heretat. Els resultats de les consultes solen emmagatzemar-se en la memòria cau durant 24 hores, de manera que les següents execucions d'aquesta consulta només hauran d'obtenir les dades de la memòria cau en lloc de fer-ho del disc. 
+Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb moltes fonts de dades diferents. Es poden pujar les dades des del propi sistema d'arxius, des de Google Cloud Storage o des de Google Drive, entre moltes més fonts. Després de fer-ho, es poden consultar aquestes dades utilitzant SQL estàndard o SQL heretat. Els resultats de les consultes solen emmagatzemar-se en la memòria cau durant 24 hores, de manera que les següents execucions d'aquesta consulta només hauran d'obtenir les dades de la memòria cau en lloc de fer-ho del disc. És a dir, estarà lliure de cost fer la mateixa consulta en un plaç de 24 hores, ja que no s'haurà de tornar a examinar la base de dades per obtenir el resultat.
 
 
 \pagebreak
@@ -88,8 +89,8 @@ Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb mol
 
 \graphicspath{ {BigQuery/Imatges tutorial/} }
 
-Per utilitzar aquesta eina d’anàlisi només ens caldrà crear un compte a Google Cloud i treballar a la zona de proves que ofereix Google per operar de forma gratuïta.
-Per fer servir la zona de proves (\textit{Sandbox}) seguirem els passos següents: 
+Per utilitzar aquesta eina d’anàlisi només ens caldrà crear un compte a Google Cloud i treballar a la zona de proves (\textit{Sandbox}) que ofereix Google per operar de forma gratuïta.
+Per fer servir la zona de proves seguirem els passos següents: 
 
 \vspace{2mm}
 
@@ -103,7 +104,7 @@ Per fer servir la zona de proves (\textit{Sandbox}) seguirem els passos següent
 
 3. Un cop dins, podem veure com és l'espai de treball SQL. Hi ha una secció de l'Explorador a l'esquerra que ens permet navegar en projectes, conjunts de dades i taules. Per tal de fer servir la zona de proves, haurem de crear un projecte.
 
-Introdueix un nom al teu projecte i fes clic a \textit{Create}. En el nostre cas, hem anomenat el projecte \verb|el_meu_projecte| (Figura ~\ref{fig:bq1}), i treballarem sobre aquest per il·lustrar el funcionament de la plataforma.
+S'introdueix un nom al projecte i fem clic a \textit{Create}. En el nostre cas, l'hem anomenat \verb|el_meu_projecte| (Figura ~\ref{fig:bq1}), i treballarem sobre aquest per il·lustrar el funcionament de la plataforma.
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -129,11 +130,11 @@ Això no obstant, per a l’ús de la zona de proves gratuïta que ofereix Googl
 
 \vspace{2mm}
 
-En primer lloc, ens trobem amb un màxim de 10 Gb d’emmagatzemament i 10 Tb de consulta al mes. Al llarg d’aquest projecte no utilitzarem un volum de dades més gran ni sobrepassarem el límit d’espai de consulta, però s’han de tenir en compte aquestes limitacions si l’objectiu és treballar amb el format gratuït.
+En primer lloc, ens trobem amb un màxim de 10 Gb d’emmagatzemament i 10 Tb de consulta al mes. Al llarg d’aquest exemple no utilitzarem un volum de dades més gran ni sobrepassarem el límit d’espai de consulta, però s’han de tenir en compte aquestes limitacions si l’objectiu és treballar amb el format gratuït.
 
 \vspace{2mm}
 
-A més, ens trobem que tots els conjunts de dades tenen el temps de caducitat de la taula per defecte establerta en seixanta dies. Per tant, totes les taules, vistes o particions de les taules caducaran automàticament passats els seixanta dies.
+A més, ens trobem que tots els conjunts de dades tenen el temps de caducitat de la taula per defecte establerta en seixanta dies. Per tant, totes les taules, vistes o particions de les taules caducaran automàticament passat aquest temps.
 
 \vspace{2mm}
 
@@ -141,17 +142,17 @@ Una altra característica destacable és que els projectes de la zona de proves 
 
 - La transmissió de dades
 
-- Sentència de llenguatge de manipulació de dades (DML)
+- Sentències de llenguatge de manipulació de dades (DML)
 
-- Servei de transferència de dades de BigQuery
+- El servei de transferència de dades de BigQuery
 
 \subsection{Creació d'un conjunt de dades}
 
-Ara que ja coneixem les limitacions de la plataforma i disposem d'un projecte en el qual crear un conjunt de dades, ha arribat el moment de crear un nou conjunt de dades dins d'aquest projecte. Es pot pensar en un conjunt de dades a BigQuery com una agrupació lògica de taules. Alhora, diferents conjunts de dades s'integren en un mateix projecte. 
+Ara que ja disposem d'un projecte en el qual treballar, ha arribat el moment de crear un nou conjunt de dades dins d'aquest. Es pot pensar en un conjunt de dades a BigQuery com una agrupació lògica de taules. Alhora, diferents conjunts de dades s'integren en un mateix projecte. 
 
 \vspace{2mm}
 
-Per a crear-ne un, només s'ha de desplegar el menú i triar l'opció de crear un nou conjunt de dades. Tot seguit hi ha diversos detalls per al conjunt de dades que es poden establir. En primer lloc, hi ha l'opció de canviar el projecte que l'encabirà. Això farà que aparegui un navegador on es podrà especificar el projecte. Una altra possibilitat serà escollir la ubicació de les dades. Això determina on s'aprovisionaran els recursos subjacents, com la computació i l'emmagatzematge, per al servei BigQuery. Les consideracions a l'hora de triar una ubicació inclouran el rendiment per als usuaris finals, l'alta disponibilitat i també qualsevol restricció d'auditoria o compliment. I, per últim, es pot establir un temps d'expiració per defecte per a les taules dins d'un conjunt de dades.
+Per a crear-ne un, només s'ha de desplegar el menú i triar l'opció de \texttt{crear un nou conjunt de dades}. Tot seguit, hi ha diversos detalls per al conjunt de dades que es poden establir. En primer lloc, hi ha l'opció de canviar el projecte que l'encabirà. Això farà que aparegui un navegador on es podrà especificar el projecte. Una altra possibilitat serà escollir la ubicació de les dades. Això determina on s'aprovisionaran els recursos subjacents, com la computació i l'emmagatzematge, per al servei BigQuery. Les consideracions a l'hora de triar una ubicació inclouran el rendiment per als usuaris finals, l'alta disponibilitat i també qualsevol restricció d'auditoria o compliment. I, per últim, es pot establir un temps d'expiració per defecte per a les taules dins d'un conjunt de dades.
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -165,7 +166,7 @@ Per a crear-ne un, només s'ha de desplegar el menú i triar l'opció de crear u
 \end{figure}
 \vspace{2mm}
 
-Tal com es pot veure a la figura ~\ref{fig:bq3}, hem creat un nou conjunt de dades anomenat \verb|dades_projecte| que estarà ubicat en el projecte \verb|el_meu_projecte|, la ubicació de les dades l'hem posat a diverses regions dels Estats Units i, per últim, no hem habilitat un temps de venciment de la taula, sinó que per defecte BigQuery l'emmagatzemarà per seixanta dies.
+Tal com es pot veure a la figura ~\ref{fig:bq3}, hem creat un nou conjunt de dades anomenat \verb|dades_projecte| que estarà ubicat en el projecte \verb|el_meu_projecte|, la ubicació de les dades l'hem posat a diverses regions dels Estats Units i, per últim, no hem habilitat un temps de venciment de la taula, sinó que per defecte BigQuery l'emmagatzemarà per 60 dies.
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -177,7 +178,7 @@ Tal com es pot veure a la figura ~\ref{fig:bq3}, hem creat un nou conjunt de dad
 \end{figure}
 \vspace{2mm}
 
-Un cop creat, el conjunt de dades \verb|dades_projecte|, es pot comprovar que ara apareix dins de \verb|el_meu_projecte| a la UI de BigQuery i, ampliant això, s'observa que no hi ha taules dins d'aquest. Ara, es pot donar un cop d'ull als detalls associats a aquest conjunt de dades (Figura ~\ref{fig:bq5}). Des d'aquest menú, podem triar obrir-lo, moment en el qual la informació del conjunt de dades apareix a la dreta. Aquí podem confirmar l'identificador del conjunt de dades, que també assenyala el projecte en el qual s'ha creat el conjunt de dades, i després altres detalls que inclouen les hores de creació i modificació, així com la ubicació d'aquest.
+Un cop creat \verb|dades_projecte|, es pot comprovar que ara apareix dins de \verb|el_meu_projecte| a la interfície d'usuari (UI) de BigQuery, i s'observa que no hi ha taules dins d'aquest. També es pot donar un cop d'ull als detalls associats a aquest conjunt de dades (Figura ~\ref{fig:bq5}). Des d'aquest menú, podem triar obrir-lo, i es desplegarà a la dreta tota la informació del conjunt de dades. Aquí podem confirmar l'identificador del conjunt de dades, que també assenyala el projecte en el qual s'ha creat el conjunt de dades, i després altres detalls que inclouen les hores de creació i modificació, així com la ubicació d'aquest.
 
 \vspace{2mm}
 
@@ -185,7 +186,7 @@ A més, des d'aquesta finestra podrem compartir el conjunt de dades amb altres u
 
 \subsection{Definició d'una taula de BigQuery des de la interfície d'usuari}
 
-Després d'haver creat un conjunt de dades en un projecte, ja es pot crear una taula dins d'aquest conjunt de dades. Si tenim la informació del conjunt de dades, hauríem de veure aquesta opció per a crear una nova taula des d'aquí. Alternativament, podem dirigir-nos al projecte, després al conjunt de dades i triar l'opció de crear una taula. Apareixerà un formulari i tindrem l'opció d'especificar una font per a la nostra taula. Això ens permetrà extreure dades de fonts ja existents, com l'emmagatzematge en el núvol de Google o bé un arxiu dels nostres propis sistemes. La primera taula que crearem serà bastant simple, i ens servirà per explorar una mica la plataforma. De fet, serà una taula buida anomenada \verb|accidents| (Figura ~\ref{fig:bq6}). 
+Després d'haver creat un conjunt o base de dades en un projecte, ja es pot crear una taula dins d'ell. Si tenim la informació de la base, hauríem de veure aquesta opció per a crear una nova taula des d'aquí. Alternativament, podem dirigir-nos al projecte, després al conjunt de dades i triar l'opció de crear una taula. Apareixerà un formulari i tindrem l'opció d'especificar una font per a la nostra taula. Això ens permetrà importar dades de fonts ja existents, com l'emmagatzematge en el núvol de Google o bé un arxiu dels nostres propis sistemes. La primera taula que crearem serà bastant simple, i ens servirà per explorar una mica la plataforma. De fet, serà una taula buida anomenada \verb|accidents| (Figura ~\ref{fig:bq6}). 
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -199,7 +200,7 @@ Després d'haver creat un conjunt de dades en un projecte, ja es pot crear una t
 \end{figure}
 \vspace{2mm}
 
-A continuació, passem a la secció d'Esquema. Podem fer ús d'aquesta interfície per a establir les columnes de la nostra taula, incloent-hi els tipus i altres configuracions. La primera columna que definiré és l'identificador de l'accident, que s'anomenarà \verb|ST_CASE|. Per al tipus de variable, podem triar d'entre menú d'opcions, que inclou tots els tipus amb els quals ja estem familiaritzats. Quant a la manera (columna \textit{modo} a la figura ~\ref{fig:bq8}), aquesta determinarà si els valors d'aquesta columna poden ser nuls o si es requereix un valor (com és el cas de l'identificador), i també podem establir que els valors siguin d'un tipus que es pugui repetir, marcant \textit{indistint}. Finalment, es pot escriure una descripció per a la variable, que és opcional. 
+A continuació, passem a la secció d'\texttt{Esquema}. Podem fer ús d'aquesta interfície per a establir les columnes de la nostra taula, incloent-hi els tipus i altres configuracions. La primera columna que definirem és l'identificador de l'accident, que s'anomenarà \verb|ST_CASE|. Per al tipus de variable, podem triar d'entre menú d'opcions, que inclou tots els tipus amb els quals ja estem familiaritzats. Quant a la manera (columna \textit{modo} a la figura ~\ref{fig:bq8}), aquesta determinarà si els valors d'aquesta columna poden ser nuls o si es requereix un valor (com és el cas de l'identificador), i també podem establir que els valors siguin d'un tipus que es pugui repetir, marcant \textit{indistint}. Finalment, es pot escriure una descripció per a la variable, que és opcional. 
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -217,12 +218,13 @@ La taula ~\ref{tab:taula1} que acabem de crear està formada per 8 variables, 6 
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{|l|l|l|}
 \hline
-Variable  & Tipus      & Descripció                                                                                                        \\ \hline
+\textbf{Variable}  & \textbf{Tipus}      & \textbf{Descripció}                                                                                                        \\ \hline
 ST\_CASE       & Numèrica & Codi de l'accident                                                                                   \\ \hline
 DAY       & Numèrica & Dia de l’accident (de l’1 al 31)                                                                                    \\ \hline
 HOUR      & Numèrica   & Hora de l’accident (99 = desconeguda)                                                                               \\ \hline
 MINUTE    & Numèrica   & Minut de l’accident (99 = desconegut)                                                                               \\ \hline
-RUR\_URB  & Categòrica & Informació sobre la localització (1 = Rural, 2 = Urbà, 6 = Via no classificada, 8 = No registrat, 9 = Desconegut)   \\ \hline
+RUR\_URB  & Categòrica & Informació sobre la localització (1 = Rural, 2 = Urbà,   \\ 
+& & 6 = Via no classificada, 8 = No registrat, 9 = Desconegut) \\ \hline
 DAY\_WEEK & Categòrica & Dia de la setmana (1 = Diumenge, 2 = Dilluns, ..., 7 = Dissabte)                                                    \\ \hline
 FATALS    & Numèrica   & Nombre de ferits a l’accident                                                                                       \\ \hline
 DRUNK\_DR & Numèrica   & Nombre de conductors beguts involucrats a l’accident                                                                \\ \hline
@@ -238,7 +240,7 @@ En el transcurs del treball, farem ús d'aquesta taula, juntament amb dues més,
 
 \subsubsection{Afegir dades a una taula de BigQuery senzilla}
 
-Ara que hem creat una taula de consulta, podem centrar-nos a treballar amb ella. Per a això, ens desplaçarem cap avall i donarem un cop d'ull al primer esquema de la taula (a la figura ~\ref{fig:bq9}), on es troba a alguna informació interessant. Més enllà de la identificació de la taula, a l'esquerra de la figura, també podem comprovar la grandària de la taula a la dreta, que ens donarà una indicació de la quantitat de dades que es processaran, si anéssim a executar consultes sobre aquesta. La grandària d'emmagatzematge a llarg termini assenyala les dades a les quals no s'ha accedit en els últims noranta dies, i després, per descomptat, tenim les hores de creació i modificació juntament amb la ubicació de les dades de la taula. Des d'aquesta interfície, també podem editar els detalls existents d'aquesta taula. Aquí podem establir un temps de caducitat en cas que vulguem anul·lar el que s'ha establert en el nivell del conjunt de dades. També tenim l'opció d'establir una descripció o afegir etiquetes.
+Ara que hem creat una taula de consulta, podem centrar-nos a treballar amb ella. Per a això, ens desplaçarem cap avall i donarem un cop d'ull al primer esquema de la taula (a la figura ~\ref{fig:bq9}), on es troba a alguna informació interessant. Més enllà de la identificació de la taula, a l'esquerra de la figura, també podem comprovar la grandària de la taula a la dreta, que ens donarà una indicació de la quantitat de dades que es processarien en cas d'executar consultes sobre aquesta. La grandària d'emmagatzematge a llarg termini assenyala les dades a les quals no s'ha accedit en els últims 90 dies, i després, per descomptat, tenim les hores de creació i modificació, juntament amb la ubicació de les dades de la taula. Des d'aquesta interfície també podem editar els detalls existents d'aquesta taula. Aquí podem establir un temps de caducitat en cas que vulguem anul·lar el que s'ha establert en el nivell del conjunt de dades. També tenim l'opció d'establir una descripció o afegir etiquetes.
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -261,11 +263,11 @@ INSERT INTO `el-meu-projecte-358912.dades_projecte.accidents`
 VALUES (20055, 1, 20, 55, "1", "3", 3, 0);
 \end{verbatim}
 
-A partir d'aquesta consulta afegiríem a la taula el cas d'un accident amb identificador 20055, que es va produir el dia 1 del mes a les 20:55 a una zona rural (\verb|RUR_URB| = 1)un dimarts (\verb|DAY_WEEK| = 3), i en el que hi ha 3 ferits i cap conductor begut involucrat en l'accident.
+A partir d'aquesta consulta afegiríem a la taula el cas d'un accident amb identificador 20055, que es va produir el dia 1 del mes a les 20:55 a una zona rural (\verb|RUR_URB| = 1) un dimarts (\verb|DAY_WEEK| = 3), i en el que hi ha 3 ferits i cap conductor begut involucrat en l'accident.
 
 Això no obstant, quan intentem executar la consulta, BigQuery ens informa d'un error (Figura ~\ref{fig:bq11}). Si recordem, prèviament s'han definit algunes de les limitacions per a l'ús de la zona de proves de BigQuery. Entre aquestes s´hi troba que no podem utilitzar el llenguatge de manipulació de dades (DML), és a dir, que no podem modificar la taula amb sentències com \verb|INSERT INTO|, \verb|UPDATE| o \verb|DELETE|, per exemple. Per aquest motiu, l'error ens avisa que no tenim el nostre projecte vinculat a un compte i, per tant, no ens avaluarà la nostra consulta.
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=12cm]{bq11}
@@ -273,11 +275,13 @@ Això no obstant, quan intentem executar la consulta, BigQuery ens informa d'un 
 \caption{Inserció de dades a la taula}
 \label{fig:bq11}
 \end{figure}
-\vspace{2mm}
+
+
+\newpage
 
 \subsection{Càrrega de dades per crear una taula de BigQuery}
 
-Hem vist que és possible crear una taula buida, però que la zona de proves (\textit{sandbox}) no ens permet després emplenar-la amb dades amb sentències \verb|INSERT|. Ara explorarem un cas d'ús més comú per als usuaris de BigQuery en el qual es crea una taula a partir de dades existents. Per a això, ens dirigirem al nostre conjunt de dades, \verb|dades_projecte|, i triarem crear una nova taula. Aquest cop, la font no serà una taula buida, sinó que carregarem un arxiu CSV del nostre propi sistema d'arxius. Un cop seleccionem importar les dades, es pot seleccionar diferents tipus d'arxiu com ara CSV, JSON, Avro o Parquet, principalment. Per a respectar les limitacions de la zona de proves, hi ha algunes restriccions quant a la grandària de l'arxiu que podem pujar, recordem que aquestes han de ser menors a 10 Gb. Procedim llavors a navegar pels nostres sistemes d'arxius per a l'arxiu a pujar. Una vegada que l'arxiu ha estat seleccionat, el format de l'arxiu s'ha establert automàticament en CSV (Figura ~\ref{fig:bq12}). 
+Ara explorarem un cas d'ús més comú per als usuaris de BigQuery, que tracta de crear una taula a partir de dades existents. Per a això, ens dirigirem al nostre conjunt de dades, \verb|dades_projecte|, i triarem crear una nova taula. Aquest cop, la font no serà una taula buida, sinó que carregarem un arxiu CSV del nostre propi sistema d'arxius. Un cop seleccionem importar les dades, es pot seleccionar diferents tipus d'arxiu com ara CSV, JSON, Avro o Parquet, principalment. Per a respectar les limitacions de la zona de proves, hi ha algunes restriccions quant a la grandària de l'arxiu que podem pujar, recordem que aquestes han de ser menors a 10 Gb. Procedim llavors a navegar pels nostres sistemes d'arxius per a l'arxiu a pujar. Una vegada que l'arxiu ha estat seleccionat, el format de l'arxiu s'ha establert automàticament en CSV (Figura ~\ref{fig:bq12}). 
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -292,7 +296,11 @@ Hem vist que és possible crear una taula buida, però que la zona de proves (\t
 \end{figure}
 \vspace{2mm}
 
-Quant al projecte i al conjunt de dades, els deixarem com estan. I escollirem el nom de la taula, \verb|accidents_bd|, el qual farà saber que inclou informació sobre diversos accidents de trànsit. A continuació, tenim l'opció de definir explícitament l'esquema. No obstant això, atès que es tracta d'un arxiu CSV amb múltiples columnes, podem triar l'opció de detectar automàticament. D'aquesta manera, BigQuery donarà un cop d'ull al contingut de cada columna i determinarà quin ha de ser l'esquema. Més enllà d'això, al final de la finestra de creació de la taula ens apareixeran unes Opcions avançades. Aquestes opcions permeten la lectura de diferents tipus de CSV, entre altres coses. Sabem que el delimitador de camps d’un CSV pot ser una tabulació o una coma entre altres possibilitats. En el nostre cas, cal especificar que el nostre tabulador és el punt i coma “;”. 
+Quant al projecte i al conjunt de dades, els deixarem com estan. I escollirem el nom de la taula, \verb|accidents_bd|, el qual farà saber que inclou informació sobre diversos accidents de trànsit. A continuació, tenim l'opció de definir explícitament l'esquema. això no obstant, atès que es tracta d'un arxiu CSV amb múltiples columnes, podem triar l'opció de detectar automàticament. D'aquesta manera, BigQuery donarà un cop d'ull al contingut de cada columna i determinarà quin ha de ser l'esquema. 
+
+\vspace{2mm}
+
+Més enllà d'això, al final de la finestra de creació de la taula ens apareixeran unes opcions avançades. Aquestes opcions permeten la lectura de diferents tipus de CSV, entre altres coses. Sabem que el delimitador de camps d’un CSV pot ser una tabulació o una coma entre altres possibilitats. En el nostre cas, cal especificar que el nostre tabulador és el punt i coma “;”. 
 
 \vspace{2mm}
 
@@ -300,7 +308,7 @@ Si hem establert totes aquestes especificacions, ja podrem començar amb l’an�
 
 \vspace{2mm}
 
-Ara es pot comprovar que \verb|accidents_bd| apareix sota el nostre conjunt de dades, \verb|dades_projecte|. A continuació, podem accedir a la informació de la taula i al seu contingut desplegant el menú i triant Obrir. En l'esquema de la taula, sabrà que s'ha detectat automàticament el tipus dels diferents camps. Donem un cop d'ull als detalls de la taula. Aquí notaràs que la grandària total és de poc més de 280 kB. El nombre de files és d'unes 2.780. I després, quan ens dirigim a la Vista Prèvia, obtenim un cop d'ull als continguts (Figura ~\ref{fig:bq13}). 
+Ara es pot comprovar que \verb|accidents_bd| apareix dins la nostra base de dades, \verb|dades_projecte|. A continuació, podem accedir a la informació de la taula i al seu contingut desplegant el menú i triant \texttt{Obrir}. En l'esquema de la taula, sabrà que s'ha detectat automàticament el tipus dels diferents camps. Donem un cop d'ull als detalls de la taula. Aquí es pot veure que la grandària total és de poc més de 280 kB. El nombre de files és d'unes 2.780. I després, quan ens dirigim a la vista prèvia, obtenim un cop d'ull als continguts (Figura ~\ref{fig:bq13}). 
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -318,7 +326,7 @@ Ara es pot comprovar que \verb|accidents_bd| apareix sota el nostre conjunt de d
 
 \subsection{Consulta de dades i visualització d'estadístiques de consultes}
 
-Per a executar consultes en aquesta taula, ens dirigim al botó de consulta i s'obrirà en una nova pestanya. Aquesta pot ser una pestanya completament nova que ocultarà aquesta vista de detalls, mentre que una pestanya dividida ens permetrà fer referència a aquesta vista de detalls per a la taula mentre construïm una consulta. Mitjançant aquest procés, ha aparegut una nova pestanya cap a la dreta, i la consulta que apareix per defecte inclou una clàusula \verb|SELECT|, però no inclou cap camp (Figura ~\ref{fig:bq14}). Precisament per això hi ha un error de sintaxi, com es mostra a la dreta de la figura. 
+Per a executar consultes en aquesta taula, ens dirigim al botó de consulta i s'obrirà en una nova pestanya. Aquesta pot ser una pestanya completament nova, és a dir, ocultant aquesta vista de detalls, o bé pot ser una pestanya dividida, que ens permetrà veure alhora aquesta vista de detalls per a la taula mentre construïm una consulta. Mitjançant aquest procés, ha aparegut una nova pestanya cap a la dreta, i la consulta que apareix per defecte inclou una clàusula \verb|SELECT|, però no inclou cap camp (Figura ~\ref{fig:bq14}). Precisament per això hi ha un error de sintaxi, com es mostra a la dreta de la figura. 
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -345,8 +353,11 @@ FROM `[nom_projecte].[nom_base_de_dades].[nom_taula]`
 \vspace{2mm}
 
 Si escrivim a l’editor la nostra consulta, apareixerà un validador d’aquesta a la part superior dreta de la finestra. Aquest validador l'hem vist anteriorment quan ens indicava un error en voler executar una consulta fent servir llenguatge de manipulació de dades (DML), i pot agafar dues formes:
+
 - Si la consulta és vàlida, apareixerà una icona de verificación verd.
+
 - Si la consulta no és vàlida, apareixerà una icona d’exclamació Vermell
+
 A més, el validador també mostra la quantitat de dades que la consulta processarà quan s’executi. Per exemple, si demanem en una consulta que ens retorni la columna sencera \verb|DAY|, el validador de la dreta ens marca que es processaran una quantitat de gairebé 22 kB, tal com es pot veure a la figura ~\ref{fig:bq19}.
 
 \vspace{2mm}
@@ -359,7 +370,11 @@ A més, el validador també mostra la quantitat de dades que la consulta process
 \end{figure}
 \vspace{2mm}
 
-Executarem aquesta consulta prement \verb|Executar|. Els resultats apareixen sota la finestra d'editor i mostra certs detalls com, per exemple, que s'ha executat en uns 0 segons per a mi. Per descomptat, podem desplaçar-nos i donar un cop d'ull a tots els resultats (a la dreta de la Figura ~\ref{fig:bq19}). Entre els detalls que es mostren per a cada consulta s'hi troben la informació del treball, els resultats en forma de taula, els resultats en format JSON i certs detalls de l'execució de la consulta. Si posem el focus en la informació del treball, es troba l'identificador d'aquest, l'usuari que l'ha executat, la ubicació on s'emmagatzemen les dades, l'hora de la creació i l'execució d'aquesta, el temps d'execució i els bytes processats i facturats. Veiem que el nombre de bytes facturats és de 10 MB, aquesta és la quantitat mínima que surt per defecte per a cada consulta per \textit{Google Cloud Platform}, i té en compte les despeses generals. Per a consultes a bases de dades més extenses, aquesta facturació serà major i ens impedirà l'ús de la zona de proves. L'última característica que crida l'atenció de la informació del treball és que els resultats s'emmagatzemen en una taula temporal. Això vol dir que aquesta taula resultant no es guardarà com una més en el nostre conjunt de dades i, per tant, no la podrem consultar.
+Efecturem aquesta consulta prement \verb|Executar|. Els resultats apareixen sota la finestra d'editor i mostra certs detalls com, per exemple, que la consulta s'ha executat en uns 0 segons. Per descomptat, podem desplaçar-nos i donar un cop d'ull a tots els resultats (a la dreta de la Figura ~\ref{fig:bq19}). Entre els detalls que es mostren per a cada consulta s'hi troben la informació del treball, els resultats en forma de taula, els resultats en format JSON i certs detalls de l'execució de la consulta. 
+
+\vspace{2mm}
+
+Si posem el focus en la informació del treball, es troba l'identificador d'aquest, l'usuari que l'ha executat, la ubicació on s'emmagatzemen les dades, l'hora de la creació i l'execució d'aquesta, el temps d'execució i els bytes processats i facturats. Veiem que el nombre de bytes facturats és de 10 MB, aquesta és la quantitat mínima que surt per defecte per a cada consulta per \textit{Google Cloud Platform}, i té en compte les despeses generals. Per a consultes a bases de dades més extenses, aquesta facturació serà major i ens impedirà l'ús de la zona de proves. L'última característica que crida l'atenció de la informació del treball és que els resultats s'emmagatzemen en una taula temporal. Això vol dir que aquesta taula resultant no es guardarà com una més en el nostre conjunt de dades i, per tant, no la podrem consultar.
 
 \vspace{2mm}
 
@@ -446,11 +461,11 @@ Dins la informació de la taula que ens proporciona la plataforma, apareix una s
 \end{figure}
 \vspace{2mm}
 
-Els resultats d'aquesta consulta ens diu que els pobles catalans amb menys cobertura mòbil són Canejan, Boadella i les Escaules, Cabó, la Vajol, Gaià, Farrera, Gisclareny, Viver i Serrateix, Savallà del Comtat i Torroja del Priorat. A més, els bytes processats en aquesta consulta apareixen com un paràmetre indefinit, ja que aquests resultats estan emmagatzemats a la memòria cau de BigQuery.
+Els resultats d'aquesta consulta ens diuen que els pobles catalans amb menys cobertura mòbil són Canejan, Boadella i les Escaules, Cabó, la Vajol, Gaià, Farrera, Gisclareny, Viver i Serrateix, Savallà del Comtat i Torroja del Priorat. A més, els bytes processats en aquesta consulta apareixen com un paràmetre indefinit, ja que aquests resultats estan emmagatzemats a la memòria cau de BigQuery.
 
 \vspace{2mm}
 
-Tal com hem vist, BigQuery emmagatzema a la seva memòria cau els resultats de la consulta perquè les dades puguin ser recuperades més ràpidament la pròxima vegada que s'executi una mateixa consulta. No obstant això, cal tenir en compte que només s'accedeix a les dades de la memòria cau quan s'executa la mateixa consulta després de la seva creació. Per exemple, si es modifiqués una mica aquesta consulta i, per exemple, demanés tan sols el nom del poble, en comptes d'aquest i la mitjana del senyal mòbil, podríem arribar a pensar que els resultats de la consulta d'aquesta execució haurien de retornar-nos un subconjunt de les dades que ja són presents en la memòria cau (ja que és un subconjunt de la nostra consulta anterior). Això no obstant, per la forma en què funciona la memòria cau de BigQuery, quan executem això, observarem que la informació no s'ha recuperat d'aquesta. En canvi, quan aquesta consulta es torna a executar, és quan la memòria cau s'activa, i és d'on es recuperen les dades. 
+Tal com hem vist, BigQuery emmagatzema a la seva memòria cau els resultats de la consulta perquè les dades puguin ser recuperades més ràpidament la pròxima vegada que s'executi una mateixa consulta. Això no obstant, cal tenir en compte que només s'accedeix a les dades de la memòria cau quan s'executa la mateixa consulta després de la seva creació. Per exemple, si es modifiqués una mica aquesta consulta i, per exemple, demanés tan sols el nom del poble, en comptes d'aquest i la mitjana del senyal mòbil, podríem arribar a pensar que els resultats de la consulta d'aquesta execució haurien de retornar-nos un subconjunt de les dades que ja són presents en la memòria cau (ja que és un subconjunt de la nostra consulta anterior). Però, per la forma en què funciona la memòria cau de BigQuery, quan executem això, observarem que la informació no s'ha recuperat d'aquesta. En canvi, quan aquesta consulta es torna a executar, és quan la memòria cau s'activa, i és d'on es recuperen les dades. 
 
 \vspace{2mm}
 
@@ -491,7 +506,7 @@ Ara que hem cobert els diferents tipus de taules de BigQuery, ens centrarem en c
 
 \vspace{2mm}
 
-Data Studio és una eina gratuïta que permet convertir les dades de les quals es disposa en panells o informes complets, fàcils de llegir, fàcils de compartir i totalment personalitzables. Algunes de les seves funcionalitats són:
+Data Studio és una eina gratuïta que permet convertir les dades en panells o informes complets, fàcils de llegir, fàcils de compartir i totalment personalitzables. Algunes de les seves funcionalitats són:
 
 \vspace{2mm}
 
@@ -535,7 +550,9 @@ GROUP BY DAY
 
 Per a visualitzar la taula resultant, podem ampliar el menú \verb|Explorar dades|, tot seguit d'\verb|Explorar amb Data Studio| (Figura ~\ref{fig:bq26}).
 
-Quan fem aquesta selecció, notaràs que ha sorgit una interfície, que ja té una taula que conté alguna informació agregada i un histograma amb la informació d'aquesta (Figura ~\ref{fig:bq27}).
+\vspace{2mm}
+
+Quan fem aquesta selecció, sorgeix una nova interfície que ja té una taula que conté alguna informació i un histograma amb les dades d'aquesta (Figura ~\ref{fig:bq27}).
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -547,7 +564,7 @@ Quan fem aquesta selecció, notaràs que ha sorgit una interfície, que ja té u
 \end{figure}
 \vspace{2mm}
 
-Data Studio, per defecte, ha entès que una taula de recompte es visualitza normalment a partir d'un \textit{bar plot} o histograma, i per això l'ha creat sense que nosaltres ho hàgim especificat. Així i tot, nosaltres podem seleccionar una visualització abans de configurar-la per a presentar la informació que necessitem. Pose'm-nos en el cas que preferim un gràfic de barres per a la visualització d'aquestes dades. Premem l'opció \verb|Afegir un gràfic| i ens assegurem que la dimensió, que en aquest cas són els dies, i la mètrica, la freqüència dels accidents, estiguin seleccionades segons el que vulguem representar (Figura ~\ref{fig:bq28}). 
+Data Studio, per defecte, ha entès que una taula de recompte es visualitza normalment a partir d'un gràfic de barres vertical o histograma, i per això l'ha creat sense que nosaltres ho hàgim especificat. Així i tot, nosaltres podem seleccionar una visualització abans de configurar-la per a presentar la informació que necessitem. Pose'm-nos en el cas que preferim un gràfic de barres horitzontal per a la visualització d'aquestes dades. Premem l'opció \verb|Afegir un gràfic| i ens assegurem que la dimensió, que en aquest cas són els dies, i la mètrica, la freqüència dels accidents, estiguin seleccionades segons el que vulguem representar (Figura ~\ref{fig:bq28}). 
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -564,7 +581,7 @@ Data Studio, per defecte, ha entès que una taula de recompte es visualitza norm
 
 \subsection{Ús de Data Studio des de la pròpia plataforma}
 
-Per a utilitzar aquesta eina és necessari disposar d’un compte a Google. Per accedir a la pàgina, naveguem \href{https://datastudio.google.com}{a aquesta pàgina} i iniciem sessió amb el nostre compte de Google. Un cop dins de Data Studio, es troba una pantalla d’inici amb les característiques següents:
+Per a utilitzar aquesta eina és necessari disposar d’un compte a Google. Per accedir a la pàgina, naveguem a \href{https://datastudio.google.com}{Data Studio} i iniciem sessió amb el nostre compte de Google. Un cop dins, es troba una pantalla d’inici amb les característiques següents:
 
 \vspace{2mm}
 \begin{figure}[h!]
@@ -597,6 +614,8 @@ Per a crear un gràfic, podem clicar a \verb|Añadir un gráfico| i, d'aquesta m
 
 A més de gràfiques, es poden decorar les pàgines per fer-les més boniques, o per afegir informació. També podem afegir un nom a la pàgina, i crear-ne tantes com en necessitem per al nostre informe. Més enllà d'això, també podem establir un nom per a tot l'informe, perquè a l'hora de guardar-lo i compartir-lo sigui més fàcilment interpretable.
 
+\vspace{2mm}
+
 Per exemple, un informe de dues pàgines pot tenir un aspecte semblant a la Figura ~\ref{fig:ds4}.
 
 \vspace{2mm}
@@ -611,6 +630,8 @@ Per exemple, un informe de dues pàgines pot tenir un aspecte semblant a la Figu
 \label{fig:ds4}
 \end{figure}
 \vspace{2mm}
+
+\newpage
 
 Per acabar, podem compartir el nostre informe de manera que altres usuaris puguin tenir accés. Això ho podem fer des de la pantalla d'inici de Data Studio, seleccionant l'opció de \verb|Compartir| l'informe i afegint les direccions de correu dels qui vulguem fer \textit{lectors} de l'informe (aquells qui poden veure l'informe, però no tenen permisos d'edició) o bé \textit{editors} (poden veure i editar l'informe). Figura ~\ref{fig:ds6}
 
@@ -645,6 +666,7 @@ En el nostre cas, volem que R sigui capaç d'interactuar amb BigQuery, perquè a
 
 \begin{verbatim}
 install.packages("bigrquery")
+install.packages("DBI")
 library(bigrquery)
 library(DBI)
 \end{verbatim}
