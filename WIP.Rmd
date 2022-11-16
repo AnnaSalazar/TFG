@@ -892,7 +892,7 @@ class(pc1)
 attributes(pc1)
 ```
 
-La nostra base de dades depurada té un total de 6 variables numèriques. Per tant, l'anàlisi de components principals tindrà un total de 6 components. Després de realitzar els càlculs corresponents, obtenim que l'ACP de les variables numèriques és el següent:
+La nostra base de dades depurada té un total de 7 variables numèriques. Per tant, l'anàlisi de components principals tindrà un total de 7 components. Després de realitzar els càlculs corresponents, obtenim que l'ACP de les variables numèriques és el següent:
 
 ```{r, echo=FALSE}
 print(pc1)
@@ -935,7 +935,7 @@ text(x=seq(0.5, by=1.12, length=6), y = percInerAccum,
      paste0(round(percInerAccum,2),"%"), cex=0.85, srt=0)
 ```
 
-Tenint en compte que la inèrcia equival a la proporció de la variabilitat de les dades, sabem que amb un 80% d'inèrcia, podem obtenir gairebé tota la informació. Mirant el gràfic de la inèrcia acumulada, es pot veure que amb les 4 primeres components ja obtenim el 80% de la inèrcia.
+Tenint en compte que la inèrcia equival a la proporció de la variabilitat de les dades, sabem que amb un 80% d'inèrcia, podem obtenir gairebé tota la informació. Mirant el gràfic de la inèrcia acumulada, es pot veure que amb les 4 primeres components ja obtenim gairebé el 80% de la inèrcia, així que ens podem servir d'aquestes per al nostre anàlisi.
 
 
 ```{r, include=FALSE}
@@ -958,6 +958,8 @@ iden = row.names(dcon) #Etiquetes dels individus
 etiq = names(dcon) #etiquetes de les variables numeriques
 ze = rep(0,length(etiq)) # WE WILL NEED THIS VECTOR AFTERWARDS FOR THE GRAPHICS
 ```
+
+\pagebreak
 
 A continuació realitzem un gràfic de dispersió per a totes les combinacions possibles.
 
@@ -998,8 +1000,7 @@ text(X, Y, labels = etiq, col = "darkblue", cex = 0.7)
 
 En aquest gràfic es pot veure totes les variables numèriques representades en la primera i segona component.
 Veiem que la majoria de variables estan representades sobre l’eix horitzontal, que correspon
-a la primera component. Aquestes variables són `Nombre_ferits`, `Nombre_atacants_morts`, `Nombre_victimes` i `Nombre_atacants`. A més, aquestes dues últimes tenen un valor aproximat al 0.8 i per tant, són les que expliquen amb més precisió la primera component. Ens fixem que totes aquestes variables tenen relació amb el nombre de persones, i per tant, a la primera component li assignarem l’etiqueta de Nombre de persones involucrades. Pel que fa a l’eix vertical, només hi ha dues variables que estiguin una mica relacionades amb la segona component. Aquestes són `Valor_propietat` i `Nombre_ostatges`. 
-no hi ha cap variable que estigui representada. Com que a priori, aquestes dues varaibles no tenen relació, a la segona component li posarem el nomb de la variable Valor_propieta, ja que aquesta és la que té més relació amb, ja que té un angle més petit.
+a la primera component. Aquestes variables són `NO_VEHICLE`, `MORTS`, `FATALS` i `NO_PERSONES`. A més, aquestes dues últimes prenen un valor de gairebé 0.8 i per tant, són les que expliquen amb més precisió la primera component. Ens fixem que totes aquestes variables tenen relació amb el nombre de persones, i per tant, a la primera component li assignarem l’etiqueta de Nombre de persones involucrades. Pel que fa a l’eix vertical, només hi ha dues variables que estiguin una mica relacionades amb la segona component. Aquestes són `HOUR` i `DRUNK_DR`. que prenen un valor prop del 0.5. Com que a priori, aquestes dues varaibles no tenen gaire relació l'una amb l'altra, assignarem a la segona component l'etiqueta de Condicions en què es dona l'accident, ja que a simple vista cap de les dues destaca sobre l'altre en la seva aportació a la segona component.
 
 
 ```{r,echo=FALSE, out.width="75%", fig.align='center', fig.cap="Gràfica de la projecció de variables numèriques"}
@@ -1013,6 +1014,8 @@ axis(side=4, pos= 0, labels = F)
 arrows(ze, ze, X, Y, length = 0.07,col="blue")
 text(X,Y,labels=etiq,col="darkblue", cex=0.7)
 ```
+
+\textcolor{red}{MIRAR AIXÒ PQ CREC QUE S'HAURIA DE MIRAR LA VARIABLE D'UNA ALTRA MANERA POTSER, NO HO TINC CLAR}
 
 ```{r, echo=FALSE, out.width="75%", fig.align='center', fig.cap="Gràfica de la projecció de la variable resposta respecte les principals components"}
 #PROJECCIO DE LA VARIABLE RESPOSTA
