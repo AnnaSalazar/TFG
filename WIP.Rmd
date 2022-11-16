@@ -411,6 +411,7 @@ A continuació es mostren els canvis realitzats a algunes de les variables categ
 **PER_TYP**: Tipus de persona (1 = conductor, 2 = ocupant, resta de codis = altres).
 
 ```{r}
+persones$PER_TYP <- as.factor(persones$PER_TYP)
 ab <- levels(persones$PER_TYP)
 
 levels(persones$PER_TYP) <- c("Conductor", "Ocupant", "Altres", "Altres", "Altres", 
@@ -425,10 +426,13 @@ de <- levels(persones$PER_TYP)
 **DAY_WEEK**: Dia de la setmana (1 = Diumenge, 2 = Dilluns, . . . , 7 = Dissabte).
 
 ```{r}
+persones$DAY_WEEK <- as.factor(persones$DAY_WEEK)
 ab <- levels(persones$DAY_WEEK)
 
 levels(persones$DAY_WEEK) <- c("Diumenge", "Dilluns", "Dimarts", "Dimecres", "Dijous",
                          "Divendres", "Dissabte")
+
+accident$DAY_WEEK <- as.factor(accident$DAY_WEEK)
 levels(accident$DAY_WEEK) <- c("Diumenge", "Dilluns", "Dimarts", "Dimecres", "Dijous",
                          "Divendres", "Dissabte")
 
@@ -442,6 +446,7 @@ de <- levels(persones$DAY_WEEK)
 **SEX**: Sexe de la persona (1 = home, 2 = dona, 8 = No registrat, 9 = Desconegut).
 
 ```{r}
+persones$SEX <- as.factor(persones$SEX)
 ab <- levels(persones$SEX)
 
 levels(persones$SEX) <- c("Home", "Dona", "Desconegut", "Desconegut")
@@ -462,6 +467,8 @@ persones$SEX <- droplevels(persones$SEX)
 **RUR_URB**: Informació sobre la localització (1 = Rural, 2 = Urbà, 6 = Via no classificada, 8 = No registrat, 9 = Desconegut). 
 
 ```{r}
+persones$RUR_URB <- as.factor(persones$RUR_URB)
+accident$RUR_URB <- as.factor(accident$RUR_URB)
 ab <- levels(persones$RUR_URB)
 
 levels(persones$RUR_URB) <- c("Rural", "Urbà", "Desconegut", 
@@ -479,6 +486,7 @@ de <- levels(persones$RUR_URB)
 **HI HA MORTS**: Variable identificadora dels accidents mortals (0: no hi ha morts en l'accident, 1: hi ha morts en l'accident).
 
 ```{r}
+accident$HIHAMORTS <- as.factor(accident$HIHAMORTS)
 ab <- levels(accident$HIHAMORTS)
 
 levels(accident$HIHAMORTS) <- c("No", "Sí")
@@ -493,6 +501,7 @@ de <- levels(accident$HIHAMORTS)
 **DOA**: Tipus de víctima (0 = sobreviu, 7 = mort a l’accident, 8 = mort al trasllat, 9 = Desconegut)
 
 ```{r}
+persones$DOA <- as.factor(persones$DOA)
 ab <- levels(persones$DOA)
 
 levels(persones$DOA) <- c("Sobreviu", "Mor", "Mor", "Desconegut")
@@ -867,3 +876,583 @@ knitr::include_graphics(c("~/Documents/GitHub/TFG/Data Studio/Gràfics/Graph8_1
 Pel últim, la figura 9 mostra una taula de contingència entre les variables SEX i DOA (és a dir, el sexe de la persona i el tipus de víctima, si sobreviu o no a l'accident). Aquesta taula marca com a categoria més abundant a la base de dades els homes que sobreviuen a l'accident, i com a menys abundant les dones que no sobreviuen al mateix. 
 
 Si es considera aquesta informació de forma relativa, aproximadament el $39\%$ dels homes implicats en els accidents han siguts ferits mortals, mentre que d'entre les dones ho ha sigut aproximadament el $29\%$. S'hauria d'investigar si aquestes diferències són estadísticament significatives o, d'altra banda, no existeix relació entre el sexe i el tipus de víctima en els accidents de trànsit. 
+
+
+\pagebreak
+
+# Anàlisi per Components Principals
+
+```{r, include=FALSE}
+
+numeriques <- which(sapply(accident, is.numeric))
+dcon <- accident[, numeriques]
+sapply(dcon, class)
+pc1 <- prcomp(dcon, scale = TRUE)
+class(pc1)
+attributes(pc1)
+```
+
+La nostra base de dades depurada té un total de 6 variables numèriques. Per tant, l'anàlisi de components principals tindrà un total de 6 components. Després de realitzar els càlculs corresponents, obtenim que l'ACP de les variables numèriques és el següent:
+
+```{r, echo=FALSE}
+print(pc1)
+```
+```{r, include=FALSE}
+#QUIN PERCENTATGE DE INERCIA ES REPRESENTADA EN EL SUBESPAIS?
+#Volem saber quantes dimensions son necesaries per representar fins el 80% de la inercia (variabilitat)
+pc1$sdev
+(inerProj<- pc1$sdev^2)
+(totalIner<- sum(inerProj))
+(pinerEix<- 100*inerProj/totalIner)
+```
+
+Sabem que cada component representa una inèrcia concreta. Ho podem veure gràficament en els següent gràfic de barres.
+
+```{r, echo=FALSE, out.width="50%", fig.align='center', fig.cap="Barplot de la inèrcia de cada component"}
+barplot(pinerEix, 
+        main="Percentatge del total d'inèrcia en cada Component Principal",
+        xlab="", names.arg=paste("PC",1:7),
+        ylab="Percentatge d'inèrcia", ylim=c(0,35))
+text(x=seq(0.7, by=1.12, length=6), y = pinerEix+1.5,
+     paste0(round(pinerEix,2),"%"), cex=0.75, srt=0)
+```
+
+
+```{r, echo=FALSE, out.width="50%", fig.align='center', fig.cap="Barplot de la inèrcia acumulada"}
+percInerAccum <- 100*cumsum(pc1$sdev[1:dim(dcon)[2]]^2)/dim(dcon)[2]
+percInerAccum
+
+# Percentatge del acumulat d'inèrcia representat en cada subespai
+par(cex.main = 1, cex.lab = 1)
+barplot(percInerAccum, 
+        main="Percentatge d'inèrcia acumulada en cada Component Principal",
+        xlab="Nombre de components", names.arg=1:7,
+        ylab="Percentatge d'inèrcia acumulada",
+        ylim=c(0,125))
+
+abline(h=80, col=2, lwd=2)
+text(x=seq(0.5, by=1.12, length=6), y = percInerAccum,
+     paste0(round(percInerAccum,2),"%"), cex=0.85, srt=0)
+```
+
+Tenint en compte que la inèrcia equival a la proporció de la variabilitat de les dades, sabem que amb un 80% d'inèrcia, podem obtenir gairebé tota la informació. Mirant el gràfic de la inèrcia acumulada, es pot veure que amb les 4 primeres components ja obtenim el 80% de la inèrcia.
+
+
+```{r, include=FALSE}
+nd = 4
+print(pc1)
+attributes(pc1)
+pc1$rotation #components principals
+```
+
+```{r, include=FALSE}
+dim(pc1$x)
+dim(dcon)
+# Dades als nous eixos de les 5 PCA
+Psi = pc1$x[,1:nd]
+dim(Psi)
+```
+
+```{r, include=FALSE}
+iden = row.names(dcon) #Etiquetes dels individus
+etiq = names(dcon) #etiquetes de les variables numeriques
+ze = rep(0,length(etiq)) # WE WILL NEED THIS VECTOR AFTERWARDS FOR THE GRAPHICS
+```
+
+A continuació realitzem un gràfic de dispersió per a totes les combinacions possibles.
+
+```{r, echo=FALSE,  out.width="60%", fig.align='center', fig.cap="Gràfica de la projecció dels individus"}
+# PLOT OF INDIVIDUALS
+#select your axis
+eje1 <- 1
+eje2 <- 2
+plot(Psi[,eje1],Psi[,eje2],ylab = "Comp 2",xlab="Comp 1",main="Projecció de observacions entre PC1 y PC2")
+text(Psi[,eje1],Psi[,eje2],labels=iden, cex=0.5)
+axis(side=1, pos= 0, labels = F, col="cyan")
+axis(side=3, pos= 0, labels = F, col="cyan")
+axis(side=2, pos= 0, labels = F, col="cyan")
+axis(side=4, pos= 0, labels = F, col="cyan")
+```
+
+```{r, include=FALSE}
+Phi = cor(dcon, Psi)
+#View(Phi)
+```
+
+```{r, include=FALSE}
+#select your axis
+X <- Phi[, eje1]
+Y <- Phi[, eje2]
+plot(Psi[, eje1], Psi[, eje2], type = "n")
+axis(side = 1, pos = 0, labels = F)
+axis(side = 3, pos = 0, labels = F)
+axis(side = 2, pos = 0, labels = F)
+axis(side = 4, pos = 0, labels = F)
+arrows(ze, ze, X, Y, length = 0.07, col = "blue")
+text(X, Y, labels = etiq, col = "darkblue", cex = 0.7)
+```
+
+## Projecció variables numèriques
+
+
+
+En aquest gràfic es pot veure totes les variables numèriques representades en la primera i segona component.
+Veiem que la majoria de variables estan representades sobre l’eix horitzontal, que correspon
+a la primera component. Aquestes variables són `Nombre_ferits`, `Nombre_atacants_morts`, `Nombre_victimes` i `Nombre_atacants`. A més, aquestes dues últimes tenen un valor aproximat al 0.8 i per tant, són les que expliquen amb més precisió la primera component. Ens fixem que totes aquestes variables tenen relació amb el nombre de persones, i per tant, a la primera component li assignarem l’etiqueta de Nombre de persones involucrades. Pel que fa a l’eix vertical, només hi ha dues variables que estiguin una mica relacionades amb la segona component. Aquestes són `Valor_propietat` i `Nombre_ostatges`. 
+no hi ha cap variable que estigui representada. Com que a priori, aquestes dues varaibles no tenen relació, a la segona component li posarem el nomb de la variable Valor_propieta, ja que aquesta és la que té més relació amb, ja que té un angle més petit.
+
+
+```{r,echo=FALSE, out.width="75%", fig.align='center', fig.cap="Gràfica de la projecció de variables numèriques"}
+#zooms per poder representar-los be
+plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(min(X,0),max(X,0)), ylim=c(-1,1), 
+     xlab = "CP1: Nombre de persones involucrades", ylab = "CP2: Valor de la propietat")
+axis(side=1, pos= 0, labels = F)
+axis(side=3, pos= 0, labels = F)
+axis(side=2, pos= 0, labels = F)
+axis(side=4, pos= 0, labels = F)
+arrows(ze, ze, X, Y, length = 0.07,col="blue")
+text(X,Y,labels=etiq,col="darkblue", cex=0.7)
+```
+
+```{r, echo=FALSE, out.width="75%", fig.align='center', fig.cap="Gràfica de la projecció de la variable resposta respecte les principals components"}
+#PROJECCIO DE LA VARIABLE RESPOSTA
+varcat=accident$HIHAMORTS #ens demana la variable resposta (y)
+plot(Psi[,1],Psi[,2],col=varcat,ylab = "Comp 2",xlab="Comp 1",main="Projecció de la variable resposta entre PC1 y PC2")
+axis(side=1, pos= 0, labels = F, col="darkgray")
+axis(side=3, pos= 0, labels = F, col="darkgray")
+axis(side=2, pos= 0, labels = F, col="darkgray")
+axis(side=4, pos= 0, labels = F, col="darkgray")
+legend("bottomleft",levels(varcat),pch=1,col=c(1,2), cex=0.6)
+```
+
+```{r,include=FALSE}
+# Gràfics de projecció de totes les combinacions possibles
+par(mfrow=c(1,2), cex.main=0.60, cex.axis=0.65)
+for(eje1 in 1:4){
+  for(eje2 in (eje1 + 1):5){
+    par(cex=1.5)
+    plot(Psi[,eje1],Psi[,eje2],
+         main="Gràfic de dispersió dels individus",
+         xlab=paste0("PC",eje1," (",round(pinerEix[eje1],4),"%)"), 
+         ylab=paste0("PC",eje2," (",round(pinerEix[eje2],4),"%)"),
+         bty="n", col="yellow", pch=".", cex=3)
+    #text(Psi[,eje1],Psi[,eje2],labels=iden, cex=0.5)
+    axis(side=1, pos=0, at=seq(-60, 60, by=2), labels = F,col="red")
+    axis(side=3, pos=0, at=seq(-60, 60, by=2), labels = F,col="red")
+    axis(side=2, pos=0, at=seq(-60, 60, by=2), labels = F,col="red")
+    axis(side=4, pos=0, at=seq(-60, 60, by=2), labels = F,col="red")
+    
+    }
+}
+```
+
+
+## Projecció variables categòriques
+
+Gràfics de projecció de les variables categòriques
+
+```{r,include=FALSE}
+#PROJECCIO DE TOTES LES VARIABLES
+#anomenem vector de categoriques
+(var_categoriques <- which(sapply(bd, is.factor)))
+```
+
+Si en el mateix gràfic, hi afegim totes les categories de totes les variables categòriques, obtenim el següent:
+
+```{r, echo=FALSE}
+#all qualitative together
+plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-1.6,1.6), ylim=c(-1,1), 
+     xlab = "CP1: Nombre de persones involucrades", ylab = "CP2: Valor de la propietat")
+axis(side=1, pos= 0, labels = F, col="cyan")
+axis(side=3, pos= 0, labels = F, col="cyan")
+axis(side=2, pos= 0, labels = F, col="cyan")
+axis(side=4, pos= 0, labels = F, col="cyan")
+#nominal qualitative variables
+dcat<-c(1:8)
+#divide categoricals in several graphs if joint representation saturates
+#build a palette with as much colors as qualitative variables 
+#colors<-c("blue","red","green","orange","darkgreen")
+#alternative
+colors<-rainbow(length(var_categoriques))
+c<-1
+for(k in var_categoriques){
+  seguentColor<-colors[c]
+  varcat <- as.factor(bd[,k])
+  fdic1 <- tapply(Psi[,eje1], varcat, mean)
+  fdic2 <- tapply(Psi[,eje2], varcat, mean) 
+  text(fdic1, fdic2, levels(varcat), col=seguentColor, cex=1, font=3)
+c<-c+1
+}
+legend("bottomleft",names(var_categoriques)[dcat],pch=1,col=colors, cex=0.6)
+```
+
+Clarament aquest gràfic no es pot interpretar, ja que tenim tantes categories que no es poden distingir.
+Per tant, el que farem serà crear un gràfic per a cada variable categòrica, a veure si així ens és més fàcil
+interpretar-los.
+
+```{r, include=FALSE, out.width="70%", fig.align='center', fig.cap="Gràfica de la projecció de variables categòriques"}
+col <- rainbow(length(var_categoriques))
+c <- 1
+for(k in var_categoriques){
+  par(cex.main=1, cex.lab=1)
+  plot(Psi[,eje1],Psi[,eje2],type="n",
+    xlab=paste0("PC",eje1," (",round(pinerEix[eje1],4),"%)"),
+    ylab=paste0("PC",eje2," (",round(pinerEix[eje2],4),"%)"),
+    xlim=c(-2,2), ylim=c(-1,1),
+    main="Projeccions sobre el pla factorial de variables categòriques")
+  axis(side=1, pos=0, at=seq(-70, 70, by=0.5), labels = F, col="black")
+  axis(side=2, pos=0, at=seq(-70, 70, by=0.5), labels = F, col="black")
+  axis(side=3, pos=0, at=seq(-70, 70, by=0.5), labels = F, col="black")
+  axis(side=4, pos=0, at=seq(-70, 70, by=0.5), labels = F, col="black")
+  arrows(ze, ze, X, Y, length = 0.05, col=c("aquamarine3","aquamarine4"))
+  text(X,Y,labels=etiq,col=c("aquamarine3","aquamarine4"), cex=1, font=3)
+  
+  varcat <- as.factor(bd[,k])
+  fdic1 <- tapply(Psi[,eje1], varcat, mean)
+  fdic2 <- tapply(Psi[,eje2], varcat, mean) 
+  text(fdic1, fdic2, levels(varcat), col=seguentColor, cex=1, font=3)
+  
+  legend("bottomleft", legend = names(var_categoriques)[c], fill=seguentColor,
+         text.font=2, cex=1, ncol=1, bty="n")
+  
+  c <- c+1
+  
+  
+}
+```
+
+**Variable Regió**
+
+```{r, echo=FALSE, out.width="70%", fig.align='center', fig.cap="Gràfica de la projecció de la variable regió"}
+#scale the projected variables
+#X<-fm*U[,eje1]
+#Y<-fm*U[,eje2]
+#represent numerical variables in background
+plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-0.4,0.4), ylim=c(-0.4,0.4), 
+     xlab = "CP1: Nombre de persones involucrades", ylab = "CP2: Valor de la propietat")
+#plot(X,Y,type="none",xlim=c(min(X,0),max(X,0)))
+axis(side=1, pos= 0, labels = F, col="lightblue")
+axis(side=3, pos= 0, labels = F, col="lightblue")
+axis(side=2, pos= 0, labels = F, col="lightblue")
+axis(side=4, pos= 0, labels = F, col="lightblue")
+#add projections of numerical variables in background
+arrows(ze, ze, X, Y, length = 0.07,col="lightgray")
+text(X,Y,labels=etiq,col="gray", cex=0.7)
+#add ordinal qualitative variables. Ensure ordering is the correct
+dordi<-c(1)
+#levels(dd[,dordi[1]])
+#reorder modalities: when required
+bd[,dordi[1]] <- factor(bd[,dordi[1]], ordered=TRUE)
+#levels(dd[,dordi[1]])
+c<-1
+col<-1
+for(k in dordi){
+  seguentColor<-colors[col]
+  fdic1 = tapply(Psi[,eje1],bd[,k],mean)
+  fdic2 = tapply(Psi[,eje2],bd[,k],mean) 
+  
+  #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
+  #connect modalities of qualitative variables
+  lines(fdic1,fdic2,pch=16,col=seguentColor)
+  text(fdic1,fdic2,labels=levels(bd[,k]),col=seguentColor, cex=0.6)
+  c<-c+1
+  col<-col+1
+}
+legend("topleft",names(bd)[dordi],pch=1,col=colors[1:length(dordi)], cex=0.6)
+```
+
+Amb la variable `regió` veiem que les cinc categories es trboen al centre del gràfic. Tot i així, veiem que la categoria `Oceania`es troba un pèl més paral·lela a la segona component, a diferència de les altres quatre, que estan més aprop de la primera component. Així doncs, encara que agafat molt amb pinces, podríem dir que la categoria `Oceania`explica millor la segona component i les altres quatre expliquen millor la primera.
+
+**Variable Èxit_atac**
+
+```{r, echo=FALSE, out.width="70%", fig.align='center', fig.cap="Gràfica de la projecció de la variable Èxit atac"}
+#scale the projected variables
+#X<-fm*U[,eje1]
+#Y<-fm*U[,eje2]
+#represent numerical variables in background
+plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-1,1), ylim=c(-1,1), 
+     xlab = "CP1: Nombre de persones involucrades", ylab = "CP2: Valor de la propietat")
+#plot(X,Y,type="none",xlim=c(min(X,0),max(X,0)))
+axis(side=1, pos= 0, labels = F, col="lightblue")
+axis(side=3, pos= 0, labels = F, col="lightblue")
+axis(side=2, pos= 0, labels = F, col="lightblue")
+axis(side=4, pos= 0, labels = F, col="lightblue")
+#add projections of numerical variables in background
+arrows(ze, ze, X, Y, length = 0.07,col="lightgray")
+text(X,Y,labels=etiq,col="gray", cex=0.7)
+#add ordinal qualitative variables. Ensure ordering is the correct
+dordi<-c(2)
+#levels(dd[,dordi[1]])
+#reorder modalities: when required
+bd[,dordi[1]] <- factor(bd[,dordi[1]], ordered=TRUE)
+#levels(dd[,dordi[1]])
+c<-1
+col<-1
+for(k in dordi){
+  seguentColor<-colors[col]
+  fdic1 = tapply(Psi[,eje1],bd[,k],mean)
+  fdic2 = tapply(Psi[,eje2],bd[,k],mean) 
+  
+  #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
+  #connect modalities of qualitative variables
+  lines(fdic1,fdic2,pch=16,col=seguentColor)
+  text(fdic1,fdic2,labels=levels(bd[,k]),col=seguentColor, cex=0.6)
+  c<-c+1
+  col<-col+1
+}
+legend("topleft",names(bd)[dordi],pch=1,col=colors[1:length(dordi)], cex=0.6)
+```
+
+Per la variable `Èxit_atac` podem veure clarament que la categoria `No` explica la segona component, ja que es troba exactament a sobre el seu eix. Tot i així, per la categoria `Sí`, podem dir que explica d'igual manera la primera i la segona component, ja que es troba just al centre del dos eixos.
+
+**Variable Suicidi**
+
+```{r, echo=FALSE, out.width="70%", fig.align='center', fig.cap="Gràfica de la projecció de la variable suicidi"}
+#scale the projected variables
+#X<-fm*U[,eje1]
+#Y<-fm*U[,eje2]
+#represent numerical variables in background
+plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-1,1), ylim=c(-1,1), 
+     xlab = "CP1: Nombre de persones involucrades", ylab = "CP2: Valor de la propietat")
+#plot(X,Y,type="none",xlim=c(min(X,0),max(X,0)))
+axis(side=1, pos= 0, labels = F, col="lightblue")
+axis(side=3, pos= 0, labels = F, col="lightblue")
+axis(side=2, pos= 0, labels = F, col="lightblue")
+axis(side=4, pos= 0, labels = F, col="lightblue")
+#add projections of numerical variables in background
+arrows(ze, ze, X, Y, length = 0.07,col="lightgray")
+text(X,Y,labels=etiq,col="gray", cex=0.7)
+#add ordinal qualitative variables. Ensure ordering is the correct
+dordi<-c(3)
+#levels(dd[,dordi[1]])
+#reorder modalities: when required
+bd[,dordi[1]] <- factor(bd[,dordi[1]], ordered=TRUE)
+#levels(dd[,dordi[1]])
+c<-1
+col<-1
+for(k in dordi){
+  seguentColor<-colors[col]
+  fdic1 = tapply(Psi[,eje1],bd[,k],mean)
+  fdic2 = tapply(Psi[,eje2],bd[,k],mean) 
+  
+  #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
+  #connect modalities of qualitative variables
+  lines(fdic1,fdic2,pch=16,col=seguentColor)
+  text(fdic1,fdic2,labels=levels(bd[,k]),col=seguentColor, cex=0.6)
+  c<-c+1
+  col<-col+1
+}
+legend("topleft",names(bd)[dordi],pch=1,col=colors[1:length(dordi)], cex=0.6)
+```
+
+Per la variable `Suicidi` ens trobem en una situació semblant a l'anterior. Aquí però, les dues categories expliquen millor la segona component, ja que es troben completament a sobre d'aquest eix. També podem dir que tenen una correlació semblant, és a dir, que expliquen la segona component de la mateixa manera, amb l'única diferència que la categoria `No` l'explica de forma negativa, mentre que la categoria `Sí`l'explica de forma positiva. 
+
+**Variable Tipus_atac**
+
+```{r, echo=FALSE, out.width="70%", fig.align='center', fig.cap="Gràfica de la projecció de la variable Tipus atac"}
+#scale the projected variables
+#X<-fm*U[,eje1]
+#Y<-fm*U[,eje2]
+#represent numerical variables in background
+plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-0.5,0.5), ylim=c(-0.5,0.5), 
+     xlab = "CP1: Nombre de persones involucrades", ylab = "CP2: Valor de la propietat")
+#plot(X,Y,type="none",xlim=c(min(X,0),max(X,0)))
+axis(side=1, pos= 0, labels = F, col="lightblue")
+axis(side=3, pos= 0, labels = F, col="lightblue")
+axis(side=2, pos= 0, labels = F, col="lightblue")
+axis(side=4, pos= 0, labels = F, col="lightblue")
+#add projections of numerical variables in background
+arrows(ze, ze, X, Y, length = 0.07,col="lightgray")
+text(X,Y,labels=etiq,col="gray", cex=0.7)
+#add ordinal qualitative variables. Ensure ordering is the correct
+dordi<-c(4)
+#levels(dd[,dordi[1]])
+#reorder modalities: when required
+bd[,dordi[1]] <- factor(bd[,dordi[1]], ordered=TRUE)
+#levels(dd[,dordi[1]])
+c<-1
+col<-1
+for(k in dordi){
+  seguentColor<-colors[col]
+  fdic1 = tapply(Psi[,eje1],bd[,k],mean)
+  fdic2 = tapply(Psi[,eje2],bd[,k],mean) 
+  
+  #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
+  #connect modalities of qualitative variables
+  lines(fdic1,fdic2,pch=16,col=seguentColor)
+  text(fdic1,fdic2,labels=levels(bd[,k]),col=seguentColor, cex=0.6)
+  c<-c+1
+  col<-col+1
+}
+legend("topleft",names(bd)[dordi],pch=1,col=colors[1:length(dordi)], cex=0.6)
+```
+
+Per la variable `Tipus_atac`, tenim moltes categories, i la gran majoria es troben al centre de la gràfica, de manera que significa que expliquen d'igual manera la primera i segona component. Podem destacar tres categories, `Assalt (armat o no)`, `Atac a instal·lacions` i `Atac no armat`, que destaquen sobre la resta. Si ens fixem amb l'angle que formen entre les dues components, veiem que formen un angle més petit amb la primera, de forma que podem dir que aquestes tres categories expliquen millor la primera component.
+
+**Variable Tipus_objectiu_atac**
+
+```{r, echo=FALSE, out.width="70%", fig.align='center', fig.cap="Gràfica de la projecció de la variable Tipus objectiu atac"}
+#scale the projected variables
+#X<-fm*U[,eje1]
+#Y<-fm*U[,eje2]
+#represent numerical variables in background
+plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-0.4,0.4), ylim=c(-0.4,0.4), 
+     xlab = "CP1: Nombre de persones involucrades", ylab = "CP2: Valor de la propietat")
+#plot(X,Y,type="none",xlim=c(min(X,0),max(X,0)))
+axis(side=1, pos= 0, labels = F, col="lightblue")
+axis(side=3, pos= 0, labels = F, col="lightblue")
+axis(side=2, pos= 0, labels = F, col="lightblue")
+axis(side=4, pos= 0, labels = F, col="lightblue")
+#add projections of numerical variables in background
+arrows(ze, ze, X, Y, length = 0.07,col="lightgray")
+text(X,Y,labels=etiq,col="gray", cex=0.7)
+#add ordinal qualitative variables. Ensure ordering is the correct
+dordi<-c(5)
+#levels(dd[,dordi[1]])
+#reorder modalities: when required
+bd[,dordi[1]] <- factor(bd[,dordi[1]], ordered=TRUE)
+#levels(dd[,dordi[1]])
+c<-1
+col<-1
+for(k in dordi){
+  seguentColor<-colors[col]
+  fdic1 = tapply(Psi[,eje1],bd[,k],mean)
+  fdic2 = tapply(Psi[,eje2],bd[,k],mean) 
+  
+  #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
+  #connect modalities of qualitative variables
+  lines(fdic1,fdic2,pch=16,col=seguentColor)
+  text(fdic1,fdic2,labels=levels(bd[,k]),col=seguentColor, cex=0.6)
+  c<-c+1
+  col<-col+1
+}
+legend("topleft",names(bd)[dordi],pch=1,col=colors[1:length(dordi)], cex=0.6)
+```
+
+Per la variable `Tipus_objectiu_atac` tenim encara més categories que la variable anterior, cosa que ens dificulta veure quines són les que expliquen millor una component o altra. Tot i així, podem destacar la categoria `Utilitats`, que seria la que millor explica la segona component, i les categoires `Transport`i `Desconegut`, que serien les que millor expliquen la primera component.
+
+**Variable Nacionalitat_objectiu**
+
+```{r, echo=FALSE, out.width="70%", fig.align='center', fig.cap="Gràfica de la projecció de la variable Nacionalitat objectiu"}
+#scale the projected variables
+#X<-fm*U[,eje1]
+#Y<-fm*U[,eje2]
+#represent numerical variables in background
+plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-0.4,0.4), ylim=c(-0.4,0.4), 
+     xlab = "CP1: Nombre de persones involucrades", ylab = "CP2: Valor de la propietat")
+#plot(X,Y,type="none",xlim=c(min(X,0),max(X,0)))
+axis(side=1, pos= 0, labels = F, col="lightblue")
+axis(side=3, pos= 0, labels = F, col="lightblue")
+axis(side=2, pos= 0, labels = F, col="lightblue")
+axis(side=4, pos= 0, labels = F, col="lightblue")
+#add projections of numerical variables in background
+arrows(ze, ze, X, Y, length = 0.07,col="lightgray")
+text(X,Y,labels=etiq,col="gray", cex=0.7)
+#add ordinal qualitative variables. Ensure ordering is the correct
+dordi<-c(6)
+#levels(dd[,dordi[1]])
+#reorder modalities: when required
+bd[,dordi[1]] <- factor(bd[,dordi[1]], ordered=TRUE)
+#levels(dd[,dordi[1]])
+c<-1
+col<-1
+for(k in dordi){
+  seguentColor<-colors[col]
+  fdic1 = tapply(Psi[,eje1],bd[,k],mean)
+  fdic2 = tapply(Psi[,eje2],bd[,k],mean) 
+  
+  #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
+  #connect modalities of qualitative variables
+  lines(fdic1,fdic2,pch=16,col=seguentColor)
+  text(fdic1,fdic2,labels=levels(bd[,k]),col=seguentColor, cex=0.6)
+  c<-c+1
+  col<-col+1
+}
+legend("topleft",names(bd)[dordi],pch=1,col=colors[1:length(dordi)], cex=0.6)
+```
+
+Per la variable `Nacionalitat_objectiu` veiem com la gran majoria de categories expliquen millor la primera component, i aproximadament de la mateixa mesura. Tot i així, la categoria `desconegut` i `oceania`expliquen millor la segona, ja que es troben just o gairebé just a sobre l'eix de les ordenades.
+
+**Variable Atac_reclamat**
+
+```{r, echo=FALSE, out.width="70%", fig.align='center', fig.cap="Gràfica de la projecció de la variable Atac reclamat"}
+#scale the projected variables
+#X<-fm*U[,eje1]
+#Y<-fm*U[,eje2]
+#represent numerical variables in background
+plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-0.2,0.2), ylim=c(-0.2,0.2), 
+     xlab = "CP1: Nombre de persones involucrades", ylab = "CP2: Valor de la propietat")
+#plot(X,Y,type="none",xlim=c(min(X,0),max(X,0)))
+axis(side=1, pos= 0, labels = F, col="lightblue")
+axis(side=3, pos= 0, labels = F, col="lightblue")
+axis(side=2, pos= 0, labels = F, col="lightblue")
+axis(side=4, pos= 0, labels = F, col="lightblue")
+#add projections of numerical variables in background
+arrows(ze, ze, X, Y, length = 0.07,col="lightgray")
+text(X,Y,labels=etiq,col="gray", cex=0.7)
+#add ordinal qualitative variables. Ensure ordering is the correct
+dordi<-c(7)
+#levels(dd[,dordi[1]])
+#reorder modalities: when required
+bd[,dordi[1]] <- factor(bd[,dordi[1]], ordered=TRUE)
+#levels(dd[,dordi[1]])
+c<-1
+col<-1
+for(k in dordi){
+  seguentColor<-colors[col]
+  fdic1 = tapply(Psi[,eje1],bd[,k],mean)
+  fdic2 = tapply(Psi[,eje2],bd[,k],mean) 
+  
+  #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
+  #connect modalities of qualitative variables
+  lines(fdic1,fdic2,pch=16,col=seguentColor)
+  text(fdic1,fdic2,labels=levels(bd[,k]),col=seguentColor, cex=0.6)
+  c<-c+1
+  col<-col+1
+}
+legend("topleft",names(bd)[dordi],pch=1,col=colors[1:length(dordi)], cex=0.6)
+```
+
+Per la variable `Atac_reclamat` veiem que les tres categories es troben just al centre del gràfic, tot i així, gràcies a que hem apliat el gràfic, podem dir que la categoria `Desconegut` explica millor la segona component, mentre que les categories `No`i `Sí` expliquen millor la primera component.
+
+**Variable Tipus_arma**
+
+```{r, echo=FALSE, out.width="70%", fig.align='center', fig.cap="Gràfica de la projecció de la variable Tipus arma"}
+#scale the projected variables
+#X<-fm*U[,eje1]
+#Y<-fm*U[,eje2]
+#represent numerical variables in background
+plot(Psi[,eje1],Psi[,eje2],type="n",xlim=c(-1,1), ylim=c(-1,1), 
+     xlab = "CP1: Nombre de persones involucrades", ylab = "CP2: Valor de la propietat")
+#plot(X,Y,type="none",xlim=c(min(X,0),max(X,0)))
+axis(side=1, pos= 0, labels = F, col="lightblue")
+axis(side=3, pos= 0, labels = F, col="lightblue")
+axis(side=2, pos= 0, labels = F, col="lightblue")
+axis(side=4, pos= 0, labels = F, col="lightblue")
+#add projections of numerical variables in background
+arrows(ze, ze, X, Y, length = 0.07,col="lightgray")
+text(X,Y,labels=etiq,col="gray", cex=0.7)
+#add ordinal qualitative variables. Ensure ordering is the correct
+dordi<-c(8)
+#levels(dd[,dordi[1]])
+#reorder modalities: when required
+bd[,dordi[1]] <- factor(bd[,dordi[1]], ordered=TRUE)
+#levels(dd[,dordi[1]])
+c<-1
+col<-1
+for(k in dordi){
+  seguentColor<-colors[col]
+  fdic1 = tapply(Psi[,eje1],bd[,k],mean)
+  fdic2 = tapply(Psi[,eje2],bd[,k],mean) 
+  
+  #points(fdic1,fdic2,pch=16,col=seguentColor, labels=levels(dd[,k]))
+  #connect modalities of qualitative variables
+  lines(fdic1,fdic2,pch=16,col=seguentColor)
+  text(fdic1,fdic2,labels=levels(bd[,k]),col=seguentColor, cex=0.6)
+  c<-c+1
+  col<-col+1
+}
+legend("topleft",names(bd)[dordi],pch=1,col=colors[1:length(dordi)], cex=0.6)
+```
+
+Finalment, per la variable `Tipus_arma`, veiem que destaquen les categories `Incendi` i `Descongut`. Totes dues formen un angle semblant entre la primer i la segona componet, de forma que podem dir que les expliquen d'igual manera. Pel que fa a les altres tres categories, es troben al centre de la gràfica i per tant no podem saber quina de les dues components expliquen millor.
