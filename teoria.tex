@@ -22,7 +22,8 @@
 
 \usepackage{mathrsfs} 
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue,breaklinks]{hyperref}
-
+\usepackage{longtable}
+\usepackage{fancyvrb}
 \usepackage{bbm} 
 
 \usepackage{hyperref}
@@ -745,15 +746,203 @@ Aquesta correspon a que únicament va ocórrer un accident un cap de setmana a l
 
 \section{Implementació de BigQuery a l'aula}
 
-BigQuery és una eina d'anàlisi de dades d'alt rendiment, capaç de processar un volum molt gran d'informació en segons, és senzill d'utilitzar i ofereix la zona de proves des de la que es pot treballar de forma gratuïta. És per aquest motiu que s'ha presentat aquest programa als estudiants del grau d'estadística, perquè ells mateixos puguin avaluar la seva experiència amb la plataforma de Google Cloud, així com el grau de dificultat que troben en el seu ús.
+BigQuery és una eina d'anàlisi de dades d'alt rendiment, capaç de processar un volum molt gran d'informació en segons, és senzill d'utilitzar i ofereix la zona de proves des de la que es pot treballar de forma gratuïta. És per aquest motiu que s'ha presentat aquest programa als estudiants del grau d'estadística a l'assignatura de Fitxers i Bases de Dades, perquè ells mateixos puguin avaluar la seva experiència amb la plataforma de Google Cloud, així com el grau de dificultat que troben en el seu ús.
 
 \vspace{2mm}
 
-Per portar a terme aquesta dinàmica es van necessitar dues sessions de dues hores cadascuna. A la primera, es va presentar tota la informació teòrica sobre la plataforma. S'explicava les propietats de BigQuery, així com les limitacions que presenta la seva zona de proves. 
+Per portar a terme aquesta dinàmica es van necessitar dues sessions de dues hores cadascuna. A la primera, es va presentar tota la informació teòrica sobre la plataforma. S'explicava les propietats de BigQuery, així com les limitacions que presenta la seva zona de proves. La professora Montserrat Guillén va fer unes diapositives per presentar-les a l'aula on s'incorporava tota la informació necessària per crear-se un compte a BigQuery i poder dur a terme l'activitat proposta.
+
+\vspace{2mm}
 
 \subsection{Consultes amb `bigrquery`}
 
+\vspace{2mm}
+
+Per portar a terme la sessió pràctica es va fer ús del conjunt de dades públic prèviament esmentat: \emph{Catalonia Cell Coverage}, que contenen informació sobré l'estat de cobertura de la telefonia mòvil que es va recollir en el periode dels anys des del 2015 fins al 2017.
+
+\vspace{2mm}
+
+En primer lloc es presetava la taula de dades amb la qual s'havia de treballar, que conté les variables següents:
+
+\vspace{2mm}
+
+\begin{longtable}[H]{p{.20\textwidth} | p{.80\textwidth} } 
+\textbf{Variable} & \textbf{Descripció}                              \\ \hline
+date              & Data de telemetria en format AAAA-MM-DD          \\
+hour              & Hora de telemetria en format HH24:MM:SS          \\
+lat               & Latitud                                          \\
+long              & Longitud                                         \\
+signal            & Senyal mitjana                                   \\
+network           & Nom de la xarxa                                  \\
+operator          & Nom de l'operador                                \\
+status            & Codi de l'estat = \{0, 1, 2, 3\}                 \\
+description       & Descripció de l'estat                            \\
+                  & - En servei (0)                                  \\
+                  & - Fora de servei (1)                             \\
+                  & - Estat d'emergència (2)                         \\
+                  & - Apagat                                         \\
+net               & Tipus de xarxa = 2G, 3G, 4G                      \\
+speed             & Velocitat estimada de la font                    \\
+satellites        & Nombre de satèl·lits GPS                         \\
+precission        & Constant que decriu la precisió del proveïdor    \\
+provider          & Nom del proveïdor de la posició                  \\
+activity          & Activitat de l'usuari:                           \\
+                  & - En un vehicle                                  \\
+                  & - Parat                                          \\
+                  & - A peu                                          \\
+                  & - Inclinat                                       \\
+                  & - Amb bicicleta                                  \\
+                  & - Desconegut                                     \\
+downloadSpeed     & Velocitat de descàrrega actual                   \\
+uploadSpeed       & Velocitat de càrrega actual                      \\
+postal\_code      & Codi postal                                      \\
+town\_name        & Nom de la ciutat on es va adquirir la telemetria \\
+position\_geom    & Representació gràfica de la posició         \\
+\caption{Variables de les dades Catalonia Cell Coverage}
+\label{tab:CCC}
+\end{longtable}
+
+Un cop els estudiants es trobaven a l'entorn BigQuery, les consultes a crear havien de resoldre les demandes següents:
+
+\begin{enumerate}
+
+\item Fes una taula de freqüències de l'activitat que fa cada usuari segons les dades recollides.
+
+\begin{Verbatim}[frame=single]
+
+SELECT activity, count(date) AS Freq
+FROM `bigquery-public-data.catalonian_mobile_coverage_eu.
+      mobile_data_2015_2017`
+GROUP BY activity
+
+\end{Verbatim}
+
+\item Retorna un llistat de les 5 ciutats amb millor connexió mitjana de Catalunya.
+
+\begin{Verbatim}[frame=single]
+
+SELECT AVG(SIGNAL) AS AVG_SIGNAL, TOWN_NAME
+FROM `bigquery-public-data.catalonian_mobile_coverage_eu.
+      mobile_data_2015_2017`
+GROUP BY TOWN_NAME
+ORDER BY AVG_SIGNAL DESC
+LIMIT 5
+\end{Verbatim}
+
+\item Fes un resum numèric (mínim, mitjana, desviació típica i màxim) de la precisió de la xarxa per aquelles 10 que tenen la mitjana més elevada.
+
+\begin{Verbatim}[frame=single]
+
+SELECT network, min(precission) AS Minim, avg(precission) AS 
+Mitjana, stddev(precission) AS Desv_Tipica, max(precission) AS 
+Maxim
+FROM `bigquery-public-data.catalonian_mobile_coverage_eu.
+      mobile_data_2015_2017`
+GROUP BY network
+ORDER BY Mitjana DESC
+LIMIT 10
+\end{Verbatim}
+
+\item Crea una taula que reculli les ciutats i la xarxa dels 10 primers usuarisque es van quedar sense servei mòvil, obviant els casos en què el nom de la ciutat o de la xarxa sigui NULL.
+
+\begin{Verbatim}[frame=single]
+
+SELECT town_name, network
+FROM `bigquery-public-data.catalonian_mobile_coverage_eu.
+      mobile_data_2015_2017`
+WHERE description="STATE_OUT_OF_SERVICE" AND 
+      town_name IS NOT NULL AND network IS NOT NULL
+ORDER BY date ASC
+LIMIT 10
+\end{Verbatim}
+
+\item Construeix una taula que reculli la xarxa, el seu tipus i la precisió mitjana. Llista els 10 primers casos, en ordre descendent, segons la precisió mitjana.
+
+\begin{Verbatim}[frame=single]
+
+SELECT network, net, avg(precission) AS Precisio_mitj
+FROM `bigquery-public-data.catalonian_mobile_coverage_eu.
+      mobile_data_2015_2017`
+WHERE precission IS NOT NULL AND 
+      net IS NOT NULL AND network IS NOT NULL
+GROUP BY network, net
+ORDER BY Precisio_mitj DESC
+LIMIT 10
+\end{Verbatim}
+
+\item Fes un gràfic de sectors sobre l'aparició dels diferents tipus de xarxa, excloent els casos en què aquesta variable pren el valor NULL.
+
+\vspace{2mm}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=12.5cm]{pbq1}
+\end{center}
+\label{fig:pbq1}
+\end{figure}
+
+\item Crea un histograma que mostri la freqüència en què apareix cada operador a la base de dades. Utilitza Looker Studio per a fer-ho.
+
+\vspace{2mm}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=12.5cm]{pbq2}
+\end{center}
+\label{fig:pbq2}
+\end{figure}
+
+\end{enumerate}
+
 \subsection{Comentaris del estudiants sobre la pràctica}
+
+D'entre els estudiants matriculats a l'assignatura de Fitxers i Bases de Dades, van ser vint-i-un els qui van realitzar la pràctica i van valorar la seva interacció amb BigQuery. Les preguntes que van respondre aquests estudiants eren:
+
+\vspace{2mm}
+
+Responeu a les següents preguntes sobre l'ús de BigQuery. Valoreu (0: molt fàcil - 10: molt difícil)
+
+\vspace{2mm}
+
+\begin{enumerate}
+
+\item Entorn BigQuery (connexió)
+
+\item Entorn BigQuery (consultes SQL)
+
+\item Connexió amb R
+
+\item Valoració global
+
+\end{enumerate}
+
+\begin{itemize}
+
+\item Suggeriu alguna milora en introducció a BigQuery?
+
+\end{itemize}
+
+\vspace{2mm}
+
+Pel que fa a la connexió a BigQuery, la puntuació mitjana va ser de 5,44. Els estudiants no ho consideren fàcil, però tampoc li troben un grau de dificultat molt elevat a connectar-se a la plataforma per primera vegada. Alguns comenten que, en ser un entorn nou, els hi costa perquè no hi estan familiaritzats i els fa sortir de la seva zona de comfort.
+
+\vspace{2mm}
+
+En relació a les consultes SQL (Structured Query Language) a l'entorn BigQuery, la puntuació mitjana baixa a 4,06. És a dir, als estudiants, en general, els sembla més senzill l'ús de BigQuery que l'entrada a la plataforma. El llenguatge que s'utilitza a BigQuery és molt similar a d'altres vistos a ACCES, R o SAS, i així ho fan saber els estudiants.
+
+\vspace{2mm}
+
+En quant a la connexió amb R, la puntuació mitjana ha sigut de 6, una mica més elevada que les anteriors. S'ha trobat una mica més de complicació en aquest punt, ja que el funcionament de les APIs no s'havia tractat prèviament i era un concepte nou.
+
+\vspace{2mm}
+
+Per últim, la valoració global ha estat de 6,09 en quant a la dificultat del programa.
+
+\vspace{2mm}
+
+També s'ha preguntat si els alumnes volien deixar suggerències per la millora en la introducció a BigQuery, aquelles coses que canviarien i/o els hi facilitaria la introducció a aquesta eina. Molts dels comentaris que s'han repetit en les valoracions és que els hi hagués ajudat el fet de dedicar-hi més pràctiques, perquè suposava un volum de informació molt gran que se'ls hi ha explicat en poc temps. A més, demanden que l'explicació de la teoria vingui acompanyada d'un suport pràctic des de la primera sessió, per entendre millor des del principi el funcionament de BigQuery.
+
+\vspace{2mm}
+
+Tot i que aquesta mostra d'alumnes difícilment és representativa, perquè només han participat vint-i-un alumnes a les sessions pràctiques, els resultats han sigut força positius i els estudiants han mostrat a les valoracions el seu interès en seguir coneixent aquest tipus d'eines, perquè els hi semblen interessants de cara al futur.
 
 \newpage
 
@@ -1879,7 +2068,7 @@ Per la variable \texttt{Setmana} s'aprecia que cap de les categories està gaire
 
 \subsection{Regressió logística}
 
-BigQuery ML és una eina d'anàlisi que pertany a BigQuery i permet crear i executar models d'aprenentatge automàtic mitjançant consultes SQL estàndard. Alguns dels models compatibles amb BigQuery ML són la regressió lineal, la regressió logística (binària i multinomial), series temporals, arbres de decisió i reds neuronals profundes, entre d'altres.
+BigQuery ML és una eina d'anàlisi que pertany a BigQuery i permet crear i executar models d'aprenentatge automàtic mitjançant consultes SQL estàndard. Com forma part de la plataforma de Google Cloud, permet seguir treballant amb les dades des del núvol, sense haver d'exportar-les localment. Aquest és un gran avantatge, ja que en funció del volum de dades que s'estiguin tractant, el fet de moure-les pot ser molt costós a nivell computacional, així com restrictiu per temes d'espai. Alguns dels models compatibles amb BigQuery ML són la regressió lineal, la regressió logística (binària i multinomial), series temporals, arbres de decisió i reds neuronals profundes, entre d'altres.
 
 \vspace{2mm}
 
@@ -1890,6 +2079,8 @@ Les dades que s'estan analitzant tenen com a variable resposta \texttt{HIHAMORTS
 La regressió logística és un enfoc estadístic que s'utilitza pels problemes de classificació, ja que permet modelar la probabilitat de que es doni una de les categories de la variable resposta (classe).
 
 \vspace{2mm}
+
+\subsubsection{Entrenament del model}
 
 Abans de crear el model a la consola de BigQuery, dividirem la nostra base de dades en dues, les dades d'entrenament, o \emph{train}, que representaran aproximadament el 80\% del total, i les dades de prova, o \emph{test}, que en seran el 20\%. El conjunt \emph{train} s'utilitzarà per entrenar el model, mentre que \emph{test} s'utilitzarà un cop creat el model, i servirà per comprovar el bon funcionament del model. Aquesta divisió de dades sovint és utilitzada per evitar el sobreajust del model, que és un problema que es dona quan un model s'ajusta massa bé a les dades d'entrenament i no aconsegueix ajustar-se de forma fiable a dades addicionals.
 
@@ -1921,9 +2112,13 @@ Per crear el model logístic a BigQuery ML, s'utilitzarà la següent sintaxi:
 CREATE OR REPLACE MODEL [nom_projecte].[nom_base_de_dades].[nom_model] 
 OPTIONS(input_label_cols=['[variable_resposta]'], model_type='logistic_reg') 
 AS 
-	SELECT *  
+	SELECT *  EXCEPT ([variables_no_utilitzades])
 	FROM `[nom_projecte].[nom_base_de_dades].[nom_taula]`;
 \end{verbatim}
+
+\vspace{2mm}
+
+Es farà servir la base preprocessada a R, que s'ha importat novament a BigQuery. També cal destacar que s'ha usat totes les variables explicatives excepte les variables \texttt{MORTS}, \texttt{HOUR} i \texttt{SETMANA}. S'ha pres aquesta decisió per l'alta correlació que tenen aquestes variables amb d'altres de la mateixa taula. 
 
 \vspace{2mm}
 
@@ -1939,6 +2134,12 @@ FROM ML.EVALUATE(MODEL `nom_projecte].[nom_base_de_dades].[nom_model]`,
 \end{verbatim}
 \vspace{2mm}
 
+\subsubsection{Avaluació del model}
+
+\vspace{2mm}
+
+Aquest model, un cop entrenat, retorna un seguit de mètriques que fan referència a la funció de pèrdua, la duració de cada iteració i la taxa d'aprenentatge que presenta el model a cada iteració.
+
 \vspace{2mm}
 \begin{figure}[H]
 \begin{center}
@@ -1949,6 +2150,38 @@ FROM ML.EVALUATE(MODEL `nom_projecte].[nom_base_de_dades].[nom_model]`,
 \end{figure}
 
 \vspace{2mm}
+
+Per entendre com ha sigut l'entrenament d'aquest model, farem un cop d'ull als resultats obtinguts.
+
+\vspace{2mm}
+
+La funció de pèrdua és un mètode per avaluar què tan bé un algoritme modela o s'ajusta a les dades d'entrenament. Si les prediccions es desvien massa dels resultats reals, la funció de pèrdua pren valors elevats. En canvi, si té l'ajuda d'una funció d'optimització, la funció de pèrdua apren a reduir l'error de predicció a cada iteració. En aquest sentit, en el nostre model no es redueix prou l'error de predicció, ja que comencem amb un valor de 0.684 abans de començar les iteracions, i acabem amb 0.636 a la cinquena iteració.
+
+\vspace{2mm}
+
+La següent mètrica que es troba és la duració de les iteracions. Aquest és un procés àgil en el que la iteració que ha ocupat més temps ha sigut de 1.78 segons, aproximadament. Això, a nivell d'usuari és molt atractiu, ja que permet el modelatge ràpid del model en conjunts de dades grans, cosa que normalment pot ser una limitació.
+
+\vspace{2mm}
+
+Per últim, es troba la taxa d'aprenentatge o \emph{learning rate}. Aquest valor es calcula mitjençant l'algoritme de descens del gradient, i afecta a la velocitat en que aquest algoritme convergeix en les ponderacions òptimes pels paràmetres. Una taxa d'aprenentatge massa elevada podria impedir que les ponderacions arribin a les ponderacions òptimes, mentre que una taxa petita podria requerir moltes iteracions per calcular les ponderacions.
+
+\vspace{2mm}
+
+Seguidament, es pot avaluar el rendiment del model a partir de les dades de prova (\emph{text}). Es fa servir una consulta com l'anterior, però aquest cop dirigida aquesta altra taula de dades. En aquest cas el modle retorna un seguit de mètriques i uns gràfics que permeten l'avaluació del model amb les noves dades.
+
+\vspace{2mm}
+
+Una de les primeres mètriques que trobem és la precisió del model, que és el tant per cent de les dades que s'han classificat correctament. Aquesta mètrica pren valors entre 0 i 1, i en el nostre cas és de 0.6336, és a dir, lel model ha predit en el 63.36\% de les dades la classe correcta de la variable resposta. 
+
+\vspace{2mm}
+
+La mesura de recuperació fa referència al tant per cent de les dades classificades correctament d'entre les que la resposta correcta era positiva. Aquesta mètrica pren el valor de 0.8178, i significa que d'entre els casos positius (accidents amb víctimes mortals), el 81.78\% s'han classificat efectivament com a positius. Al contrari, l'exactitut (o \emph{accuracy}) quantifica el nombre d'elements classificats correctament d'entre aquells que s'han classificat com a positius i, en aquest cas, el valor baixa a 0.6228.
+
+\vspace{2mm}
+
+D'altra banda, la puntuació F1 es calcula a través de la mitjana armònica entre les mètriques de precisió i recuperació, S'utilitza la mitjana armònica en comptes de l'aritmètica perquè aquesta té la propietat de comportar-se com la mitjana armònica si els valors són molt semblants, però s'apropa més cap al valor petit quan hi ha diferències entre les dues mesures.
+
+\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=16cm]{log2}
@@ -1957,18 +2190,123 @@ FROM ML.EVALUATE(MODEL `nom_projecte].[nom_base_de_dades].[nom_model]`,
 \label{fig:log2}
 \end{figure}
 
+\vspace{2mm}
+
+Per últim, es troben les mètriques de pèrdua logística (\emph{log loss}) i àrea sota la corba ROC (AUC). La corba ROC és un gràfic que mostra el rendiment d'un model de classificació en tots els llindars de classificació, presentant la taxa de falsos positius a l'eix d'abcisses i la de veritables positius a l'eix d'ordenades. L'AUC medeix l'àrea sota la corba d'aquest model i, segons el valor que prengui es pot saber com és el model:
+
+\vspace{2mm}
+
+\begin{itemize}
+
+\item 0.5 - 0.6: El model és molt dolent
+
+\item 0.6 - 0.7: El model és dolent
+
+\item 0.7 - 0.8: El model és bo
+
+\item 0.8 - 0.9: El model és molt bo
+
+\item 0.9 - 1: El model és excel·lent
+
+\end{itemize}
+
+\vspace{2mm}
+
+El valor de l’AUC es pot interpretar de la següent manera: donat un parell d’individus (accidents), un amb resposta positiva (Y = 1, hi ha víctimes mortals) i un altre amb resposta negativa (Y = 0, no hi ha víctimes mortals), es té un 69\% de probabilitats que l'accident on sí hi ha hagut víctimes tingui una probabilitat predita pel model superior a la probabilitat predita per a l'accident amb resposta negativa.
+
+\vspace{2mm}
+
+La pèrdua logística, per la seva banda, és un indicador de què tan aprop està la probabilitat de predicció del valor real corresponent i, per tant, pren valors del 0 a l'1. Com més s'apropi la probabilitat predita al valor real, major serà el valor de la pèrdua logística. En aquest model pren el valor de 0.6871.
+
+\vspace{2mm}
+
+\textbf{Llindar de prediccions}
+
+\vspace{2mm}
+
+A la dreta de la figura s'hi troba una sèrie de mètriques. Per una banda, s'identifica que la classe positiva és la categoria "Sí", de la variable \texttt{HIHAMORTS}, mentre que la classe negativa és "No", i també s'hi troben altra vegada les mesures de precisió, recuperació, exactitud i puntuació F1. L'única cosa que canvia és el llindar de classe positiva, que es pot modificar a conveniència per l'usuari.
+
+\vspace{2mm}
+
+Per decidir a quina classe pertany un individu es pot establir un llindar. En funció d'aquest llindar, la probabilitat estimada obtinguda classifica les observacions. El valor per defecte que apareix a la figura és de 0.3527, i implica que tots els individus que tinguin una probabilitat de resposta positiva d'aquest valor o més alt es classificaran com a positius. aquest és el valor mínim en el nostre cas, perquè no hi ha cap individu pel que s'hagi calculat una probabilitat menor. Si ens fixem en la corba ROC, es veu que amb aquest valor de llindar, els falsos positius estan presents en el 100\% dels casos, perquè cap individu s'ha classificat a la classe negativa. Si movem el valor del llindar, veurem com canvien les mètriques d'avaluació del model i en quin punt de la corba ens situem.
+
+\vspace{2mm}
+
+En el cas de la classificació logística binària, totes les mètriques reflexen els valors calculats quan el llindar es fixa en 0.5.
+
+\vspace{2mm}
+
 \subsubsection{Interpretació del model}
+
+\vspace{2mm}
+
+La interpretació dels pesos o coeficients beta calculats a la regressió logística és diferent de la interpretació dels pesos de la regressió lineal, ja que el resultat de la regressió logística és una probabilitat i, per tant, pren valors entre el 0 i l'1. La suma ponderada dels paràmetres es transforma, a través de la funció logística, en una probabilitat.
+
+\begin{center}
+
+$log \left( \frac{P(y = Si)}{P(y = No)} \right) = \beta_0 + \beta_1 x_1 + ... + \beta_p x_p$
+
+\end{center}
+
+On $p$ és el nombre de paràmetres que conformen el model.
+
+\vspace{2mm}
+
+Al terme esquerra de la igualtat se l'anomena \emph{log-odds}. Els \emph{odds}, que és l'equació que es troba dins del logaritme són la probabilitat de resposta positiva entre la probabilitat de resposta negativa. Podem entendre el model logístic com un model lineal pels \emph{log-odds}, ja que a través la combinació de termes es pot quantificar com canvia la classificació o la predicció al modificar alguna de les variables. Per fer-ho, s'haurà de treballar amb els exponents de la funció anterior.
+
+\begin{center}
+
+$\frac{P(y = Si)}{P(y = No)}  = e^{ \beta_0 + \beta_1 x_1 + ... + \beta_p x_p)}$
+
+\end{center}
+
+\vspace{2mm}
+
+Si canviem el valor d'una d'aquestes variables, per exemple augmentant en una unitat el valor de la variable $x_1$, es pot calcular l'odds ratio de les dues prediccions:
+
+\begin{center}
+
+$\frac{odds_{x_1 + 1}}{odds} = \frac{e^{ \beta_0 + \beta_1 (x_1 + 1) + ... + \beta_p x_p)}}{e^{ \beta_0 + \beta_1 x_1 + ... + \beta_p x_p)}}$
+
+\vspace{2mm}
+
+$\frac{odds_{x_1 + 1}}{odds} = e^{\beta_1}$
+
+\end{center}
+
+\vspace{2mm}
+
+Un canvi en una variable d'una unitat augmenta el log-odds tant com el valor del seu pes assignat.
 
 \vspace{2mm}
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=15cm]{log3}
+\includegraphics[width=15cm]{log3a}
 \end{center}
 \caption{Coeficients del model}
-\label{fig:log2}
+\label{fig:log3}
 \end{figure}
 
-\subsubsection{}
+\vspace{2mm}
+
+Per entendre l'efecte del pes de les variables del model en la probabilitat de resposta positiva, el primer que farem serà mirar l'intercept ($\beta_0$). quan totes les variables numèriques prenen el valor zero i les variables categòriques estan en la categoria de referència, les probabilitats estimades de resposta positiva són $e^{\beta_0} = e^{-1.0228353} = 0.3595739934$. Les categories de referència de les variables categòriques són "urbà", pel que fa a la informació de la localització, "Dissabte" (en el cas de dies de la setmana) i "Tarda", per la variable d'hores agrupades.
+
+\vspace{2mm}
+
+Pel que fa a les variables numèriques, que són \texttt{MINUTE}, \texttt{FATALS}, \texttt{DRUNK\_DR}, \texttt{NO\_PER} i \texttt{NO\_VEHICLE}, tenim que l'augment del valor de cada variable en una unitat afecta a les probabilitats estimades en un factor de $e^{\beta_i}$, on $i$ és el subíndex de cada variable numèrica.
+
+\vspace{2mm}
+
+En el cas de \texttt{FATALS}, per exemple, es troba una relació positiva entre el nombre de ferits a l'accident i el fet d'haver-hi hagut alguna víctima en el mateix. Per cada augment unitari en el nombre de ferits, la probabilitat de classe positiva canvia en un factor de $e^{0.79631994} = 2.217365856$.
+
+\vspace{2mm}
+
+Altrament, les variables categòriques, \texttt{RUR\_URB}, \texttt{DAY\_WEEK} i \texttt{HOUR\_agrupat} s'interpreten de forma que, canviar la variable $x_i$ de la categoria de referència a una de les altres afecta a les probabilitats estimades en un factor de $\beta_i$.
+
+\vspace{2mm}
+
+Si ens fixem en la variable \texttt{RUR\_URB}, es pot calcular que si, en comptes d'ubicar-se l'accident en una zona urbana, s'ha donat en una localització rural, la probabilitat canvia en un factor de $e^{0.4165228} = 1.519911759$, mentre que si la zona és desconeguda, el canvi és de $e^{-0.0342466} = 0.9663331775$.
+
 
 \newpage
 
