@@ -1582,6 +1582,8 @@ Novament, ens trobem amb que la primera columna de la taula és un recompte dels
 
 \end{large}
 
+\vspace{3mm}
+
 \textbf{Variables vinculades als accidents}
 
 \vspace{2mm}
@@ -2068,21 +2070,21 @@ Per la variable \texttt{Setmana} s'aprecia que cap de les categories està gaire
 
 \subsection{Regressió logística}
 
-BigQuery ML és una eina d'anàlisi que pertany a BigQuery i permet crear i executar models d'aprenentatge automàtic mitjançant consultes SQL estàndard. Com forma part de la plataforma de Google Cloud, permet seguir treballant amb les dades des del núvol, sense haver d'exportar-les localment. Aquest és un gran avantatge, ja que en funció del volum de dades que s'estiguin tractant, el fet de moure-les pot ser molt costós a nivell computacional, així com restrictiu per temes d'espai. Alguns dels models compatibles amb BigQuery ML són la regressió lineal, la regressió logística (binària i multinomial), series temporals, arbres de decisió i reds neuronals profundes, entre d'altres.
+BigQuery ML és una eina d'anàlisi que pertany a BigQuery i permet crear i executar models d'aprenentatge automàtic mitjançant consultes SQL estàndard. Com forma part de la plataforma de Google Cloud, permet continuar treballant amb les dades des del núvol, sense haver d'exportar-les localment. Aquest és un gran avantatge, ja que en funció del volum de dades que s'estiguin tractant, el fet de moure-les pot ser molt costós a escala computacional, així com restrictiu per temes d'espai. Alguns dels models compatibles amb BigQuery ML són la regressió lineal, la regressió logística (binària i multinomial), sèries temporals, arbres de decisió i xarxes neuronals profundes, entre d'altres.
 
 \vspace{2mm}
 
-Les dades que s'estan analitzant tenen com a variable resposta \texttt{HIHAMORTS}, que és una variable binària que pren el valor 1 en el cas d'haver-hi alguna víctima mortal a l'accident, i 0 altrament. En ser la variable d'interés binària, s'haurà de crear un model de classificació que ens permeti determinar si un accident tindrà víctimes mortals o no. 
+Les dades que s'estan analitzant tenen com a variable resposta \texttt{HIHAMORTS}, que és una variable binària que pren el valor 1 en el cas d'haver-hi alguna víctima mortal a l'accident, i 0 altrament. En ser la variable d'interès binària, s'haurà de crear un model de classificació que ens permeti determinar si un accident tindrà víctimes mortals o no. 
 
 \vspace{2mm}
 
-La regressió logística és un enfoc estadístic que s'utilitza pels problemes de classificació, ja que permet modelar la probabilitat de que es doni una de les categories de la variable resposta (classe).
+La regressió logística és un enfocament estadístic que s'utilitza pels problemes de classificació, ja que permet modelar la probabilitat de què es doni una de les categories de la variable resposta (classe).
 
 \vspace{2mm}
 
 \subsubsection{Entrenament del model}
 
-Abans de crear el model a la consola de BigQuery, dividirem la nostra base de dades en dues, les dades d'entrenament, o \emph{train}, que representaran aproximadament el 80\% del total, i les dades de prova, o \emph{test}, que en seran el 20\%. El conjunt \emph{train} s'utilitzarà per entrenar el model, mentre que \emph{test} s'utilitzarà un cop creat el model, i servirà per comprovar el bon funcionament del model. Aquesta divisió de dades sovint és utilitzada per evitar el sobreajust del model, que és un problema que es dona quan un model s'ajusta massa bé a les dades d'entrenament i no aconsegueix ajustar-se de forma fiable a dades addicionals.
+Abans de crear el model a la consola de BigQuery, dividirem la nostra base de dades en dues, les dades d'entrenament, o \emph{train}, que representaran aproximadament el 80\% del total, i les dades de prova, o \emph{test}, que en seran el 20\%. El conjunt \emph{train} s'utilitzarà per entrenar el model, mentre que \emph{test} s'utilitzarà un cop creat el model, i servirà per comprovar el bon funcionament del model. Aquesta divisió de dades sovint és emprada per evitar el sobre ajust del model, que és un problema que es dona quan un model s'ajusta massa bé a les dades d'entrenament i no aconsegueix ajustar-se de forma fiable a dades addicionals.
 
 \vspace{2mm}
 
@@ -2100,7 +2102,7 @@ Abans de crear el model a la consola de BigQuery, dividirem la nostra base de da
 
 \vspace{2mm}
 
-Tal com s'observa a la taula, les dades estan aproximadament balancejades en els tres subconjunts. En cadascún els accidents on hi ha víctimes mortals representen entre el 56 i el 58\% dels casos.
+Tal com s'observa a la taula, les dades estan aproximadament balancejades en els tres subconjunts. En cadascun, els accidents on hi ha víctimes mortals representen entre el 56 i el 58\% dels casos.
 
 \vspace{2mm}
 
@@ -2151,35 +2153,35 @@ Aquest model, un cop entrenat, retorna un seguit de mètriques que fan referènc
 
 \vspace{2mm}
 
-Per entendre com ha sigut l'entrenament d'aquest model, farem un cop d'ull als resultats obtinguts.
+Per entendre com ha sigut l'entrenament d'aquest model, donarem un cop d'ull als resultats obtinguts.
 
 \vspace{2mm}
 
-La funció de pèrdua és un mètode per avaluar què tan bé un algoritme modela o s'ajusta a les dades d'entrenament. Si les prediccions es desvien massa dels resultats reals, la funció de pèrdua pren valors elevats. En canvi, si té l'ajuda d'una funció d'optimització, la funció de pèrdua apren a reduir l'error de predicció a cada iteració. En aquest sentit, en el nostre model no es redueix prou l'error de predicció, ja que comencem amb un valor de 0.684 abans de començar les iteracions, i acabem amb 0.636 a la cinquena iteració.
+La funció de pèrdua és un mètode per avaluar que tan bé un algoritme modela o s'ajusta a les dades d'entrenament. Si les prediccions es desvien massa dels resultats reals, la funció de pèrdua pren valors elevats. En canvi, si té l'ajuda d'una funció d'optimització, la funció de pèrdua aprèn a reduir l'error de predicció a cada iteració. En aquest sentit, en el nostre model no es redueix prou l'error de predicció, ja que comencem amb un valor de 0,684 abans de començar les iteracions, i acabem amb 0,636 a la cinquena iteració.
 
 \vspace{2mm}
 
-La següent mètrica que es troba és la duració de les iteracions. Aquest és un procés àgil en el que la iteració que ha ocupat més temps ha sigut de 1.78 segons, aproximadament. Això, a nivell d'usuari és molt atractiu, ja que permet el modelatge ràpid del model en conjunts de dades grans, cosa que normalment pot ser una limitació.
+La següent mètrica que es troba és la duració de les iteracions. Aquest és un procés àgil en el qual la iteració que ha ocupat més temps ha sigut de 1,78 segons, aproximadament. Això, a escala d'usuari és molt atractiu, ja que permet el modelatge ràpid del model en conjunts de dades grans, cosa que normalment pot ser una limitació.
 
 \vspace{2mm}
 
-Per últim, es troba la taxa d'aprenentatge o \emph{learning rate}. Aquest valor es calcula mitjençant l'algoritme de descens del gradient, i afecta a la velocitat en que aquest algoritme convergeix en les ponderacions òptimes pels paràmetres. Una taxa d'aprenentatge massa elevada podria impedir que les ponderacions arribin a les ponderacions òptimes, mentre que una taxa petita podria requerir moltes iteracions per calcular les ponderacions.
+En últim lloc, es troba la taxa d'aprenentatge o \emph{learning rate}. Aquest valor es calcula mitjançant l'algoritme de descens del gradient, i afecta la velocitat en què aquest algoritme convergeix en les ponderacions òptimes pels paràmetres. Una taxa d'aprenentatge massa elevada podria impedir que les ponderacions arribin a les ponderacions òptimes, mentre que una taxa petita podria requerir moltes iteracions per calcular les ponderacions.
 
 \vspace{2mm}
 
-Seguidament, es pot avaluar el rendiment del model a partir de les dades de prova (\emph{text}). Es fa servir una consulta com l'anterior, però aquest cop dirigida aquesta altra taula de dades. En aquest cas el modle retorna un seguit de mètriques i uns gràfics que permeten l'avaluació del model amb les noves dades.
+Seguidament, es pot avaluar el rendiment del model a partir de les dades de prova (\emph{text}). Es fa servir una consulta com l'anterior, però aquest cop dirigida aquesta altra taula de dades. En aquest cas el model retorna un seguit de mètriques i uns gràfics que permeten l'avaluació del model amb les noves dades.
 
 \vspace{2mm}
 
-Una de les primeres mètriques que trobem és la precisió del model, que és el tant per cent de les dades que s'han classificat correctament. Aquesta mètrica pren valors entre 0 i 1, i en el nostre cas és de 0.6336, és a dir, lel model ha predit en el 63.36\% de les dades la classe correcta de la variable resposta. 
+Una de les primeres mètriques que trobem és la precisió del model, que és el tant per cent de les dades que s'han classificat correctament. Aquesta mètrica pren valors entre 0 i 1, i en el nostre cas és de 0,6336, és a dir, el model ha predit en el 63,36\% de les dades la classe correcta de la variable resposta. 
 
 \vspace{2mm}
 
-La mesura de recuperació fa referència al tant per cent de les dades classificades correctament d'entre les que la resposta correcta era positiva. Aquesta mètrica pren el valor de 0.8178, i significa que d'entre els casos positius (accidents amb víctimes mortals), el 81.78\% s'han classificat efectivament com a positius. Al contrari, l'exactitut (o \emph{accuracy}) quantifica el nombre d'elements classificats correctament d'entre aquells que s'han classificat com a positius i, en aquest cas, el valor baixa a 0.6228.
+La mesura de recuperació fa referència al tant per cent de les dades classificades correctament d'entre les que la resposta correcta era positiva. Aquesta mètrica pren el valor de 0,8178, i significa que d'entre els casos positius (accidents amb víctimes mortals), el 81,78\% s'han classificat efectivament com a positius. Al contrari, l'exactitud (o \emph{accuracy}) quantifica el nombre d'elements classificats correctament d'entre aquells que s'han classificat com a positius i, en aquest cas, el valor baixa a 0,6228.
 
 \vspace{2mm}
 
-D'altra banda, la puntuació F1 es calcula a través de la mitjana armònica entre les mètriques de precisió i recuperació, S'utilitza la mitjana armònica en comptes de l'aritmètica perquè aquesta té la propietat de comportar-se com la mitjana armònica si els valors són molt semblants, però s'apropa més cap al valor petit quan hi ha diferències entre les dues mesures.
+D'altra banda, la puntuació F1 es calcula a través de la mitjana harmònica entre les mètriques de precisió i recuperació, S'utilitza la mitjana harmònica en comptes de l'aritmètica perquè aquesta té la propietat de comportar-se com la mitjana harmònica si els valors són molt semblants, però s'apropa més cap al valor petit quan hi ha diferències entre les dues mesures.
 
 \vspace{2mm}
 \begin{figure}[H]
@@ -2192,31 +2194,31 @@ D'altra banda, la puntuació F1 es calcula a través de la mitjana armònica ent
 
 \vspace{2mm}
 
-Per últim, es troben les mètriques de pèrdua logística (\emph{log loss}) i àrea sota la corba ROC (AUC). La corba ROC és un gràfic que mostra el rendiment d'un model de classificació en tots els llindars de classificació, presentant la taxa de falsos positius a l'eix d'abcisses i la de veritables positius a l'eix d'ordenades. L'AUC medeix l'àrea sota la corba d'aquest model i, segons el valor que prengui es pot saber com és el model:
+Per acabar, es troben les mètriques de pèrdua logística (\emph{log loss}) i àrea sota la corba ROC (AUC). La corba ROC és un gràfic que mostra el rendiment d'un model de classificació en tots els llindars de classificació, presentant la taxa de falsos positius a l'eix d'abscisses i la de veritables positius a l'eix d'ordenades. L'AUC mesura l'àrea sota la corba d'aquest model i, segons el valor que prengui es pot saber com és el model:
 
 \vspace{2mm}
 
 \begin{itemize}
 
-\item 0.5 - 0.6: El model és molt dolent
+\item 0,5 - 0,6: El model és molt dolent
 
-\item 0.6 - 0.7: El model és dolent
+\item 0,6 - 0,7: El model és dolent
 
-\item 0.7 - 0.8: El model és bo
+\item 0,7 - 0,8: El model és bo
 
-\item 0.8 - 0.9: El model és molt bo
+\item 0,8 - 0,9: El model és molt bo
 
-\item 0.9 - 1: El model és excel·lent
+\item 0,9 - 1: El model és excel·lent
 
 \end{itemize}
 
 \vspace{2mm}
 
-El valor de l’AUC es pot interpretar de la següent manera: donat un parell d’individus (accidents), un amb resposta positiva (Y = 1, hi ha víctimes mortals) i un altre amb resposta negativa (Y = 0, no hi ha víctimes mortals), es té un 69\% de probabilitats que l'accident on sí hi ha hagut víctimes tingui una probabilitat predita pel model superior a la probabilitat predita per a l'accident amb resposta negativa.
+El valor de l’AUC es pot interpretar de la següent manera: donat un parell d’individus (accidents), un amb resposta positiva (Y = 1, hi ha víctimes mortals) i un altre amb resposta negativa (Y = 0, no hi ha víctimes mortals), es té un 69\% de probabilitats que l'accident on sí que hi ha hagut víctimes tingui una probabilitat predita pel model superior a la probabilitat predita per a l'accident amb resposta negativa.
 
 \vspace{2mm}
 
-La pèrdua logística, per la seva banda, és un indicador de què tan aprop està la probabilitat de predicció del valor real corresponent i, per tant, pren valors del 0 a l'1. Com més s'apropi la probabilitat predita al valor real, major serà el valor de la pèrdua logística. En aquest model pren el valor de 0.6871.
+La pèrdua logística, per la seva banda, és un indicador de què tan a prop està la probabilitat de predicció del valor real corresponent i, per tant, pren valors del 0 a l'1. Com més s'apropi la probabilitat predita al valor real, major serà el valor de la pèrdua logística. En aquest model pren el valor de 0,6871.
 
 \vspace{2mm}
 
@@ -2228,7 +2230,7 @@ A la dreta de la figura s'hi troba una sèrie de mètriques. Per una banda, s'id
 
 \vspace{2mm}
 
-Per decidir a quina classe pertany un individu es pot establir un llindar. En funció d'aquest llindar, la probabilitat estimada obtinguda classifica les observacions. El valor per defecte que apareix a la figura és de 0.3527, i implica que tots els individus que tinguin una probabilitat de resposta positiva d'aquest valor o més alt es classificaran com a positius. aquest és el valor mínim en el nostre cas, perquè no hi ha cap individu pel que s'hagi calculat una probabilitat menor. Si ens fixem en la corba ROC, es veu que amb aquest valor de llindar, els falsos positius estan presents en el 100\% dels casos, perquè cap individu s'ha classificat a la classe negativa. Si movem el valor del llindar, veurem com canvien les mètriques d'avaluació del model i en quin punt de la corba ens situem.
+Per decidir a quina classe pertany un individu es pot establir un llindar. En funció d'aquest llindar, la probabilitat estimada obtinguda classifica les observacions. El valor per defecte que apareix a la figura és de 0,3527, i implica que tots els individus que tinguin una probabilitat de resposta positiva d'aquest valor o més alt es classificaran com a positius. Aquest és el valor mínim en el nostre cas, perquè no hi ha cap individu pel qual s'hagi calculat una probabilitat menor. Si ens fixem en la corba ROC, es veu que amb aquest valor de llindar, els falsos positius estan presents en el 100\% dels casos, perquè cap individu s'ha classificat a la classe negativa. Si movem el valor del llindar, veurem com canvien les mètriques d'avaluació del model i en quin punt de la corba ens situem.
 
 \vspace{2mm}
 
@@ -2252,7 +2254,7 @@ On $p$ és el nombre de paràmetres que conformen el model.
 
 \vspace{2mm}
 
-Al terme esquerra de la igualtat se l'anomena \emph{log-odds}. Els \emph{odds}, que és l'equació que es troba dins del logaritme són la probabilitat de resposta positiva entre la probabilitat de resposta negativa. Podem entendre el model logístic com un model lineal pels \emph{log-odds}, ja que a través la combinació de termes es pot quantificar com canvia la classificació o la predicció al modificar alguna de les variables. Per fer-ho, s'haurà de treballar amb els exponents de la funció anterior.
+Al terme esquerre de la igualtat se l'anomena \emph{log-odds}. Els \emph{odds}, que és l'equació que es troba dins del logaritme són la probabilitat de resposta positiva entre la probabilitat de resposta negativa. Podem entendre el model logístic com un model lineal pels \emph{log-odds}, ja que a través la combinació de termes es pot quantificar com canvia la classificació o la predicció en modificar alguna de les variables. Per fer-ho, s'haurà de treballar amb els exponents de la funció anterior.
 
 \begin{center}
 
@@ -2289,24 +2291,28 @@ Un canvi en una variable d'una unitat augmenta el log-odds tant com el valor del
 
 \vspace{2mm}
 
-Per entendre l'efecte del pes de les variables del model en la probabilitat de resposta positiva, el primer que farem serà mirar l'intercept ($\beta_0$). quan totes les variables numèriques prenen el valor zero i les variables categòriques estan en la categoria de referència, les probabilitats estimades de resposta positiva són $e^{\beta_0} = e^{-1.0228353} = 0.3595739934$. Les categories de referència de les variables categòriques són "urbà", pel que fa a la informació de la localització, "Dissabte" (en el cas de dies de la setmana) i "Tarda", per la variable d'hores agrupades.
+Per entendre l'efecte del pes de les variables del model en la probabilitat de resposta positiva, el primer que farem serà mirar l'intercept ($\beta_0$). Quan totes les variables numèriques prenen el valor zero i les variables categòriques estan en la categoria de referència, les probabilitats estimades de resposta positiva són $e^{\beta_0} = e^{-1,0228353} = 0,3595739934$. Les categories de referència de les variables categòriques són "urbà", pel que fa a la informació de la localització, "Dissabte" (en el cas de dies de la setmana) i "Tarda", per la variable d'hores agrupades.
 
 \vspace{2mm}
 
-Pel que fa a les variables numèriques, que són \texttt{MINUTE}, \texttt{FATALS}, \texttt{DRUNK\_DR}, \texttt{NO\_PER} i \texttt{NO\_VEHICLE}, tenim que l'augment del valor de cada variable en una unitat afecta a les probabilitats estimades en un factor de $e^{\beta_i}$, on $i$ és el subíndex de cada variable numèrica.
+Pel que fa a les variables numèriques, que són \texttt{MINUTE}, \texttt{FATALS}, \texttt{DRUNK\_DR}, \texttt{NO\_PER} i \texttt{NO\_VEHICLE}, tenim que l'augment del valor de cada variable en una unitat afecta les probabilitats estimades en un factor de $e^{\beta_i}$, on $i$ és el subíndex de cada variable numèrica.
 
 \vspace{2mm}
 
-En el cas de \texttt{FATALS}, per exemple, es troba una relació positiva entre el nombre de ferits a l'accident i el fet d'haver-hi hagut alguna víctima en el mateix. Per cada augment unitari en el nombre de ferits, la probabilitat de classe positiva canvia en un factor de $e^{0.79631994} = 2.217365856$.
+En el cas de \texttt{FATALS}, per exemple, es troba una relació positiva entre el nombre de ferits a l'accident i el fet d'haver-hi hagut alguna víctima en el mateix. Per cada augment unitari en el nombre de ferits, la probabilitat de classe positiva canvia en un factor de $e^{0,79631994} = 2,217365856$.
 
 \vspace{2mm}
 
-Altrament, les variables categòriques, \texttt{RUR\_URB}, \texttt{DAY\_WEEK} i \texttt{HOUR\_agrupat} s'interpreten de forma que, canviar la variable $x_i$ de la categoria de referència a una de les altres afecta a les probabilitats estimades en un factor de $\beta_i$.
+Altrament, les variables categòriques, \texttt{RUR\_URB}, \texttt{DAY\_WEEK} i \texttt{HOUR\_agrupat} s'interpreten de forma que, canviar la variable $x_i$ de la categoria de referència a una de les altres afecta les probabilitats estimades en un factor de $\beta_i$.
 
 \vspace{2mm}
 
-Si ens fixem en la variable \texttt{RUR\_URB}, es pot calcular que si, en comptes d'ubicar-se l'accident en una zona urbana, s'ha donat en una localització rural, la probabilitat canvia en un factor de $e^{0.4165228} = 1.519911759$, mentre que si la zona és desconeguda, el canvi és de $e^{-0.0342466} = 0.9663331775$.
+Si ens fixem en la variable \texttt{RUR\_URB}, es pot calcular que si, en comptes d'ubicar-se l'accident en una zona urbana, s'ha donat en una localització rural, la probabilitat canvia en un factor de $e^{0,4165228} = 1,519911759$, mentre que si la zona és desconeguda, el canvi és de $e^{-0,0342466} = 0,9663331775$.
 
+
+\newpage
+
+\section{Repositori de Github}
 
 \newpage
 
