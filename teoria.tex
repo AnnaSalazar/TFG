@@ -1,13 +1,17 @@
-\documentclass[12pt,longbibliography]{article}
+\documentclass[11pt,longbibliography]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[catalan]{babel}
-\usepackage[a4paper, margin=2.7cm]{geometry}
+\usepackage[a4paper, margin=2.5cm]{geometry}
 \renewcommand{\thefootnote}{\arabic{footnote}}
 \usepackage{multicol}
 \setlength{\columnsep}{10mm}
 \usepackage[none]{hyphenat}
 \usepackage{float}
+
+% \usepackage[sfdefault]{carlito}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 
 \usepackage{amsmath, amsthm, amsfonts, amssymb}
 \newtheorem{thm}{Theorem}[section]
@@ -21,10 +25,12 @@
 
 
 \usepackage{mathrsfs} 
-\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue,breaklinks]{hyperref}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue,breaklinks]{hyperref}
 \usepackage{longtable}
 \usepackage{fancyvrb}
 \usepackage{bbm} 
+\renewcommand{\baselinestretch}{1.25}
+\setlength{\parskip}{5.5pt}
 
 \usepackage{hyperref}
 \usepackage{graphicx}
@@ -34,6 +40,10 @@
 \setlength{\tindent}{\parindent}
 \setlength{\parindent}{0pt}
 \renewcommand{\indent}{\hspace*{\tindent}}
+
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
 
 \title{Big Query}
 \author{Anna Salazar}
@@ -68,15 +78,12 @@
 
 BigQuery és un motor d’anàlisi de macrodades (\textit{Big Data}) que permet executar consultes SQL al núvol sobre les dades emmagatzemades en aquest, sense importar el volum de les dades ni el tipus de consultes que es volen fer. El motor de consulta és capaç de treballar sobre terabytes de dades en qüestió de segons, i sobre petabytes en pocs minuts. Avui en dia, les empreses estan adoptant cada cop més la presa de decisions basades en dades i fomentant una cultura oberta en la qual les dades no estan aïllades dins dels departaments. BigQuery, en proporcionar els mitjans tecnològics per a promoure un canvi cultural cap a l’agilitat i l’obertura, realitza un paper molt important en l’augment del ritme de la innovació.
 
-\vspace{2mm}
 
 Treballar amb dades a BigQuery implica 3 aspectes principals: l’emmagatzemament, la incorporació de les dades i la consulta d’aquestes, Google s’encarrega de tota la resta. Com BigQuery és un servei totalment gestionat, no és necessari configurar ni instal·lar res en el nostre ordinador i, pel mateix motiu, no necessitem un administrador de la base de dades. Simplement, podem entrar en el nostre projecte de Google Cloud des del mateix navegador i començar a analitzar.
 
-\vspace{2mm}
 
 Pel que fa a l’emmagatzemament, les dades es guarden en una taula estructurada, la qual cosa significa que es pot utilitzar SQL estàndard per a facilitar la consulta i l’anàlisi de dades. BigQuery és perfecta pel \textit{Big Data} perquè gestiona tot aquest emmagatzemament i està proveïda d’operacions d’escalabilitat que funcionen de forma automàtica sense que l’usuari s’hagi d’involucrar,  per la qual cosa mai haurem de preocupar-nos per la grandària de les dades amb els quals treballem. Part de la consideració de disseny darrere de BigQuery és animar als usuaris a centrar-se en els coneixements en lloc de la infraestructura. 
 
-\vspace{2mm}
 \noindent
 Per a més informació sobre BigQuery, es pot consultar la pàgina de \href{https://cloud.google.com/bigquery/docs/introduction}{Google Cloud}.
 
@@ -84,7 +91,7 @@ Per a més informació sobre BigQuery, es pot consultar la pàgina de \href{http
 
 Una de les característiques més rellevants que presenta BigQuery és que es tracta d'una plataforma sense servidor, és a dir, que els servidors s'executen en segon pla, sense la intervenció de l'usuari. A més, presenta una alta disponibilitat, la qual cosa es tradueix en que no cal preocupar-se per la caiguda dels servidors, ja que la plataforma s'encarrega del seu manteniment. També té propietats d'escalabilitat automàtica que fan possible gestionar fins a petabytes de dades. Aquestes característiques no estan disponibles a la majoria de plataformes d'emmagatzemament de dades tradicionals, i fan destacar BigQuery entre moltes.
 
-\vspace{2mm}
+
 
 Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb moltes fonts de dades diferents. Es poden pujar les dades des del propi sistema d'arxius, des de Google Cloud Storage o des de Google Drive, entre moltes més fonts. Després de fer-ho, es poden consultar aquestes dades utilitzant SQL estàndard o SQL heretat. Els resultats de les consultes solen emmagatzemar-se en la memòria cau durant 24 hores, de manera que les següents execucions d'aquesta consulta només hauran d'obtenir les dades de la memòria cau en lloc de fer-ho del disc. És a dir, estarà lliure de cost fer la mateixa consulta en un plaç de 24 hores, ja que no s'haurà de tornar a examinar la base de dades per obtenir el resultat.
 
@@ -100,21 +107,21 @@ Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb mol
 Per utilitzar aquesta eina d’anàlisi només ens caldrà crear un compte a Google Cloud i treballar a la zona de proves (\textit{Sandbox}) que ofereix Google per operar de forma gratuïta.
 Per fer servir la zona de proves seguirem els passos següents: 
 
-\vspace{2mm}
+
 
 1. En primer lloc, ens dirigim a la interfície d’usuari (UI) de \href{https://console.cloud.google.com}{BigQuery}. Des d'aquesta interfície es poden realitzar la majoria de les operacions.
 
-\vspace{2mm}
+
 
 2. Accedim al nostre compte de Google o creem un nou compte si encara no en tenim cap. Si és el primer cop que iniciem sessió a Google Cloud, haurem de marcar el país on som i acceptar les condicions de servei.
 
-\vspace{2mm}
+
 
 3. Un cop dins, podem veure com és l'espai de treball SQL. Hi ha una secció de l'Explorador a l'esquerra que ens permet navegar en projectes, conjunts de dades i taules. Per tal de fer servir la zona de proves, haurem de crear un projecte.
 
 S'introdueix un nom al projecte i fem clic a \textit{Create}. En el nostre cas, l'hem anomenat \verb|el_meu_projecte| (Figura ~\ref{fig:bq1}), i treballarem sobre aquest per il·lustrar el funcionament de la plataforma.
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq1}}%
@@ -124,11 +131,11 @@ S'introdueix un nom al projecte i fem clic a \textit{Create}. En el nostre cas, 
 \caption{Creació d'un projecte}
 \label{fig:bq1}
 \end{figure}
-\vspace{2mm}
+
 
 4. Un cop creat el projecte, el navegador ens redirigeix a la interfície web de BigQuery.
 
-\vspace{2mm}
+
 
 5. Ara ja podrem carregar o consultar dades en el nostre projecte sense cap compte de facturació adjunta.
 
@@ -136,15 +143,15 @@ S'introdueix un nom al projecte i fem clic a \textit{Create}. En el nostre cas, 
 
 Això no obstant, per a l’ús de la zona de proves gratuïta que ofereix Google, haurem de tenir en compte un seguit de limitacions.
 
-\vspace{2mm}
+
 
 En primer lloc, ens trobem amb un màxim de 10 Gb d’emmagatzemament i 10 Tb de consulta al mes. Al llarg d’aquest exemple no utilitzarem un volum de dades més gran ni sobrepassarem el límit d’espai de consulta, però s’han de tenir en compte aquestes limitacions si l’objectiu és treballar amb el format gratuït.
 
-\vspace{2mm}
+
 
 A més, ens trobem que tots els conjunts de dades tenen el temps de caducitat de la taula per defecte establerta en seixanta dies. Per tant, totes les taules, vistes o particions de les taules caducaran automàticament passat aquest temps.
 
-\vspace{2mm}
+
 
 Una altra característica destacable és que els projectes de la zona de proves no són compatibles amb:
 
@@ -158,11 +165,11 @@ Una altra característica destacable és que els projectes de la zona de proves 
 
 Ara que ja disposem d'un projecte en el qual treballar, ha arribat el moment de crear un nou conjunt de dades dins d'aquest. Es pot pensar en un conjunt de dades a BigQuery com una agrupació lògica de taules. Alhora, diferents conjunts de dades s'integren en un mateix projecte. 
 
-\vspace{2mm}
+
 
 Per a crear-ne un, només s'ha de desplegar el menú i triar l'opció de \texttt{crear un nou conjunt de dades}. Tot seguit, hi ha diversos detalls per al conjunt de dades que es poden establir. En primer lloc, hi ha l'opció de canviar el projecte que l'encabirà. Això farà que aparegui un navegador on es podrà especificar el projecte. Una altra possibilitat serà escollir la ubicació de les dades. Això determina on s'aprovisionaran els recursos subjacents, com la computació i l'emmagatzematge, per al servei BigQuery. Les consideracions a l'hora de triar una ubicació inclouran el rendiment per als usuaris finals, l'alta disponibilitat i també qualsevol restricció d'auditoria o compliment. I, per últim, es pot establir un temps d'expiració per defecte per a les taules dins d'un conjunt de dades.
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq3}}%
@@ -172,11 +179,11 @@ Per a crear-ne un, només s'ha de desplegar el menú i triar l'opció de \texttt
 \caption{Creació d'un conjunt de dades}
 \label{fig:bq3}
 \end{figure}
-\vspace{2mm}
+
 
 Tal com es pot veure a la figura ~\ref{fig:bq3}, hem creat un nou conjunt de dades anomenat \verb|dades_projecte| que estarà ubicat en el projecte \verb|el_meu_projecte|, la ubicació de les dades l'hem posat a diverses regions dels Estats Units i, per últim, no hem habilitat un temps de venciment de la taula, sinó que per defecte BigQuery l'emmagatzemarà per 60 dies.
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{bq5}
@@ -184,11 +191,11 @@ Tal com es pot veure a la figura ~\ref{fig:bq3}, hem creat un nou conjunt de dad
 \caption{Informació del conjunt de dades}
 \label{fig:bq5}
 \end{figure}
-\vspace{2mm}
+
 
 Un cop creat \verb|dades_projecte|, es pot comprovar que ara apareix dins de \verb|el_meu_projecte| a la interfície d'usuari (UI) de BigQuery, i s'observa que no hi ha taules dins d'aquest. També es pot donar un cop d'ull als detalls associats a aquest conjunt de dades (Figura ~\ref{fig:bq5}). Des d'aquest menú, podem triar obrir-lo, i es desplegarà a la dreta tota la informació del conjunt de dades. Aquí podem confirmar l'identificador del conjunt de dades, que també assenyala el projecte en el qual s'ha creat el conjunt de dades, i després altres detalls que inclouen les hores de creació i modificació, així com la ubicació d'aquest.
 
-\vspace{2mm}
+
 
 A més, des d'aquesta finestra podrem compartir el conjunt de dades amb altres usuaris. Hi ha opcions per a copiar i eliminar aquest conjunt de dades. I després, a l'opció \textit{editar detalles}, podem reconfigurar el temps de caducitat de les taules, establir una descripció o afegir etiquetes. Per exemple, si volem marcar aquest conjunt de dades com a pertanyent a un equip, podem establir una etiqueta amb la clau d'equip i el valor corresponent. En acabant, quan guardem aquest conjunt de dades, les etiquetes apareixen a l'apartat d'informació.
 
@@ -196,7 +203,7 @@ A més, des d'aquesta finestra podrem compartir el conjunt de dades amb altres u
 
 Després d'haver creat un conjunt o base de dades en un projecte, ja es pot crear una taula dins d'ell. Si tenim la informació de la base, hauríem de veure aquesta opció per a crear una nova taula des d'aquí. Alternativament, podem dirigir-nos al projecte, després al conjunt de dades i triar l'opció de crear una taula. Apareixerà un formulari i tindrem l'opció d'especificar una font per a la nostra taula. Això ens permetrà importar dades de fonts ja existents, com l'emmagatzematge en el núvol de Google o bé un arxiu dels nostres propis sistemes. La primera taula que crearem serà bastant simple, i ens servirà per explorar una mica la plataforma. De fet, serà una taula buida anomenada \verb|accidents| (Figura ~\ref{fig:bq6}). 
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq6}}%
@@ -206,11 +213,11 @@ Després d'haver creat un conjunt o base de dades en un projecte, ja es pot crea
 \caption{Creació d'una taula}
 \label{fig:bq6}
 \end{figure}
-\vspace{2mm}
+
 
 A continuació, passem a la secció d'\texttt{Esquema}. Podem fer ús d'aquesta interfície per a establir les columnes de la nostra taula, incloent-hi els tipus i altres configuracions. La primera columna que definirem és l'identificador de l'accident, que s'anomenarà \verb|ST_CASE|. Per al tipus de variable, podem triar d'entre menú d'opcions, que inclou tots els tipus amb els quals ja estem familiaritzats. Quant a la manera (columna \textit{modo} a la figura ~\ref{fig:bq8}), aquesta determinarà si els valors d'aquesta columna poden ser nuls o si es requereix un valor (com és el cas de l'identificador), i també podem establir que els valors siguin d'un tipus que es pugui repetir, marcant \textit{indistint}. Finalment, es pot escriure una descripció per a la variable, que és opcional. 
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{bq8}
@@ -218,7 +225,7 @@ A continuació, passem a la secció d'\texttt{Esquema}. Podem fer ús d'aquesta 
 \caption{Esquema de la nostra taula}
 \label{fig:bq8}
 \end{figure}
-\vspace{2mm}
+
 
 La taula ~\ref{tab:taula1} que acabem de crear està formada per 8 variables, 6 de les quals són numèriques i 2 categòriques, i es descriuen tal com es pot veure a continuació.
 
@@ -242,7 +249,7 @@ DRUNK\_DR & Numèrica   & Nombre de conductors beguts involucrats a l’accident
 \label{tab:taula1}
 \end{table}
 
-\vspace{2mm}
+
 
 En el transcurs del treball, farem ús d'aquesta taula, juntament amb dues més, que prenen de nom de \verb|persones| i \verb|vehicles|, per analitzar les dades que es van prendre d'un conjunt d'accidents que es van donar als Estats Units. 
 
@@ -250,7 +257,7 @@ En el transcurs del treball, farem ús d'aquesta taula, juntament amb dues més,
 
 Ara que hem creat una taula de consulta, podem centrar-nos a treballar amb ella. Per a això, ens desplaçarem cap avall i donarem un cop d'ull al primer esquema de la taula (a la figura ~\ref{fig:bq9}), on es troba a alguna informació interessant. Més enllà de la identificació de la taula, a l'esquerra de la figura, també podem comprovar la grandària de la taula a la dreta, que ens donarà una indicació de la quantitat de dades que es processarien en cas d'executar consultes sobre aquesta. La grandària d'emmagatzematge a llarg termini assenyala les dades a les quals no s'ha accedit en els últims 90 dies, i després, per descomptat, tenim les hores de creació i modificació, juntament amb la ubicació de les dades de la taula. Des d'aquesta interfície també podem editar els detalls existents d'aquesta taula. Aquí podem establir un temps de caducitat en cas que vulguem anul·lar el que s'ha establert en el nivell del conjunt de dades. També tenim l'opció d'establir una descripció o afegir etiquetes.
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq9}}%
@@ -261,7 +268,7 @@ Ara que hem creat una taula de consulta, podem centrar-nos a treballar amb ella.
 \caption{Detalls de la taula}
 \label{fig:bq9}
 \end{figure}
-\vspace{2mm}
+
 
 Una altra característica que podem consultar és la vista prèvia de la taula, i com és lògic, veurem que aquesta encara no conté dades, ja que simplement hem creat l'esquema de la taula, sense inserir cap dada en aquesta. Si féssim ús de SQL, en qualsevol altre context es podrien afegir dades a partir d'una simple consulta a la taula, que tindria l'estructura següent:
 
@@ -291,7 +298,7 @@ Això no obstant, quan intentem executar la consulta, BigQuery ens informa d'un 
 
 Ara explorarem un cas d'ús més comú per als usuaris de BigQuery, que tracta de crear una taula a partir de dades existents. Per a això, ens dirigirem al nostre conjunt de dades, \verb|dades_projecte|, i triarem crear una nova taula. Aquest cop, la font no serà una taula buida, sinó que carregarem un arxiu CSV del nostre propi sistema d'arxius. Un cop seleccionem importar les dades, es pot seleccionar diferents tipus d'arxiu com ara CSV, JSON, Avro o Parquet, principalment. Per a respectar les limitacions de la zona de proves, hi ha algunes restriccions quant a la grandària de l'arxiu que podem pujar, recordem que aquestes han de ser menors a 10 Gb. Procedim llavors a navegar pels nostres sistemes d'arxius per a l'arxiu a pujar. Una vegada que l'arxiu ha estat seleccionat, el format de l'arxiu s'ha establert automàticament en CSV (Figura ~\ref{fig:bq12}). 
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq12}}%
@@ -302,23 +309,23 @@ Ara explorarem un cas d'ús més comú per als usuaris de BigQuery, que tracta d
 \caption{Lectura d'un arxiu extern}
 \label{fig:bq12}
 \end{figure}
-\vspace{2mm}
+
 
 Quant al projecte i al conjunt de dades, els deixarem com estan. I escollirem el nom de la taula, \verb|accidents_bd|, el qual farà saber que inclou informació sobre diversos accidents de trànsit. A continuació, tenim l'opció de definir explícitament l'esquema. això no obstant, atès que es tracta d'un arxiu CSV amb múltiples columnes, podem triar l'opció de detectar automàticament. D'aquesta manera, BigQuery donarà un cop d'ull al contingut de cada columna i determinarà quin ha de ser l'esquema. 
 
-\vspace{2mm}
+
 
 Més enllà d'això, al final de la finestra de creació de la taula ens apareixeran unes opcions avançades. Aquestes opcions permeten la lectura de diferents tipus de CSV, entre altres coses. Sabem que el delimitador de camps d’un CSV pot ser una tabulació o una coma entre altres possibilitats. En el nostre cas, cal especificar que el nostre tabulador és el punt i coma “;”. 
 
-\vspace{2mm}
+
 
 Si hem establert totes aquestes especificacions, ja podrem començar amb l’anàlisi.
 
-\vspace{2mm}
+
 
 Ara es pot comprovar que \verb|accidents_bd| apareix dins la nostra base de dades, \verb|dades_projecte|. A continuació, podem accedir a la informació de la taula i al seu contingut desplegant el menú i triant \texttt{Obrir}. En l'esquema de la taula, sabrà que s'ha detectat automàticament el tipus dels diferents camps. Donem un cop d'ull als detalls de la taula. Aquí es pot veure que la grandària total és de poc més de 280 kB. El nombre de files és d'unes 2.780. I després, quan ens dirigim a la vista prèvia, obtenim un cop d'ull als continguts (Figura ~\ref{fig:bq13}). 
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq13_2}}%
@@ -329,14 +336,14 @@ Ara es pot comprovar que \verb|accidents_bd| apareix dins la nostra base de dade
 \caption{Informació sobre la taula}
 \label{fig:bq13}
 \end{figure}
-\vspace{2mm}
+
 
 
 \subsection{Consulta de dades i visualització d'estadístiques de consultes}
 
 Per a executar consultes en aquesta taula, ens dirigim al botó de consulta i s'obrirà en una nova pestanya. Aquesta pot ser una pestanya completament nova, és a dir, ocultant aquesta vista de detalls, o bé pot ser una pestanya dividida, que ens permetrà veure alhora aquesta vista de detalls per a la taula mentre construïm una consulta. Mitjançant aquest procés, ha aparegut una nova pestanya cap a la dreta, i la consulta que apareix per defecte inclou una clàusula \verb|SELECT|, però no inclou cap camp (Figura ~\ref{fig:bq14}). Precisament per això hi ha un error de sintaxi, com es mostra a la dreta de la figura. 
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq14}}%
@@ -347,7 +354,7 @@ Per a executar consultes en aquesta taula, ens dirigim al botó de consulta i s'
 \caption{Elaboració d'una consulta}
 \label{fig:bq14}
 \end{figure}
-\vspace{2mm}
+
 
 Ara, per a completar la clàusula \verb|SELECT|, podríem escriure els noms dels atributs que volem consultar, a més de condicions, per exemple, mitjançant la clàusula \verb|WHERE|. Concretament, l'esquema que s'haurà de seguir per a consultar la base de dades té la forma següent:
 
@@ -358,7 +365,7 @@ FROM `[nom_projecte].[nom_base_de_dades].[nom_taula]`
 (WHERE condició)
 \end{verbatim}
 
-\vspace{2mm}
+
 
 Si escrivim a l’editor la nostra consulta, apareixerà un validador d’aquesta a la part superior dreta de la finestra. Aquest validador l'hem vist anteriorment quan ens indicava un error en voler executar una consulta fent servir llenguatge de manipulació de dades (DML), i pot agafar dues formes:
 
@@ -368,7 +375,7 @@ Si escrivim a l’editor la nostra consulta, apareixerà un validador d’aquest
 
 A més, el validador també mostra la quantitat de dades que la consulta processarà quan s’executi. Per exemple, si demanem en una consulta que ens retorni la columna sencera \verb|DAY|, el validador de la dreta ens marca que es processaran una quantitat de gairebé 22 kB, tal com es pot veure a la figura ~\ref{fig:bq19}.
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{bq19}
@@ -376,15 +383,15 @@ A més, el validador també mostra la quantitat de dades que la consulta process
 \caption{Primera consulta}
 \label{fig:bq19}
 \end{figure}
-\vspace{2mm}
+
 
 Efecturem aquesta consulta prement \verb|Executar|. Els resultats apareixen sota la finestra d'editor i mostra certs detalls com, per exemple, que la consulta s'ha executat en uns 0 segons. Per descomptat, podem desplaçar-nos i donar un cop d'ull a tots els resultats (a la dreta de la Figura ~\ref{fig:bq19}). Entre els detalls que es mostren per a cada consulta s'hi troben la informació del treball, els resultats en forma de taula, els resultats en format JSON i certs detalls de l'execució de la consulta. 
 
-\vspace{2mm}
+
 
 Si posem el focus en la informació del treball, es troba l'identificador d'aquest, l'usuari que l'ha executat, la ubicació on s'emmagatzemen les dades, l'hora de la creació i l'execució d'aquesta, el temps d'execució i els bytes processats i facturats. Veiem que el nombre de bytes facturats és de 10 MB, aquesta és la quantitat mínima que surt per defecte per a cada consulta per \textit{Google Cloud Platform}, i té en compte les despeses generals. Per a consultes a bases de dades més extenses, aquesta facturació serà major i ens impedirà l'ús de la zona de proves. L'última característica que crida l'atenció de la informació del treball és que els resultats s'emmagatzemen en una taula temporal. Això vol dir que aquesta taula resultant no es guardarà com una més en el nostre conjunt de dades i, per tant, no la podrem consultar.
 
-\vspace{2mm}
+
 
 \subsection{Creació d'una taula a partir d'un resultat de consulta}
 
@@ -398,7 +405,7 @@ GROUP BY DAY
 
 Un cop realitzada la consulta, hem d'exportar totes aquestes dades a una nova taula i, per a fer-ho, revisarem algunes de les opcions d'exportació que es troben al menú \verb|Guardar resultats|. En aquest, apareixen diverses opcions per a la manera de guardar els resultats (Figura ~\ref{fig:bq17}). Podem guardar-los com un arxiu CSV en Google Drive o en un arxiu local. En el nostre cas, exportarem el contingut a una nova taula de BigQuery. Una vegada feta aquesta selecció, podem decidir el nom del projecte i el conjunt de dades on s'aprovisionarà la taula i, a més, establir un nom de taula. 
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq17}}%
@@ -409,12 +416,12 @@ Un cop realitzada la consulta, hem d'exportar totes aquestes dades a una nova ta
 \caption{Creació d'una taula a partir d'una consulta}
 \label{fig:bq17}
 \end{figure}
-\vspace{2mm}
+
 
 
 Llavors, quan guardem les coses, això haurà iniciat un nou treball per a guardar la nova taula i carregar-la amb dades. Una vegada que tanquem aquesta notificació, podem treure el pin de l'Explorador i baix, apareix com una taula. En obrir-la confirmem que l'esquema apunta a les mateixes columnes que havíem referenciat en la clàusula \verb|SELECT| de la consulta que va crear aquesta taula. Des dels detalls podem confirmar que el nombre de files coincideix amb el dels resultats de la consulta, concretament 31. I després la vista prèvia ens mostrarà quines són les dades exactament. 
 
-\vspace{2mm}
+
 
 Hom es pot preguntar: \textit{Quina és la finalitat d'aquesta taula?} Bé, atès que només conté un subconjunt de la taula original, les consultes cap a aquesta taula tindran potencialment menys dades per a processar que les consultes que s'executen directament a la taula original. Potser en aquest cas no tornarem a necessitar aquesta consulta, però imaginem que només ens interessa estudiar els accidents que s'hagin produït a zones rurals i creem una consulta que filtri aquest tipus de casos. En aquesta situació, serà millor executar la resta de consultes sobre la taula petita, que inclou tota la informació que necessitem i probablement tindrà un cost de consulta menor.
 
@@ -426,7 +433,7 @@ Hom es pot preguntar: \textit{Quina és la finalitat d'aquesta taula?} Bé, atè
 
 Mentre continuem familiaritzant-nos amb la plataforma, podem explorar una altra opció que ofereix BigQuery, que són dades que estan disponibles públicament per a que qualsevol usuari pugui executar les seves consultes. Aquests conjunts de dades públiques es troben en un projecte anomenat BigQuery Public Data. Per a accedir a elles, farem servir al botó d'agregació de dades (\verb|ADD DATA|) que es troba al costat de l'explorador, i escollirem l'opció \verb|Explorar conjuntos de datos públicos|) (Figura ~\ref{fig:bq20}).
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{bq20}
@@ -434,13 +441,13 @@ Mentre continuem familiaritzant-nos amb la plataforma, podem explorar una altra 
 \caption{Accés als conjunts de dades públiques}
 \label{fig:bq20}
 \end{figure}
-\vspace{2mm}
+
 
 Podem donar un cop d'ull als diferents conjunts de dades i taules d'aquest projecte i navegar entre les diferents opcions per a poder triar aquells que cridin la nostra atenció i, en definitiva, amb els que treballarem. Per exemple, entre totes aquestes taules s'hi troba una que conté informació sobre la població catalana recopilada per l'aplicació \textit{GenCat Mobile Coverage} (Figura ~\ref{fig:bq21}). Dins d'aquesta taula s'hi troben dades recollides mitjançant crowdsourcing\footnote[1]{La pràctica d'obtenir informació o aportacions a una tasca o projecte recorrent als serveis d'un gran nombre de persones, remunerades o no, normalment a través d'Internet.} i tenen informació sobre l'estat de la cobertura de la telefonia mòbil a Catalunya. La plataforma utilitza una aplicació Android per a registrar les dades dels ciutadans a través dels seus dispositius mòbils sobre el nivell de cobertura per operador, la xarxa utilitzada (2G, 3G i 4G) i la ubicació del dispositiu. Aquestes dades en concret van ser recopilades durant els anys 2015-2017.
 
 
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq21}}%
@@ -451,15 +458,15 @@ Podem donar un cop d'ull als diferents conjunts de dades i taules d'aquest proje
 \caption{Creació d'una taula a partir d'una consulta}
 \label{fig:bq21}
 \end{figure}
-\vspace{2mm}
+
 
 Si volguéssim descarregar la taula i situar-la dins del nostre projecte, BigQuery ens permet aquesta operació si premem \verb|Visualitzar conjunt de dades| seguit de \verb|crear taula|. Això no obstant, també és possible consultar la taula sense necessitat de descarregar-la dins del nostre projecte, fent servir el projecte \verb|bigquey-public-data|, que és el que farem en aquest cas.
 
-\vspace{2mm}
+
 
 Dins la informació de la taula que ens proporciona la plataforma, apareix una secció amb consultes suggerides (les podem trobar a la dreta de la Figura ~\ref{fig:bq21}). D'entre aquestes, la primera fa referència als 10 pobles catalans amb pitjor cobertura de mòbil.  Si premem el botó \verb|Run this query|, el navegador ens redirigeix a l'editor amb la consulta preparada, i nosaltres la podem executar sense cap cost, ja que tant la taula com el resultat de la consulta estan emmagatzemats a BigQuery i les dades no s'han de processar (Figura ~\ref{fig:bq23}).
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{bq23}
@@ -467,15 +474,15 @@ Dins la informació de la taula que ens proporciona la plataforma, apareix una s
 \caption{Consulta a un conjunt de dades públic}
 \label{fig:bq23}
 \end{figure}
-\vspace{2mm}
+
 
 Els resultats d'aquesta consulta ens diuen que els pobles catalans amb menys cobertura mòbil són Canejan, Boadella i les Escaules, Cabó, la Vajol, Gaià, Farrera, Gisclareny, Viver i Serrateix, Savallà del Comtat i Torroja del Priorat. A més, els bytes processats en aquesta consulta apareixen com un paràmetre indefinit, ja que aquests resultats estan emmagatzemats a la memòria cau de BigQuery.
 
-\vspace{2mm}
+
 
 Tal com hem vist, BigQuery emmagatzema a la seva memòria cau els resultats de la consulta perquè les dades puguin ser recuperades més ràpidament la pròxima vegada que s'executi una mateixa consulta. Això no obstant, cal tenir en compte que només s'accedeix a les dades de la memòria cau quan s'executa la mateixa consulta després de la seva creació. Per exemple, si es modifiqués una mica aquesta consulta i, per exemple, demanés tan sols el nom del poble, en comptes d'aquest i la mitjana del senyal mòbil, podríem arribar a pensar que els resultats de la consulta d'aquesta execució haurien de retornar-nos un subconjunt de les dades que ja són presents en la memòria cau (ja que és un subconjunt de la nostra consulta anterior). Però, per la forma en què funciona la memòria cau de BigQuery, quan executem això, observarem que la informació no s'ha recuperat d'aquesta. En canvi, quan aquesta consulta es torna a executar, és quan la memòria cau s'activa, i és d'on es recuperen les dades. 
 
-\vspace{2mm}
+
 
 Per tant, la memòria cau només funciona si és la mateixa consulta la que es torna a executar. Aquestes característiques són de gran interès, ja que l'emmagatzematge en memòria cau és una gran manera de reduir el cost d'execució de les consultes, i també millora el rendiment d'aquestes. 
 
@@ -483,7 +490,7 @@ Per tant, la memòria cau només funciona si és la mateixa consulta la que es t
 
 Una altra funció que presenta la plataforma és la lectura d'arxius externs que s'actualitzen de forma periòdica. Això és d'especial utilitat en els casos en què la informació de la qual es disposa és a temps real, que és una característica prou habitual quan es treballa amb volums de dades molt elevats. Per a il·lustrar el funcionament de BigQuery en aquests casos, crearem una nova taula que estarà vinculada, en aquest cas, a Google Drive, concretament a \verb|Hojas de cálculo| (Figura ~\ref{fig:bq24}). És molt important que el propietari de la taula sigui el mateix compte que està vinculat a BigQuery, perquè en cas contrari sorgeix un missatge d'error i no és capaç de vincular la taula externa.
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{bq24}
@@ -491,12 +498,12 @@ Una altra funció que presenta la plataforma és la lectura d'arxius externs que
 \caption{Connexió a una taula externa}
 \label{fig:bq24}
 \end{figure}
-\vspace{2mm}
+
 
 
 Si ens dirigim als detalls, aquí és on veiem quelcom interessant. La grandària de la taula és de zero bytes, atès que les dades són externes a BigQuery (Figura ~\ref{fig:bq25}). Si ens desplacem, podem veure els detalls de les dades externes. Això significa que quan actualitzem el full de càlcul, qualsevol consulta cap a aquesta taula recollirà automàticament les dades més recents. Ja que la nostra consulta de la taula gran no és només una còpia del full de càlcul, sinó que és de fet una referència a ella. Parlant de consultar les dades, ens dirigirem a Query, i a obrir un editor de consultes en una nova pestanya. Quan una consulta s'executa, totes les dades són retornades a nosaltres, i podem accedir a elles com ho faríem amb qualsevol dada que resideixi en una taula nativa de BigQuery. 
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{bq25}
@@ -504,7 +511,7 @@ Si ens dirigim als detalls, aquí és on veiem quelcom interessant. La grandàri
 \caption{Característiques d'una taula externa}
 \label{fig:bq25}
 \end{figure}
-\vspace{2mm}
+
 
 \newpage
 
@@ -512,27 +519,21 @@ Si ens dirigim als detalls, aquí és on veiem quelcom interessant. La grandàri
 
 Ara que hem cobert els diferents tipus de taules de BigQuery, ens centrarem en com podem visualitzar les nostres consultes. 
 
-\vspace{2mm}
 
 Data Studio és una eina gratuïta que permet convertir les dades en panells o informes complets, fàcils de llegir, fàcils de compartir i totalment personalitzables. Algunes de les seves funcionalitats són:
 
-\vspace{2mm}
 
 - Descriure les dades amb gràfiques, que inclouen gràfics de línies, de barres i circulars, mapes geogràfics, gràfics d’àrea i de bombolles, taules de dades dinàmiques i molt més.
 
-\vspace{2mm}
 
 - Permet que els nostres informes siguin interactius amb filtres de visualització.
 
-\vspace{2mm}
 
 - Inclou enllaços i imatges en les quals es pot clicar per crear catàlegs de productes, biblioteques de vídeo i altres continguts amb URL.
 
-\vspace{2mm}
 
 - Facilita l’anotació i descripció dels informes amb text i imatges.
 
-\vspace{2mm}
 
 A més de presentar totes aquestes característiques, amb Data Studio es poden elaborar fàcilment informes sobre dades procedents d’una gran varietat de fonts, sense necessitat de programar. En tan sols uns instants, ens podem connectar a conjunts de dades com BigQuery.
 
@@ -546,7 +547,7 @@ FROM `el-meu-projecte-358912.dades_projecte.accidents_bd`
 GROUP BY DAY
 \end{verbatim}
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{bq26}
@@ -554,15 +555,13 @@ GROUP BY DAY
 \caption{Visualització d'una consulta a Data Studio}
 \label{fig:bq26}
 \end{figure}
-\vspace{2mm}
+
 
 Per a visualitzar la taula resultant, podem ampliar el menú \verb|Explorar dades|, tot seguit d'\verb|Explorar amb Data Studio| (Figura ~\ref{fig:bq26}).
 
-\vspace{2mm}
 
 Quan fem aquesta selecció, sorgeix una nova interfície que ja té una taula que conté alguna informació i un histograma amb les dades d'aquesta (Figura ~\ref{fig:bq27}).
 
-\vspace{2mm}
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{bq27}
@@ -570,11 +569,9 @@ Quan fem aquesta selecció, sorgeix una nova interfície que ja té una taula qu
 \caption{Consulta des de Data Studio}
 \label{fig:bq27}
 \end{figure}
-\vspace{2mm}
 
 Data Studio, per defecte, ha entès que una taula de recompte es visualitza normalment a partir d'un gràfic de barres vertical o histograma, i per això l'ha creat sense que nosaltres ho hàgim especificat. Així i tot, nosaltres podem seleccionar una visualització abans de configurar-la per a presentar la informació que necessitem. Pose'm-nos en el cas que preferim un gràfic de barres horitzontal per a la visualització d'aquestes dades. Premem l'opció \verb|Afegir un gràfic| i ens assegurem que la dimensió, que en aquest cas són els dies, i la mètrica, la freqüència dels accidents, estiguin seleccionades segons el que vulguem representar (Figura ~\ref{fig:bq28}). 
 
-\vspace{2mm}
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq28}}%
@@ -585,13 +582,11 @@ Data Studio, per defecte, ha entès que una taula de recompte es visualitza norm
 \caption{Creació d'un gràfic a partir de Data Studio}
 \label{fig:bq28}
 \end{figure}
-\vspace{2mm}
 
 \subsection{Ús de Data Studio des de la pròpia plataforma}
 
 Per a utilitzar aquesta eina és necessari disposar d’un compte a Google. Per accedir a la pàgina, naveguem a \href{https://datastudio.google.com}{Data Studio} i iniciem sessió amb el nostre compte de Google. Un cop dins, es troba una pantalla d’inici amb les característiques següents:
 
-\vspace{2mm}
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{ds1}
@@ -599,11 +594,10 @@ Per a utilitzar aquesta eina és necessari disposar d’un compte a Google. Per 
 \caption{Inici de Data Studio}
 \label{fig:ds1}
 \end{figure}
-\vspace{2mm}
 
 A la pàgina d’inici hi ha una sèrie de plantilles, que són una forma entretinguda d’explorar les capacitats de Data Studio. En el nostre cas, com el que ens interessa és crear un informe des de zero, clicarem a \verb|Informe vacío|. Un cop dins l’informe en blanc, s’hauran d’afegir les dades que volem representar en aquest (Figura ~\ref{fig:ds2}). Tenim moltes opcions a l'hora d'escollir la font de les dades, però per a fer-ho més senzill vincularem l'informe a BigQuery, específicament al nostre conjunt de dades \verb|accidents_bd|.
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{ds2}}%
@@ -614,19 +608,13 @@ A la pàgina d’inici hi ha una sèrie de plantilles, que són una forma entret
 \caption{Afegir dades a Data Studio}
 \label{fig:ds2}
 \end{figure}
-\vspace{2mm}
 
 Per a crear un gràfic, podem clicar a \verb|Añadir un gráfico| i, d'aquesta manera, escollir el que ens interessa representar en el panell de la dreta, ajustant la dimensió i la mètrica del nostre interès. Un cop creat el gràfic, es pot editar la seva mida fent-lo més gran o més petit, segons la nostra preferència, i es pot moure de lloc dins la pàgina.
 
-\vspace{2mm}
-
 A més de gràfiques, es poden decorar les pàgines per fer-les més boniques, o per afegir informació. També podem afegir un nom a la pàgina, i crear-ne tantes com en necessitem per al nostre informe. Més enllà d'això, també podem establir un nom per a tot l'informe, perquè a l'hora de guardar-lo i compartir-lo sigui més fàcilment interpretable.
-
-\vspace{2mm}
 
 Per exemple, un informe de dues pàgines pot tenir un aspecte semblant a la Figura ~\ref{fig:ds4}.
 
-\vspace{2mm}
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{ds4}}%
@@ -637,13 +625,11 @@ Per exemple, un informe de dues pàgines pot tenir un aspecte semblant a la Figu
 \caption{Informe a Data Studio}
 \label{fig:ds4}
 \end{figure}
-\vspace{2mm}
 
 \newpage
 
 Per acabar, podem compartir el nostre informe de manera que altres usuaris puguin tenir accés. Això ho podem fer des de la pantalla d'inici de Data Studio, seleccionant l'opció de \verb|Compartir| l'informe i afegint les direccions de correu dels qui vulguem fer \textit{lectors} de l'informe (aquells qui poden veure l'informe, però no tenen permisos d'edició) o bé \textit{editors} (poden veure i editar l'informe). Figura ~\ref{fig:ds6}
 
-\vspace{2mm}
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{ds6}}%
@@ -654,7 +640,6 @@ Per acabar, podem compartir el nostre informe de manera que altres usuaris pugui
 \caption{Compartir un informe}
 \label{fig:ds6}
 \end{figure}
-\vspace{2mm}
 
 \newpage
 
@@ -664,11 +649,9 @@ Per acabar, podem compartir el nostre informe de manera que altres usuaris pugui
 
 Per a entendre com funciona la connexió entre BigQuery i R, primer s'ha de definir el concepte de \emph{API} o interfície de programació d'aplicacions.
 
-\vspace{2mm}
 
 Una API és un conjunt de processos, funcions i mètodes que ofereix una determinada biblioteca de programació que serveix com a capa d'abstracció perquè sigui emprada per un altre programa informàtic. Dit d'una altra manera, podem entendre les APIs com un codi que indica a les aplicacions com comunicar-se entre elles, de manera que puguin interactuar.
 
-\vspace{2mm}
 
 En el nostre cas, volem que R sigui capaç d'interactuar amb BigQuery, perquè així ens permeti realitzar les nostres consultes a la base de dades sense haver d'importar les dades a R. Haurem d'utilitzar les llibreries \texttt{bigrquery}\footnote{Una interfície per a la API de 'BigQuery' de Google} i \texttt{DBI}\footnote{Una definició d'interfície de base de dades per a la comunicació entre R i els sistemes de gestió de bases de dades relacionals. Totes les classes d'aquest paquet són virtuals i han de ser esteses per les diferents implementacions de R/SGBD.} per aconseguir-ho. 
 
@@ -727,7 +710,6 @@ dbGetQuery(dades, query1, n = 10)
 
 Essent \emph{n} el nombre de casos a mostrar (si calen restriccions).
 
-\vspace{2mm}
 
 En executar aquesta consulta, R retorna la següent taula:
 
@@ -748,23 +730,17 @@ Aquesta correspon a que únicament va ocórrer un accident un cap de setmana a l
 
 BigQuery és una eina d'anàlisi de dades d'alt rendiment, capaç de processar un volum molt gran d'informació en segons, és senzill d'utilitzar i ofereix la zona de proves des de la que es pot treballar de forma gratuïta. És per aquest motiu que s'ha presentat aquest programa als estudiants del grau d'estadística a l'assignatura de Fitxers i Bases de Dades, perquè ells mateixos puguin avaluar la seva experiència amb la plataforma de Google Cloud, així com el grau de dificultat que troben en el seu ús.
 
-\vspace{2mm}
-
 Per portar a terme aquesta dinàmica es van necessitar dues sessions de dues hores cadascuna. A la primera, es va presentar tota la informació teòrica sobre la plataforma. S'explicava les propietats de BigQuery, així com les limitacions que presenta la seva zona de proves. La professora Montserrat Guillén va fer unes diapositives per presentar-les a l'aula on s'incorporava tota la informació necessària per crear-se un compte a BigQuery i poder dur a terme l'activitat proposta.
 
-\vspace{2mm}
 
 \subsection{Consultes amb `bigrquery`}
 
-\vspace{2mm}
 
 Per portar a terme la sessió pràctica es va fer ús del conjunt de dades públic prèviament esmentat: \emph{Catalonia Cell Coverage}, que contenen informació sobré l'estat de cobertura de la telefonia mòvil que es va recollir en el periode dels anys des del 2015 fins al 2017.
 
-\vspace{2mm}
 
 En primer lloc es presetava la taula de dades amb la qual s'havia de treballar, que conté les variables següents:
 
-\vspace{2mm}
 
 \begin{longtable}[H]{p{.20\textwidth} | p{.80\textwidth} } 
 \textbf{Variable} & \textbf{Descripció}                              \\ \hline
@@ -896,11 +872,9 @@ LIMIT 10
 
 D'entre els estudiants matriculats a l'assignatura de Fitxers i Bases de Dades, van ser vint-i-un els qui van realitzar la pràctica i van valorar la seva interacció amb BigQuery. Les preguntes que van respondre aquests estudiants eren:
 
-\vspace{2mm}
 
 Responeu a les següents preguntes sobre l'ús de BigQuery. Valoreu (0: molt fàcil - 10: molt difícil)
 
-\vspace{2mm}
 
 \begin{enumerate}
 
@@ -920,27 +894,21 @@ Responeu a les següents preguntes sobre l'ús de BigQuery. Valoreu (0: molt fà
 
 \end{itemize}
 
-\vspace{2mm}
 
 Pel que fa a la connexió a BigQuery, la puntuació mitjana va ser de 5,44. Els estudiants no ho consideren fàcil, però tampoc li troben un grau de dificultat molt elevat a connectar-se a la plataforma per primera vegada. Alguns comenten que, en ser un entorn nou, els hi costa perquè no hi estan familiaritzats i els fa sortir de la seva zona de comfort.
 
-\vspace{2mm}
 
 En relació a les consultes SQL (Structured Query Language) a l'entorn BigQuery, la puntuació mitjana baixa a 4,06. És a dir, als estudiants, en general, els sembla més senzill l'ús de BigQuery que l'entrada a la plataforma. El llenguatge que s'utilitza a BigQuery és molt similar a d'altres vistos a ACCES, R o SAS, i així ho fan saber els estudiants.
 
-\vspace{2mm}
 
 En quant a la connexió amb R, la puntuació mitjana ha sigut de 6, una mica més elevada que les anteriors. S'ha trobat una mica més de complicació en aquest punt, ja que el funcionament de les APIs no s'havia tractat prèviament i era un concepte nou.
 
-\vspace{2mm}
 
 Per últim, la valoració global ha estat de 6,09 en quant a la dificultat del programa.
 
-\vspace{2mm}
 
 També s'ha preguntat si els alumnes volien deixar suggerències per la millora en la introducció a BigQuery, aquelles coses que canviarien i/o els hi facilitaria la introducció a aquesta eina. Molts dels comentaris que s'han repetit en les valoracions és que els hi hagués ajudat el fet de dedicar-hi més pràctiques, perquè suposava un volum de informació molt gran que se'ls hi ha explicat en poc temps. A més, demanden que l'explicació de la teoria vingui acompanyada d'un suport pràctic des de la primera sessió, per entendre millor des del principi el funcionament de BigQuery.
 
-\vspace{2mm}
 
 Tot i que aquesta mostra d'alumnes difícilment és representativa, perquè només han participat vint-i-un alumnes a les sessions pràctiques, els resultats han sigut força positius i els estudiants han mostrat a les valoracions el seu interès en seguir coneixent aquest tipus d'eines, perquè els hi semblen interessants de cara al futur.
 
@@ -952,17 +920,14 @@ Tot i que aquesta mostra d'alumnes difícilment és representativa, perquè nom�
 
 Les bases de dades que seran utilitzades al llarg de l'estudi provenen de l'agència estatal de trànsit dels Estats Units i contenen tres taules, entre les quals s'hi troba un llistat d’accidents de tràfic ocorreguts al desembre de 2015 als Estats Units, juntament amb un recompte de totes les persones (conductors, passatgers o vianants) involucrades als accidents i, finalment, un inventari de tots els vehicles involucrats als accidents. 
 
-\vspace{2mm}
 
 L'enllaç a la base esmentada és el següent: 
 
 <https://www.transportation.gov/briefing-room/traffic-fatalities-sharply-2015>
 
-\vspace{2mm}
 
 Més concretament, en cada taula es poden trobar les variables següents:
 
-\vspace{2mm}
 
 \textbf{Accident} és un llistat d’accidents de trànsit ocorreguts al desembre de 2015 als Estats Units.
 
@@ -1029,15 +994,12 @@ PREV\_SP & Categòrica & Indicador d’existència de límit de velocitat permes
 
 A partir d'aquestes tres taules, s'extreuran dues bases de dades a partir de les quals es treballarà al llarg del projecte.
 
-\vspace{2mm}
 
 En primer lloc, es tindrà en compte la informació dels accidents. D'aquesta manera es podrà estudiar les característiques dels diferents accidents regitrats, així com es podran fer prediccions sobre els nous accidents en funció de les seves característiques. S'ha anomenat aquesta base \texttt{accident}, i està conformada per les variables següents: DAY, HOUR, MINUTE, RUR\_URB, DAY\_WEEK, FATALS, DRUNK\_DR, NO\_PER, MORTS, NO\_VEHICLE, HIHAMORTS.
 
-\vspace{2mm}
 
 Les variables \textbf{MORTS}, \textbf{NO\_PER}, \textbf{NO\_VEHICLE} i \textbf{HIHAMORTS} han sigut creades a posteriori a partir de les taules de les que es disposava, i es defineixen a continuació:
 
-\vspace{2mm}
 
 \begin{table}[H]
 \centering
@@ -1055,11 +1017,9 @@ HIHAMORTS & Categòrica & Variable identificadora dels accidents mortals (0: no 
 
 D'altra banda, s'estudiarà la informació sobre les persones implicades en aquests accidents. D'aquesta manera es podrà perfilar el tipus de conductors en els casos en que hi hagi morts en l'accident, així com en els que no hi hagi. Aquesta informació també ens facilitarà l'elaboració de possibles models per predir el tipus de víctima que serà una persona involucrada en un accident de trànsit en base a les seves característiques. en aquest cas, s'ha anomenat aquesta base \texttt{persones}, i està conformada per les variables següents: DAY, HOUR, MINUTE, RUR URB, DAY WEEK, FATALS, DRUNK DR, NO PER, MORTS, NO VEHICLE, NO FUGITS, AGE, SEX, PER\_TYP i DOA.
 
-\vspace{2mm}
 
 Las variable \textbf{NO FUGITS} ha sigut creada a posteriori a partir de les taules de les que es disposava, i es defineix a continuació:
 
-\vspace{2mm}
 
 \begin{table}[H]
 \centering
@@ -1093,7 +1053,6 @@ Estudiant aquesta base de dades sobre persones que s'han vist implicades, de for
 
 La base de dades d'accidents està formada per 2078 casos (accidents) i 11 variables. En canvi, la base de dades de persones la conformen 7087 individus (files) i 15 variables (columnes).
 
-\vspace{2mm}
 
 Les variables que tenim són DAY, HOUR, MINUTE, RUR\_URB, DAY\_WEEK, FATALS, DRUNK\_DR, NO\_PER, MORTS, NO\_VEHICLE, HIHAMORTS, NO\_FUGITS, AGE, SEX, PER\_TYP i DOA.
 
@@ -1147,27 +1106,21 @@ Per a poder tractar les dades mancants de la base de dades, en primer lloc haure
 }
 \end{table}
 
-\vspace{2mm}
 
 En el cas de les variables numèriques amb \texttt{missings}, que són l'edat (AGE), l'hora (HOUR), el minut (MINUTE) i la velocitat estimada del vehicle quan va tenir l'accident (TRAV\_SP), les codificacions per aquestes dades són 99, 997, 998 o 999, depenent de cada cas.
 
-\vspace{2mm}
 
 Un cop transformades aquestes dades, podem visualitzar a la taula següent els \emph{missings} per cada variable numèrica, tant en terme absolut com relatiu. A la taula següent s'hi poden trobar les variables de les bases de dades d'accidents i de persones, respectivament, juntament amb el nombre de dades mancants que presenten, i el tant per cent que aquestes suposen al total de la informació de la variable.
 
-\vspace{2mm}
 
 Tal i com es pot observar, a la base de dades d'accidents s'hi troben \emph{missings} per a les variables \texttt{HOUR} i \texttt{MINUTES}, mentre que per a la base de dades de persones, s'hi troben missings per a les variables \texttt{HOUR}, \texttt{MINUTES} i \texttt{AGE}. En ambdós casos, totes les variables són numèriques i, per aquest motiu es pot usar l'algoritme KNN per a la imputació de valors a les dades mancants.
 
-\vspace{2mm}
 
 \emph{K-nearest neighbors} (KNN) és un tipus d'algoritme d'aprenentatge supervisat que s'utilitza tant per a la regressió com per a la classificació. La seva funció és intentar predir la classe correcta per a unes dades de prova (que, en el nostre cas, seran les variables que presenten dades mancants) en base a la seva similitut amb altres mostres de dades conegudes (en el nostre cas, les variables completes). Tot això es fa assumint que les dades amb trets similars es troben juntess, i utilitza mesures de distància en el seu nucli.
 
-\vspace{2mm}
 
 Un cop s'ha aplicat l'algoritme per a les variables corresponents, es pot veure, a continuació, com cap de les dues bases de dades presenta cap missing a les variables conflictives.
 
-\vspace{2mm}
 
 Recordem que la taula mostra les bases de dades d'accidents i de les persones implicades en els accidents, respectivament:
 
@@ -1200,11 +1153,9 @@ Recordem que la taula mostra les bases de dades d'accidents i de les persones im
 
 Pel que fa a les dades atípiques, en destaca el nombre de persones implicades a l'accident. Més específicament, hi ha un cas en que 53 persones estan involucrades en un accident. A priori, res ens fa pensar que aquesta dada, tot i ser atípica, sigui certa. Això no obstant, a l'hora de la segmentació les dades es podrien veure afectades per aquest valor, ja que alguns algoritmes són molt sensibles a les dades atípiques.
 
-\vspace{2mm}
-
 A la següent figura es representa la variable nombre de persones (NO\_PER), on es poden identificar de forma clara aquests valors atípics:
 
-\vspace{2mm}
+
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=12.5cm]{Figura1}
@@ -1224,11 +1175,10 @@ N.Valid & Min & Q1 & Mediana & Mitjana  & Desv. estàndar & Q3 & Max & IQR \\ \h
 \label{tab:Fig1-table}
 \end{table}
 
-\vspace{2mm}
 
 Per tal d'assegurar-nos que aquesta dada no afecta al nostre anàlisi, i tenint en compte que disposem d'una base de dades molt gran, treurem aquests casos d'ambdues bases de dades.
 
-\vspace{2mm}
+
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=12.5cm]{Figura2}
@@ -1252,15 +1202,12 @@ N.Valid & Min & Q1 & Mediana & Mitjana  & Desv. estàndar & Q3 & Max & IQR \\ \h
 
 En el cas de les dades mancants que es troben en variables categòriques, el que es farà serà factoritzar-les i, seguidament, definir els nivells que presenta el factor. Així, per exemple, la variable \textbf{PER\_TYP} presenta 8 nivells que s'han d'agrupar en 3 (\emph{Conductor}, \emph{Ocupant} i \emph{Altres}). 
 
-\vspace{2mm}
 
 A continuació es mostren els canvis realitzats a algunes de les variables categòriques de la base de dades:
 
-\vspace{3mm}
+
 
 \textbf{PER\_TYP}: Tipus de persona (1 = conductor, 2 = ocupant, resta de codis = altres).
-
-\vspace{2mm}
 
 \begin{itemize}
 
@@ -1270,11 +1217,8 @@ A continuació es mostren els canvis realitzats a algunes de les variables categ
 
 \end{itemize}
 
-\vspace{3mm}
 
 \textbf{DAY\_WEEK}: Dia de la setmana (1 = Diumenge, 2 = Dilluns, . . . , 7 = Dissabte).
-
-\vspace{2mm}
 
 \begin{itemize}
 
@@ -1284,11 +1228,7 @@ A continuació es mostren els canvis realitzats a algunes de les variables categ
 
 \end{itemize}
 
-\vspace{3mm}
-
 \textbf{SEX}: Sexe de la persona (1 = home, 2 = dona, 8 = No registrat, 9 = Desconegut).
-
-\vspace{2mm}
 
 \begin{itemize}
 
@@ -1298,15 +1238,9 @@ A continuació es mostren els canvis realitzats a algunes de les variables categ
 
 \end{itemize}
 
-\vspace{2mm}
-
 Per la variable variable \texttt{SEX} hi ha una categoria anomenada "Desconegut", que representa aquelles persones de les quals no tenim informació del seu sexe. Com aquesta categoria no ens aporta informació d'utilitat a l'hora de realitzar l'estudi ni per a relitzar models predictius, prescindirem dels individus que corresponguin aquesta categoria per a realitzar el nostre anàlisi.
 
-\vspace{3mm}
-
 \textbf{RUR\_URB}: Informació sobre la localització (1 = Rural, 2 = Urbà, 6 = Via no classificada, 8 = No registrat, 9 = Desconegut). 
-
-\vspace{2mm}
 
 \begin{itemize}
 
@@ -1316,11 +1250,9 @@ Per la variable variable \texttt{SEX} hi ha una categoria anomenada "Desconegut"
 
 \end{itemize}
 
-\vspace{3mm}
 
 \textbf{HI HA MORTS}: Variable identificadora dels accidents mortals (0: no hi ha morts en l'accident, 1: hi ha morts en l'accident).
 
-\vspace{2mm}
 
 \begin{itemize}
 
@@ -1330,11 +1262,7 @@ Per la variable variable \texttt{SEX} hi ha una categoria anomenada "Desconegut"
 
 \end{itemize}
 
-\vspace{3mm}
-
 \textbf{DOA}: Tipus de víctima (0 = sobreviu, 7 = mort a l’accident, 8 = mort al trasllat, 9 = Desconegut)
-
-\vspace{2mm}
 
 \begin{itemize}
 
@@ -1344,23 +1272,13 @@ Per la variable variable \texttt{SEX} hi ha una categoria anomenada "Desconegut"
 
 \end{itemize}
 
-\vspace{2mm}
-
 Per aquesta última variable, \texttt{DOA}, hi ha una categoria anomenada "Desconegut", que representa aquelles persones que no se sap si sobreviuen a l'accident o no. Ja que en aquest estudi el fet de sobreviure o no a l'accident és de gran interès, i aquesta categoria  no ens aporta informació útil, prescindirem dels individus enmarcats en aquesta categoria per a realitzar el nostre anàlisi.
-
-\vspace{2mm}
 
 Per últim, es crearan dues variables noves a partir de \texttt{HOURS} i \texttt{DAY}, que ja són presents a ambdós conjunts de dades. Aquest pas es realitza perquè les variables \texttt{HOURS} i \texttt{DAY} tenen un rang de valors molt elevat que ens aporta poca informació. 
 
-\vspace{3mm}
-
 \textbf{HOURS\_agrupat}
 
-\vspace{2mm}
-
 En el cas de la variable \texttt{HOURS}, es tindrà en compte que, comunament, es considera que el dia està format per 5 intervals de temps segons la posició del sol. Aquest són la matinada (de les 0 a les 5 h incloses), el matí (de les 6 a les 11 h incloses), el migdia (de les 12 a les 14 h incloses), la tarda (de les 15 a les 19 h incloses) i la nit (de les 20 a les 23 h incloses). S'han fet servir aquests intervals per definir la nova variable \texttt{HOURS\_agrupat}.
-
-\vspace{2mm}
 
 \begin{itemize}
 
@@ -1370,15 +1288,12 @@ En el cas de la variable \texttt{HOURS}, es tindrà en compte que, comunament, e
 
 \end{itemize}
 
-\vspace{3mm}
 
 \textbf{SETMANA}
 
-\vspace{2mm}
 
 Pel que fa a la variable \texttt{SETMANA}, s'han definit les setmanes del mes en que es va realitzar el seguiment que presenten les dades. S'ha considerat el primer dia de la setmana el dilluns i l'últim el diumenge, tenint en compte que el dia 1 del mes era un dimarts. Per aquest motiu les setmanes 1 i 5 són les més curtes, especialment la cinquena, ja que el dia 31 va caure en dijous.
 
-\vspace{2mm}
 
 \begin{itemize}
 
@@ -1388,17 +1303,14 @@ Pel que fa a la variable \texttt{SETMANA}, s'han definit les setmanes del mes en
 
 \end{itemize}
 
-\vspace{3mm}
 
 \subsubsection{Variable resposta}
 
 Per últim, definirem les variables resposta per a cada base de dades, és a dir, aquelles característiques que ens interessa poder predir tant en els futurs accidents com en les pròximes persones que es vegin involucrades en aquests.
 
-\vspace{2mm}
 
 Per una banda, és d'interès classificar els accidents segons si aquests han ocasionat morts o bé no ha sigut el cas. D'aquesta manera, es podria crear un model de predicció que permeti establir si un accident serà mortal o no en el futur en funció de les característiques que presenti.
 
-\vspace{2mm}
 
 Per tant, la variable d'interès és \texttt{HIHAMORTS}, que es mostra a la següent figura.
 
@@ -1412,7 +1324,6 @@ Hi ha morts & 1. No & 1176 (42.3\%) & 0        \\
 \end{tabular}
 \end{table}
 
-\vspace{2mm}
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{Figura3a}}%
@@ -1423,7 +1334,7 @@ Hi ha morts & 1. No & 1176 (42.3\%) & 0        \\
 \caption{Anàlisi descriptiu de la variable Hi ha morts}
 \label{fig:F3}
 \end{figure}
-\vspace{2mm}
+
 
 Seguint aquesta línia, serà també de gran importància el tipus de víctima que esdevindran cadascuna de les persones implicades en un accident. En aquest cas, la variable d'interès serà \texttt{DOA}, de la qual es pot trobar un breu anàlisi descriptiu a la figuara següent.
 
@@ -1437,7 +1348,6 @@ Tipus de víctima & 1. Sobreviu & 5113 (74.1\%) & 0        \\
 \end{tabular}
 \end{table}
 
-\vspace{2mm}
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{Figura4a}}%
@@ -1448,7 +1358,7 @@ Tipus de víctima & 1. Sobreviu & 5113 (74.1\%) & 0        \\
 \caption{Anàlisi descriptiu de la variable Tipus de víctima}
 \label{fig:F4}
 \end{figure}
-\vspace{2mm}
+
 
 \subsection{Anàlisi descriptiva}
 
@@ -1460,11 +1370,8 @@ Tipus de víctima & 1. Sobreviu & 5113 (74.1\%) & 0        \\
 
 \end{large}
 
-\vspace{2mm}
-
 \textbf{Variables vinculades als accidents}
 
-\vspace{2mm}
 
 \begin{table}[H]
 \centering
@@ -1500,31 +1407,21 @@ NO\_VEHICLE & 2780    & 1   & 1  & 1       & 1.5079  & 0.6998       & 2  & 6   &
 \label{tab:num2-table}
 \end{table}
 
-\vspace{2mm}
-
 Per a comprobar que les dades són correctes i que les dades s'han tractat bé en termes de \emph{missings} i \emph{outliers}, farem ús del resum numèric de cada variable que es mostra a la taula superior. 
 
-\vspace{2mm}
 
 Les variables \texttt{HOUR} i \texttt{MINUTE} prenen valors entre 0 i 23 i entre 0 i 59 respectivament, els quals són rangs esperats i no donen peu a cap dada atípica en la seva distribució. A la tercera fila de la taula es troba el nombre de ferits a l'accident, \texttt{FATALS}, que senyala que no hi ha cap accidents en què no hi hagi, com a mínim, un ferit. També veiem com el nombre màxim que ferits és 5, però en termes generals i en base als quartils 1 i 2 i la mitjana s'observa que la gran majoria dels accidents només presenten una persona ferida. Així mateix, pel que fa al nombre de conductors beguts involucrats a l'accident, \texttt{DRUNK\_DR}, no involucren a cap conductor begut, és a dir, aquesta variable pren el valor 0 en la majoria dels casos (el 75\% com a mínim, com indica el tercer quartil). Això no obstant, hi ha casos en que hi ha fins a 2 conductors beguts involucrats en un mateix accident. 
 
-\vspace{2mm}
 
 -Mirar variables NO\_PER i MORTS-
 
-\vspace{2mm}
 
 Per últim, en tots els accidents de trànsit hi ha un mínim d'un vehicle, i així ho mostra la variable \texttt{NO\_VEHICLE}. L'accident amb més vehicles implicats en té 6.
 
-\vspace{2mm}
 
 En quant als \emph{missings}, la primera columna de la taula és un recompte dels casos vàlids per a cada variable, és a dir, aquells que no presenten valors mancants per a aquella variable concreta. Es pot comprobar com el mètode de imputació s'ha realitzat correctament, perquè totes les variables presenten el mateix recompte de casos vàlids, que coincideix amb el nombre d'accidents total a la base de dades.
 
-\vspace{2mm}
-
 \textbf{Variables vinculades a les persones}
-
-\vspace{2mm}
 
 \begin{table}[H]
 \centering
@@ -1566,15 +1463,12 @@ AGE         & 6904    & 0   & 23.5 & 37      & 39.9005 & 20.4028      & 55 & 98 
 
 En quant a les variables vinculades a les persones, només varien les variables \texttt{NO\_FUGITS} i \texttt{EDAT} respecte a la taula anterior. De fet, la distribució de les variables \texttt{HOUR}, \texttt{MINUTE}, \texttt{FATALS}, \texttt{DRUNK\_DR}, \texttt{NO\_PER}, \texttt{MORTS} i \texttt{NO\_VEHICLE} no presenta canvis rellevants respecte a la distribució que es troba a la taula anterior. No es troba cap cas de dada atípica ni cap dada mancant per aquestes variables. Per aquest motiu, ens centrarem ara en els resums de les variables \texttt{NO\_FUGITS} i \texttt{EDAT}.
 
-\vspace{2mm}
 
 Pel que fa al nombre de vehicles fugits a l'accident, el tercer quartil indica que al 75\% dels casos no hi ha cap vehicle fugit, i si en fixem en el valor màxim que pren aquesta variable, el cas amb més vehicles fugits en presenta 3. Finalment, en quant a l'edat de les persones, el rang de valors va des de 0 a 98 anys, és a dir, en alguns accidents hi ha implicats nadons, i en d'altres persones de mitjana edat. 
 
-\vspace{2mm}
-
 Novament, ens trobem amb que la primera columna de la taula és un recompte dels casos vàlids per a cada variable, és a dir, aquells que no presenten valors mancants per a aquella variable concreta. Es pot comprobar com el mètode de imputació s'ha realitzat correctament, perquè totes les variables presenten el mateix recompte de casos vàlids, que coincideix amb el nombre d'accidents total a la base de dades.
 
-\vspace{2mm}
+
 
 \begin{large}
 
@@ -1582,11 +1476,9 @@ Novament, ens trobem amb que la primera columna de la taula és un recompte dels
 
 \end{large}
 
-\vspace{3mm}
-
 \textbf{Variables vinculades als accidents}
 
-\vspace{2mm}
+
 
 \textbf{DAY}: Dia de l’accident (de l’1 al 31). Tipus de variable: Factor
 
@@ -1609,11 +1501,8 @@ DAY          & 1. 1                          & 71 (2.6\%)                     & 
 \end{tabular}
 \end{table}
 
-\vspace{2mm}
 
 \textbf{RUR\_URB}: Informació sobre la localització (1 = Rural, 2 = Urbà, 6 = Via no classificada, 8 = No registrat, 9 = Desconegut). Tipus de variable: Factor
-
-\vspace{2mm}
 
 \begin{table}[H]
 \centering
@@ -1626,11 +1515,10 @@ RUR\_URB     & 1. Rural                      & 1174 (42.2\%)                  & 
 \end{tabular}
 \end{table}
 
-\vspace{2mm}
 
 \textbf{DAY\_WEEK}: Dia de la setmana (1 = Diumenge, 2 = Dilluns, . . . , 7 = Dissabte). Tipus de variable: Factor
 
-\vspace{2mm}
+
 
 \begin{table}[H]
 \centering
@@ -1647,11 +1535,10 @@ DAY\_WEEK    & 1. Diumenge  & 356 (12.8\%) & \multicolumn{1}{r}{0} \\
 \end{tabular}
 \end{table}
 
-\vspace{2mm}
+
 
 \textbf{HIHAMORTS}:  Tipus de variable: Factor
 
-\vspace{2mm}
 
 \begin{table}[H]
 \centering
@@ -1663,15 +1550,12 @@ HIHAMORTS    & 1. No  & 1176 (42.3\%) & \multicolumn{1}{r}{0} \\
 \end{tabular}
 \end{table}
 
-\vspace{2mm}
 
 \textbf{Variables vinculades a les persones}
 
-\vspace{2mm}
 
 \textbf{SEX}: Sexe de la persona (1 = home, 2 = dona, 8 = No registrat, 9 = Desconegut). Tipus de variable: Factor
 
-\vspace{2mm}
 
 \begin{table}[H]
 \centering
@@ -1683,11 +1567,9 @@ SEX    & 1. Home  & 4569 (66.2\%) & \multicolumn{1}{r}{0} \\
 \end{tabular}
 \end{table}
 
-\vspace{2mm}
 
 \textbf{PER\_TYP}: Tipus de persona (1 = conductor, 2 = ocupant, resta de codis = altres). Tipus de variable: Factor
 
-\vspace{2mm}
 
 \begin{table}[H]
 \centering
@@ -1700,11 +1582,9 @@ PER\_TYP    & 1. Conductor  & 4057 (58.8\%) & \multicolumn{1}{r}{0} \\
 \end{tabular}
 \end{table}
 
-\vspace{2mm}
 
 \textbf{DOA}: Tipus de víctima (0 = sobreviu, resta de codis = mor). Tipus de variable: Factor
 
-\vspace{2mm}
 
 \begin{table}[H]
 \centering
@@ -1718,15 +1598,12 @@ DOA    & 1. Sobreviu  & 5113 (74.1\%) & \multicolumn{1}{r}{0} \\
 
 \subsubsection{Anàlisi bivariant}
 
-\vspace{2mm}
 
 Per acabar l'anàlisi descriptiva de les dades, s'estudiarà la relació que existeix entre diferents parells de variables. Aquest tipus d'anàlisi ajudarà a esbrinar si existeix una associació entre les variables i, en cas afirmatiu, quina és la força d'aquesta.
 
-\vspace{2mm}
 
 Per a la visualització d'aquestes relacions entre variables s'ha fet d'ús d'una plataforma de Google anomenada \href{https://datastudio.google.com/overview}{Data Studio}. Aquesta permet convertir les dades en panells o informes complets, fàcils de llegir i de compartir i totalment personalitzables. Algunes de les seves funcionalitats són:
 
-\vspace{2mm}
 
 \begin{itemize}
 
@@ -1740,15 +1617,13 @@ Per a la visualització d'aquestes relacions entre variables s'ha fet d'ús d'un
 
 \end{itemize}
 
-\vspace{2mm}
 
 A més de presentar totes aquestes característiques, amb Data Studio es poden elaborar fàcilment informes sobre dades procedents d'una gran varietat de fonts, sense necessitat de programar. En tan sols uns instants, permet la connexió a grans conjunts de dades com els que es troben a BigQuery.
 
-\vspace{2mm}
 
 \textbf{Variables vinculades als accidents}
 
-\vspace{2mm}
+
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.5cm]{Graph1}}%
@@ -1759,15 +1634,12 @@ A més de presentar totes aquestes característiques, amb Data Studio es poden e
 \caption{Nombre de conductors beguts i quantitat d'accidents, respectivament}
 \label{fig:G1}
 \end{figure}
-\vspace{2mm}
 
 Pel que fa al nombre de conductors beguts segons el dia de la setmana en el qual succeeix l'accident, s'observa de forma clara a la gràfica esquerra de la figura 5 com la majoria dels conductors beguts es concentren al cap de setmana. Sembla que podria ser un patró perquè hi ha diferències notables entre la quantitat de conductor beguts a finals de la setmana, en comparació als dilluns, dimarts i dimecres. D'altra banda, si ens fixem, en aquest cas, en el nombre de morts segons el dia de la setmana, el dilluns es troba altra vegada en l'última posició, ja que és el dia en què es donen menys morts en accidents de trànsit. Paral·lelament, els últims dies de la setmana presenten un major nombre d'accidents mortals. Aquesta és la informació que presenta la gràfica dreta de la figura 5.
 
-\vspace{2mm}
 
 Si es té en compte la informació d'aquestes últimes gràfiques, es podria pensar que existeix una relació entre el nombre de conductors beguts i el nombre de ferits mortals als accidents de trànsit. S'haurà de tenir en compte aquesta hipòtesi per anàlisis posteriors de les dades.
 
-\vspace{2mm}
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.5cm]{Graph6}}%
@@ -1778,19 +1650,16 @@ Si es té en compte la informació d'aquestes últimes gràfiques, es podria pen
 \caption{Hores sense agrupar i hores agrupades, respectivament}
 \label{fig:G2}
 \end{figure}
-\vspace{2mm}
+
 
 Si centrem l'atenció en les hores del dia, a la figura 6 es poden veure les freqüències absolutes quant a la quantitat de morts en els diferents moments del dia. A l'esquerra, es divideix el dia en les seves hores, i s'observa com l'hora en què es produeixen més accidents és a les 6 de la tarda. Perquè la gràfica sigui més informativa, s'han agrupat les hores segons els moments del dia per crear la gràfica de la dreta. 
 
-\vspace{2mm}
 
 En definitiva, de les dues gràfiques s'extreu que la majoria de les morts es produeixen a la tarda i a la matinada, mentre que el moment del dia on hi ha menys morts és el migdia.
 
-\vspace{2mm}
 
 \textbf{Variables vinculades a les persones}
 
-\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=12.5cm]{Graph12}
@@ -1799,13 +1668,10 @@ En definitiva, de les dues gràfiques s'extreu que la majoria de les morts es pr
 \label{fig:G3}
 \end{figure}
 
-\vspace{2mm}
 
 Pel que fa a la informació que tenim registrada sobre les persones involucrades en els accidents, i en la línia de les anàlisis anteriors, la figura 7 presenta una gràfica que mostra una clara relació entre el nombre de conductors beguts i el nombre de morts en l'accident a les diferents edats de les persones implicades. Els punts més extrems d'aquesta gràfica (els que presenten major nombre de conductors beguts i, alhora, major nombre de morts) són les edats 22 i 23. Aquestes dades indueixen a pensar que hi ha més perill d'accidents mortals per a la gent jove a la carretera, si hi ha conductors beguts. Una altra manera d'interpretar aquesta gràfica podria ser que hi ha més conductors joves que agafen el cotxe beguts i, en conseqüència, aquest grup d'edat pateix més accidents mortals.
 
-\vspace{2mm}
 
-\vspace{2mm}
 \begin{figure}[h!]
 \par
 \raisebox{-.5\height}{\includegraphics[width=7.5cm]{Graph8_1}}%
@@ -1816,11 +1682,9 @@ Pel que fa a la informació que tenim registrada sobre les persones involucrades
 \caption{Nombre de vehicles fugits segons el dia de la setmana i segons el dia del mes, respectivament}
 \label{fig:G4}
 \end{figure}
-\vspace{2mm}
 
 El nombre de vehicles fugits en els accidents de trànsit varia en funció del moment del dia en que es produeix l'accident, així com en funció de la setmana del mes. A la figura 8 es troba, a l'esquerra, la quantitat de vehicles fugits en els diferents moments del dia, i aquests es concentren sobretot a la tarda (de 15 a 19h incloses) i la matinada (de les 0 a les 5h incloses). En canvi, pel que fa a les diferents setmanes del mes es veu com la majoria de cotxes fugits es troben a la primera i la quarta setmana, i la distribució no és uniforme durant totes les setmanes del mes, com s'esperaria si no hi hagués cap relació entre ambdues variables.
 
-\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=15cm]{Table1}
@@ -1829,23 +1693,18 @@ El nombre de vehicles fugits en els accidents de trànsit varia en funció del m
 \label{fig:G5}
 \end{figure}
 
-\vspace{2mm}
 
 Pel últim, la figura 9 mostra una taula de contingència entre les variables SEX i DOA (és a dir, el sexe de la persona i el tipus de víctima, si sobreviu o no a l'accident). Aquesta taula marca com a categoria més abundant a la base de dades els homes que sobreviuen a l'accident, i com a menys abundant les dones que no sobreviuen al mateix. 
 
-\vspace{2mm}
 
 Si es considera aquesta informació de forma relativa, aproximadament el 39\% dels homes implicats en els accidents han siguts ferits mortals, mentre que d'entre les dones ho ha sigut aproximadament el 29\%. S'hauria d'investigar si aquestes diferències són estadísticament significatives o, d'altra banda, no existeix relació entre el sexe i el tipus de víctima en els accidents de trànsit.
 
-\vspace{2mm}
 
 \subsection{Anàlisi per components principals}
 
-\vspace{2mm}
 
 La nostra base de dades depurada té un total de 7 variables numèriques. Per tant, l'anàlisi de components principals tindrà un total de 7 components. Després de realitzar els càlculs corresponents, obtenim que l'ACP de les variables numèriques és el següent:
 
-\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=14.5cm]{acp1}
@@ -1853,11 +1712,10 @@ La nostra base de dades depurada té un total de 7 variables numèriques. Per ta
 \label{fig:ACP1}
 \end{figure}
 
-\vspace{2mm}
 
 Sabem que cada component representa una inèrcia concreta. Ho podem veure gràficament en els següent gràfic de barres.
 
-\vspace{2mm}
+
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=11cm]{acp2}
@@ -1866,17 +1724,13 @@ Sabem que cada component representa una inèrcia concreta. Ho podem veure gràfi
 \label{fig:ACP2}
 \end{figure}
 
-\vspace{2mm}
-
 
 Tenint en compte que la inèrcia equival a la proporció de la variabilitat de les dades, sabem que amb un 80\% d'inèrcia, podem obtenir gairebé tota la informació. Fent un cop d'ull a la gràfica de la inèrcia, es pot veure que amb les 4 primeres components ja obtenim gairebé el 80\% de la inèrcia, així que ens podem servir d'aquestes per al nostre anàlisi.
 
-\vspace{2mm}
 
 
 A continuació realitzem un gràfic de dispersió per a totes les combinacions possibles. Diferenciarem els individus, que en el nostre cas són accidents, depenent de si hi ha hagut víctimes mortals o no en aquest. 
 
-\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=15cm]{acp3}
@@ -1885,7 +1739,6 @@ A continuació realitzem un gràfic de dispersió per a totes les combinacions p
 \label{fig:ACP3}
 \end{figure}
 
-\vspace{2mm}
 
 Es pot observar que les dues primeres components no aconsegueixen diferenciar de forma ambdós grups, i s'esdevenen solapaments. Això no obstant, es veu una lleugera tendència dels accidents sense víctimes mortals a situar-se a valors més elevats de la segona component, i a més baixos de la primera component. 
 
@@ -1893,12 +1746,10 @@ Es pot observar que les dues primeres components no aconsegueixen diferenciar de
 
 En aquest gràfic es pot veure totes les variables numèriques representades en la primera i segona component.
 
-\vspace{2mm}
 
 Veiem que la majoria de variables estan representades sobre l’eix horitzontal, que correspon
 a la primera component. Aquestes variables són \texttt{NO\_VEHICLE}, \texttt{MORTS}, \texttt{FATALS} i \texttt{NO\_PERSONES}. A més, aquestes dues últimes prenen un valor de gairebé 0.8 i per tant, són les que expliquen amb més precisió la primera component. Ens fixem que totes aquestes variables tenen relació amb el nombre de persones, i per tant, a la primera component li assignarem l’etiqueta de \emph{Nombre de persones involucrades}.
 
-\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=12cm]{acp4}
@@ -1907,11 +1758,9 @@ a la primera component. Aquestes variables són \texttt{NO\_VEHICLE}, \texttt{MO
 \label{fig:ACP4}
 \end{figure}
 
-\vspace{2mm}
 
 Pel que fa a l’eix vertical, només hi ha dues variables que estiguin una mica relacionades amb la segona component. Aquestes són \texttt{HOUR} i \texttt{DRUNK\_DR}. que prenen un valor prop del 0.5. Com que a priori, aquestes dues varaibles no tenen gaire relació l'una amb l'altra, assignarem a la segona component l'etiqueta de \emph{Condicions en què es dona l'accident}, ja que a simple vista cap de les dues destaca sobre l'altre en la seva aportació a la segona component.
 
-\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=15cm]{acp5}
@@ -1920,35 +1769,27 @@ Pel que fa a l’eix vertical, només hi ha dues variables que estiguin una mica
 \label{fig:ACP5}
 \end{figure}
 
-\vspace{2mm}
 
 En aquestes gràfiques, la línia vermella discontinua indica el valor mitjà de contribució. Per una determinada component, una variable amb una contribució major a aquest límit pot considerar-se important a l'hora de contribuir a aquesta component. A l'esquerra, es pot veure que les variables \texttt{NO\_PER} i \texttt{FATALS} són les que més contribueixen a la PC1, tal i com s'havia destacat prèviament. D'altra banda, a la gràfica de la dreta destaca la variable \texttt{MORTS} com la més contribuent a la PC2.
 
-\vspace{2mm}
 
 Pel que fa als vectors (variables) de la Figura 12, ens podem fixar, també en la seva longitud i en l'angle respecte als eixos de les components principals i entre ells mateixos. 
 
-\vspace{2mm}
 
 L'angle que formen les variables \texttt{HOUR} i \texttt{DRUNK\_DR} respecte l'eix vertical és petit, la qual cosa ens indica que, tot i no ser les variables més contribuents, estan estretament relacionades amb la creació d'aquesta component. Paral·lelament, es pot dir el mateix de les variables \texttt{NO\_PER} i \texttt{FATALS} respecte a la PC1.
 
-\vspace{2mm}
 
 Una altra lectura que se li pot fer als angles entre vectors són les correlacions que mostren entre variables. D'una banda, el nombre de persones i el nombre de vehicles presenten una correlació positiva, ja que presenten un angle prooper a zero entre elles, així com les variables \texttt{FATALS} (nombre de ferits) i \texttt{MORTS}. D'altra banda, però, també s'entreveu que les variables \texttt{MORTS} i \texttt{HOUR} estan incorrelacionades, és a dir, són independents l'una de l'altra, perquè presenten un angle de 90$^\circ$, així com les variables \texttt{NO\_PER} i \texttt{NO\_VEHICLE} respecte \texttt{DRUNK\_DR}.
 
-\vspace{2mm}
 
 Quant a la longitud, com major sigui la llargària d'un vector relacionat amb una variable (en un rang normalitzat del 0 a l'1), major variabilitat d'aquesta variable està continguda en la representació de les dues components representades, és a dir, millor està representada la seva informació a la gràfica. En aquest cas, \texttt{NO\_VEHICLE}, \texttt{NO\_PER}, \texttt{FATALS} i \texttt{MORTS} són les variables millor representades per les dues primeres components.
 
-\vspace{2mm}
 
 \subsubsection{Projecció de variables categòriques}
 
-\vspace{2mm}
 
 També podem fer una projecció de les variables categòriques sobre aquestes components. Si en el mateix gràfic, hi afegim totes les categories de totes les variables categòriques, obtenim el següent:
 
-\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=12cm]{acp6}
@@ -1957,17 +1798,15 @@ També podem fer una projecció de les variables categòriques sobre aquestes co
 \label{fig:ACP6}
 \end{figure}
 
-\vspace{2mm}
 
 Clarament aquest gràfic no es pot interpretar, ja que tenim tantes categories que no es poden distingir.
 Per tant, el que farem serà crear un gràfic per a cada variable categòrica, a veure si així ens és més fàcil interpretar-los.
 
-\vspace{2mm}
 
 
 \textbf{Variable Dia}
 
-\vspace{2mm}
+
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=12cm]{acp7}
@@ -1976,16 +1815,13 @@ Per tant, el que farem serà crear un gràfic per a cada variable categòrica, a
 \label{fig:ACP7}
 \end{figure}
 
-\vspace{2mm}
 
 Amb la variable \texttt{Dia} veiem que les categories no formen cap patró rellevant respecte a les components. N'hi ha moltes, cosa que ens dificulta veure quines són les que expliquen millor una component o altra.
 
-\vspace{2mm}
 
 
 \textbf{Variable Localització}
 
-\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=12cm]{acp8}
@@ -1994,16 +1830,12 @@ Amb la variable \texttt{Dia} veiem que les categories no formen cap patró relle
 \label{fig:ACP8}
 \end{figure}
 
-\vspace{2mm}
 
 Per la variable Localització (\texttt{RUR\_URB}) podem veure clarament que les categories \texttt{Urbà} i \texttt{Rural} expliquen la segona component, ja que són més properes a aquesta, mentre que la categoria \texttt{Desconegut} està més lligada a la primera component.
-
-\vspace{2mm}
 
 
 \textbf{Variable Dia de la setmana}
 
-\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=12cm]{acp9}
@@ -2012,12 +1844,7 @@ Per la variable Localització (\texttt{RUR\_URB}) podem veure clarament que les 
 \label{fig:ACP9}
 \end{figure}
 
-\vspace{2mm}
-
 Per la variable Dia de la setmana (\texttt{DAY\_WEEK}) ens trobem amb que les categories que estan millor representades per les primeres components són divendres, dissabte i diumenge, ja que presenten els vectors amb major longitud. D'entre aquestes, divendres sembla més lligada a la primera component, mentre que dissabte i diumenge contribueixen de forma semblant a ambdues components.
-
-\vspace{2mm}
-
 
 \textbf{Variable HIHAMORTS}
 
@@ -2030,16 +1857,12 @@ Per la variable Dia de la setmana (\texttt{DAY\_WEEK}) ens trobem amb que les ca
 \label{fig:ACP10}
 \end{figure}
 
-\vspace{2mm}
 
 Per la variable \texttt{HIHAMORTS} tenim dues categories que presenten una correlació negativa total, és a dir, si no pertany a una categoria, pertany a l'altra, evidentment. D'entre aquestes, la categoria \textbf{NO} queda més explicada per les primeres components, i ambdues categories contribueixen de forma igualitaria en les dues components, ja que presenten aproximadament 45$^{\circ}$.
-
-\vspace{2mm}
 
 
 \textbf{Variable Hora grupada}
 
-\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=12cm]{acp11}
@@ -2048,16 +1871,12 @@ Per la variable \texttt{HIHAMORTS} tenim dues categories que presenten una corre
 \label{fig:ACP11}
 \end{figure}
 
-\vspace{2mm}
-
 Per la variable hora agrupada (\texttt{HOUR\_agrupat}) tenim cinc categories. D'entre aquestes, els accidents que queden millor explicats per les primeres components són els que es donen a la matinada. Sembla que les categories \textbf{migdia} i \textbf{nit} estan més lligades a la primera component, mentre que \textbf{matinada} ho està a la segona. A més, la categoria que queda menys explicada és el \textbf{matí}.
 
-\vspace{2mm}
 
 
 \textbf{Variable Setmana}
 
-\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=12cm]{acp12}
@@ -2072,21 +1891,17 @@ Per la variable \texttt{Setmana} s'aprecia que cap de les categories està gaire
 
 BigQuery ML és una eina d'anàlisi que pertany a BigQuery i permet crear i executar models d'aprenentatge automàtic mitjançant consultes SQL estàndard. Com forma part de la plataforma de Google Cloud, permet continuar treballant amb les dades des del núvol, sense haver d'exportar-les localment. Aquest és un gran avantatge, ja que en funció del volum de dades que s'estiguin tractant, el fet de moure-les pot ser molt costós a escala computacional, així com restrictiu per temes d'espai. Alguns dels models compatibles amb BigQuery ML són la regressió lineal, la regressió logística (binària i multinomial), sèries temporals, arbres de decisió i xarxes neuronals profundes, entre d'altres.
 
-\vspace{2mm}
 
 Les dades que s'estan analitzant tenen com a variable resposta \texttt{HIHAMORTS}, que és una variable binària que pren el valor 1 en el cas d'haver-hi alguna víctima mortal a l'accident, i 0 altrament. En ser la variable d'interès binària, s'haurà de crear un model de classificació que ens permeti determinar si un accident tindrà víctimes mortals o no. 
 
-\vspace{2mm}
 
 La regressió logística és un enfocament estadístic que s'utilitza pels problemes de classificació, ja que permet modelar la probabilitat de què es doni una de les categories de la variable resposta (classe).
 
-\vspace{2mm}
 
 \subsubsection{Entrenament del model}
 
 Abans de crear el model a la consola de BigQuery, dividirem la nostra base de dades en dues, les dades d'entrenament, o \emph{train}, que representaran aproximadament el 80\% del total, i les dades de prova, o \emph{test}, que en seran el 20\%. El conjunt \emph{train} s'utilitzarà per entrenar el model, mentre que \emph{test} s'utilitzarà un cop creat el model, i servirà per comprovar el bon funcionament del model. Aquesta divisió de dades sovint és emprada per evitar el sobre ajust del model, que és un problema que es dona quan un model s'ajusta massa bé a les dades d'entrenament i no aconsegueix ajustar-se de forma fiable a dades addicionals.
 
-\vspace{2mm}
 
 \begin{table}[H]
 \centering
@@ -2100,15 +1915,12 @@ Abans de crear el model a la consola de BigQuery, dividirem la nostra base de da
 \end{tabular}
 \end{table}
 
-\vspace{2mm}
 
 Tal com s'observa a la taula, les dades estan aproximadament balancejades en els tres subconjunts. En cadascun, els accidents on hi ha víctimes mortals representen entre el 56 i el 58\% dels casos.
 
-\vspace{2mm}
 
 Per crear el model logístic a BigQuery ML, s'utilitzarà la següent sintaxi:
 
-\vspace{2mm}
 
 \begin{verbatim}
 CREATE OR REPLACE MODEL [nom_projecte].[nom_base_de_dades].[nom_model] 
@@ -2118,15 +1930,12 @@ AS
 	FROM `[nom_projecte].[nom_base_de_dades].[nom_taula]`;
 \end{verbatim}
 
-\vspace{2mm}
 
 Es farà servir la base preprocessada a R, que s'ha importat novament a BigQuery. També cal destacar que s'ha usat totes les variables explicatives excepte les variables \texttt{MORTS}, \texttt{HOUR} i \texttt{SETMANA}. S'ha pres aquesta decisió per l'alta correlació que tenen aquestes variables amb d'altres de la mateixa taula. 
 
-\vspace{2mm}
-
 Seguidament, ajustem el model a les dades d'entrenament amb una nova consulta.
 
-\vspace{2mm}
+
 \begin{verbatim}
 SELECT *
 FROM ML.EVALUATE(MODEL `nom_projecte].[nom_base_de_dades].[nom_model]`, 
@@ -2134,15 +1943,15 @@ FROM ML.EVALUATE(MODEL `nom_projecte].[nom_base_de_dades].[nom_model]`,
   SELECT * 
   FROM `nom_projecte].[nom_base_de_dades].train`));
 \end{verbatim}
-\vspace{2mm}
+
 
 \subsubsection{Avaluació del model}
 
-\vspace{2mm}
+
 
 Aquest model, un cop entrenat, retorna un seguit de mètriques que fan referència a la funció de pèrdua, la duració de cada iteració i la taxa d'aprenentatge que presenta el model a cada iteració.
 
-\vspace{2mm}
+
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=12.5cm]{log1}
@@ -2151,39 +1960,38 @@ Aquest model, un cop entrenat, retorna un seguit de mètriques que fan referènc
 \label{fig:log1}
 \end{figure}
 
-\vspace{2mm}
 
 Per entendre com ha sigut l'entrenament d'aquest model, donarem un cop d'ull als resultats obtinguts.
 
-\vspace{2mm}
+
 
 La funció de pèrdua és un mètode per avaluar que tan bé un algoritme modela o s'ajusta a les dades d'entrenament. Si les prediccions es desvien massa dels resultats reals, la funció de pèrdua pren valors elevats. En canvi, si té l'ajuda d'una funció d'optimització, la funció de pèrdua aprèn a reduir l'error de predicció a cada iteració. En aquest sentit, en el nostre model no es redueix prou l'error de predicció, ja que comencem amb un valor de 0,684 abans de començar les iteracions, i acabem amb 0,636 a la cinquena iteració.
 
-\vspace{2mm}
+
 
 La següent mètrica que es troba és la duració de les iteracions. Aquest és un procés àgil en el qual la iteració que ha ocupat més temps ha sigut de 1,78 segons, aproximadament. Això, a escala d'usuari és molt atractiu, ja que permet el modelatge ràpid del model en conjunts de dades grans, cosa que normalment pot ser una limitació.
 
-\vspace{2mm}
+
 
 En últim lloc, es troba la taxa d'aprenentatge o \emph{learning rate}. Aquest valor es calcula mitjançant l'algoritme de descens del gradient, i afecta la velocitat en què aquest algoritme convergeix en les ponderacions òptimes pels paràmetres. Una taxa d'aprenentatge massa elevada podria impedir que les ponderacions arribin a les ponderacions òptimes, mentre que una taxa petita podria requerir moltes iteracions per calcular les ponderacions.
 
-\vspace{2mm}
+
 
 Seguidament, es pot avaluar el rendiment del model a partir de les dades de prova (\emph{text}). Es fa servir una consulta com l'anterior, però aquest cop dirigida aquesta altra taula de dades. En aquest cas el model retorna un seguit de mètriques i uns gràfics que permeten l'avaluació del model amb les noves dades.
 
-\vspace{2mm}
+
 
 Una de les primeres mètriques que trobem és la precisió del model, que és el tant per cent de les dades que s'han classificat correctament. Aquesta mètrica pren valors entre 0 i 1, i en el nostre cas és de 0,6336, és a dir, el model ha predit en el 63,36\% de les dades la classe correcta de la variable resposta. 
 
-\vspace{2mm}
+
 
 La mesura de recuperació fa referència al tant per cent de les dades classificades correctament d'entre les que la resposta correcta era positiva. Aquesta mètrica pren el valor de 0,8178, i significa que d'entre els casos positius (accidents amb víctimes mortals), el 81,78\% s'han classificat efectivament com a positius. Al contrari, l'exactitud (o \emph{accuracy}) quantifica el nombre d'elements classificats correctament d'entre aquells que s'han classificat com a positius i, en aquest cas, el valor baixa a 0,6228.
 
-\vspace{2mm}
+
 
 D'altra banda, la puntuació F1 es calcula a través de la mitjana harmònica entre les mètriques de precisió i recuperació, S'utilitza la mitjana harmònica en comptes de l'aritmètica perquè aquesta té la propietat de comportar-se com la mitjana harmònica si els valors són molt semblants, però s'apropa més cap al valor petit quan hi ha diferències entre les dues mesures.
 
-\vspace{2mm}
+
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=16cm]{log2}
@@ -2192,11 +2000,11 @@ D'altra banda, la puntuació F1 es calcula a través de la mitjana harmònica en
 \label{fig:log2}
 \end{figure}
 
-\vspace{2mm}
+
 
 Per acabar, es troben les mètriques de pèrdua logística (\emph{log loss}) i àrea sota la corba ROC (AUC). La corba ROC és un gràfic que mostra el rendiment d'un model de classificació en tots els llindars de classificació, presentant la taxa de falsos positius a l'eix d'abscisses i la de veritables positius a l'eix d'ordenades. L'AUC mesura l'àrea sota la corba d'aquest model i, segons el valor que prengui es pot saber com és el model:
 
-\vspace{2mm}
+
 
 \begin{itemize}
 
@@ -2212,35 +2020,30 @@ Per acabar, es troben les mètriques de pèrdua logística (\emph{log loss}) i �
 
 \end{itemize}
 
-\vspace{2mm}
+
 
 El valor de l’AUC es pot interpretar de la següent manera: donat un parell d’individus (accidents), un amb resposta positiva (Y = 1, hi ha víctimes mortals) i un altre amb resposta negativa (Y = 0, no hi ha víctimes mortals), es té un 69\% de probabilitats que l'accident on sí que hi ha hagut víctimes tingui una probabilitat predita pel model superior a la probabilitat predita per a l'accident amb resposta negativa.
 
-\vspace{2mm}
+
 
 La pèrdua logística, per la seva banda, és un indicador de què tan a prop està la probabilitat de predicció del valor real corresponent i, per tant, pren valors del 0 a l'1. Com més s'apropi la probabilitat predita al valor real, major serà el valor de la pèrdua logística. En aquest model pren el valor de 0,6871.
 
-\vspace{2mm}
+
 
 \textbf{Llindar de prediccions}
 
-\vspace{2mm}
+
 
 A la dreta de la figura s'hi troba una sèrie de mètriques. Per una banda, s'identifica que la classe positiva és la categoria "Sí", de la variable \texttt{HIHAMORTS}, mentre que la classe negativa és "No", i també s'hi troben altra vegada les mesures de precisió, recuperació, exactitud i puntuació F1. L'única cosa que canvia és el llindar de classe positiva, que es pot modificar a conveniència per l'usuari.
 
-\vspace{2mm}
+
 
 Per decidir a quina classe pertany un individu es pot establir un llindar. En funció d'aquest llindar, la probabilitat estimada obtinguda classifica les observacions. El valor per defecte que apareix a la figura és de 0,3527, i implica que tots els individus que tinguin una probabilitat de resposta positiva d'aquest valor o més alt es classificaran com a positius. Aquest és el valor mínim en el nostre cas, perquè no hi ha cap individu pel qual s'hagi calculat una probabilitat menor. Si ens fixem en la corba ROC, es veu que amb aquest valor de llindar, els falsos positius estan presents en el 100\% dels casos, perquè cap individu s'ha classificat a la classe negativa. Si movem el valor del llindar, veurem com canvien les mètriques d'avaluació del model i en quin punt de la corba ens situem.
 
-\vspace{2mm}
-
 En el cas de la classificació logística binària, totes les mètriques reflexen els valors calculats quan el llindar es fixa en 0.5.
-
-\vspace{2mm}
 
 \subsubsection{Interpretació del model}
 
-\vspace{2mm}
 
 La interpretació dels pesos o coeficients beta calculats a la regressió logística és diferent de la interpretació dels pesos de la regressió lineal, ja que el resultat de la regressió logística és una probabilitat i, per tant, pren valors entre el 0 i l'1. La suma ponderada dels paràmetres es transforma, a través de la funció logística, en una probabilitat.
 
@@ -2252,7 +2055,7 @@ $log \left( \frac{P(y = Si)}{P(y = No)} \right) = \beta_0 + \beta_1 x_1 + ... + 
 
 On $p$ és el nombre de paràmetres que conformen el model.
 
-\vspace{2mm}
+
 
 Al terme esquerre de la igualtat se l'anomena \emph{log-odds}. Els \emph{odds}, que és l'equació que es troba dins del logaritme són la probabilitat de resposta positiva entre la probabilitat de resposta negativa. Podem entendre el model logístic com un model lineal pels \emph{log-odds}, ja que a través la combinació de termes es pot quantificar com canvia la classificació o la predicció en modificar alguna de les variables. Per fer-ho, s'haurà de treballar amb els exponents de la funció anterior.
 
@@ -2262,7 +2065,7 @@ $\frac{P(y = Si)}{P(y = No)}  = e^{ \beta_0 + \beta_1 x_1 + ... + \beta_p x_p)}$
 
 \end{center}
 
-\vspace{2mm}
+
 
 Si canviem el valor d'una d'aquestes variables, per exemple augmentant en una unitat el valor de la variable $x_1$, es pot calcular l'odds ratio de les dues prediccions:
 
@@ -2276,11 +2079,9 @@ $\frac{odds_{x_1 + 1}}{odds} = e^{\beta_1}$
 
 \end{center}
 
-\vspace{2mm}
 
 Un canvi en una variable d'una unitat augmenta el log-odds tant com el valor del seu pes assignat.
 
-\vspace{2mm}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=15cm]{log3a}
@@ -2289,23 +2090,17 @@ Un canvi en una variable d'una unitat augmenta el log-odds tant com el valor del
 \label{fig:log3}
 \end{figure}
 
-\vspace{2mm}
 
 Per entendre l'efecte del pes de les variables del model en la probabilitat de resposta positiva, el primer que farem serà mirar l'intercept ($\beta_0$). Quan totes les variables numèriques prenen el valor zero i les variables categòriques estan en la categoria de referència, les probabilitats estimades de resposta positiva són $e^{\beta_0} = e^{-1,0228353} = 0,3595739934$. Les categories de referència de les variables categòriques són "urbà", pel que fa a la informació de la localització, "Dissabte" (en el cas de dies de la setmana) i "Tarda", per la variable d'hores agrupades.
 
-\vspace{2mm}
-
 Pel que fa a les variables numèriques, que són \texttt{MINUTE}, \texttt{FATALS}, \texttt{DRUNK\_DR}, \texttt{NO\_PER} i \texttt{NO\_VEHICLE}, tenim que l'augment del valor de cada variable en una unitat afecta les probabilitats estimades en un factor de $e^{\beta_i}$, on $i$ és el subíndex de cada variable numèrica.
 
-\vspace{2mm}
 
 En el cas de \texttt{FATALS}, per exemple, es troba una relació positiva entre el nombre de ferits a l'accident i el fet d'haver-hi hagut alguna víctima en el mateix. Per cada augment unitari en el nombre de ferits, la probabilitat de classe positiva canvia en un factor de $e^{0,79631994} = 2,217365856$.
 
-\vspace{2mm}
 
 Altrament, les variables categòriques, \texttt{RUR\_URB}, \texttt{DAY\_WEEK} i \texttt{HOUR\_agrupat} s'interpreten de forma que, canviar la variable $x_i$ de la categoria de referència a una de les altres afecta les probabilitats estimades en un factor de $\beta_i$.
 
-\vspace{2mm}
 
 Si ens fixem en la variable \texttt{RUR\_URB}, es pot calcular que si, en comptes d'ubicar-se l'accident en una zona urbana, s'ha donat en una localització rural, la probabilitat canvia en un factor de $e^{0,4165228} = 1,519911759$, mentre que si la zona és desconeguda, el canvi és de $e^{-0,0342466} = 0,9663331775$.
 
