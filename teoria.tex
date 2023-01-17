@@ -1,17 +1,24 @@
-\documentclass[11pt,longbibliography]{article}
+\documentclass[12pt,longbibliography]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[catalan]{babel}
 \usepackage[a4paper, margin=2.5cm]{geometry}
 \renewcommand{\thefootnote}{\arabic{footnote}}
 \usepackage{multicol}
-\setlength{\columnsep}{10mm}
+%\setlength{\columnsep}{10mm}
 \usepackage[none]{hyphenat}
 \usepackage{float}
 
 % \usepackage[sfdefault]{carlito}
-\usepackage{helvet}
-\renewcommand{\familydefault}{\sfdefault}
+\usepackage{mathptmx}
+% \renewcommand{\familydefault}{\sfdefault}
+ %para cambiar el tipo de fuente por defecto
+\renewcommand{\sfdefault}{ptm}
+% fuente en los títulos
+\renewcommand{\rmfamily}{ptm}
+
+% helvetica en el cuerpo del documento
+%\rmfamily{ptm}
 
 \usepackage{amsmath, amsthm, amsfonts, amssymb}
 \newtheorem{thm}{Theorem}[section]
@@ -30,7 +37,9 @@
 \usepackage{fancyvrb}
 \usepackage{bbm} 
 \renewcommand{\baselinestretch}{1.25}
-\setlength{\parskip}{5.5pt}
+%\setlength{\parskip}{6pt}
+\setlength{\parskip}{7pt}
+
 
 \usepackage{hyperref}
 \usepackage{graphicx}
@@ -76,7 +85,7 @@
 
 \section{Què és BigQuery?}
 
-BigQuery és un motor d’anàlisi de macrodades (\textit{Big Data}) que permet executar consultes SQL al núvol sobre les dades emmagatzemades en aquest, sense importar el volum de les dades ni el tipus de consultes que es volen fer. El motor de consulta és capaç de treballar sobre terabytes de dades en qüestió de segons, i sobre petabytes en pocs minuts. Avui en dia, les empreses estan adoptant cada cop més la presa de decisions basades en dades i fomentant una cultura oberta en la qual les dades no estan aïllades dins dels departaments. BigQuery, en proporcionar els mitjans tecnològics per a promoure un canvi cultural cap a l’agilitat i l’obertura, realitza un paper molt important en l’augment del ritme de la innovació.
+BigQuery és un motor d’anàlisi de macrodades (\textit{Big Data}) que permet executar consultes amb llenguatge \emph{Structured Query Language} (SQL) al núvol sobre les dades emmagatzemades en aquest, sense importar el volum de les dades ni el tipus de consultes que es volen fer. El motor de consulta és capaç de treballar sobre terabytes de dades en qüestió de segons, i sobre petabytes en pocs minuts. Avui en dia, les empreses estan adoptant cada cop més la presa de decisions basades en dades i fomentant una cultura oberta en la qual les dades no estan aïllades dins dels departaments. BigQuery, en proporcionar els mitjans tecnològics per a promoure un canvi cultural cap a l’agilitat i l’obertura, realitza un paper molt important en l’augment del ritme de la innovació.
 
 
 Treballar amb dades a BigQuery implica 3 aspectes principals: l’emmagatzemament, la incorporació de les dades i la consulta d’aquestes, Google s’encarrega de tota la resta. Com BigQuery és un servei totalment gestionat, no és necessari configurar ni instal·lar res en el nostre ordinador i, pel mateix motiu, no necessitem un administrador de la base de dades. Simplement, podem entrar en el nostre projecte de Google Cloud des del mateix navegador i començar a analitzar.
@@ -119,7 +128,7 @@ Per fer servir la zona de proves seguirem els passos següents:
 
 3. Un cop dins, podem veure com és l'espai de treball SQL. Hi ha una secció de l'Explorador a l'esquerra que ens permet navegar en projectes, conjunts de dades i taules. Per tal de fer servir la zona de proves, haurem de crear un projecte.
 
-S'introdueix un nom al projecte i fem clic a \textit{Create}. En el nostre cas, l'hem anomenat \verb|el_meu_projecte| (Figura ~\ref{fig:bq1}), i treballarem sobre aquest per il·lustrar el funcionament de la plataforma.
+S'introdueix un nom al projecte i fem clic a \textit{Create}. En el nostre cas, l'hem anomenat \verb|el_meu_| \verb|projecte| (Figura ~\ref{fig:bq1}), i treballarem sobre aquest per il·lustrar el funcionament de la plataforma.
 
 
 \begin{figure}[h!]
@@ -215,7 +224,7 @@ Després d'haver creat un conjunt o base de dades en un projecte, ja es pot crea
 \end{figure}
 
 
-A continuació, passem a la secció d'\texttt{Esquema}. Podem fer ús d'aquesta interfície per a establir les columnes de la nostra taula, incloent-hi els tipus i altres configuracions. La primera columna que definirem és l'identificador de l'accident, que s'anomenarà \verb|ST_CASE|. Per al tipus de variable, podem triar d'entre menú d'opcions, que inclou tots els tipus amb els quals ja estem familiaritzats. Quant a la manera (columna \textit{modo} a la figura ~\ref{fig:bq8}), aquesta determinarà si els valors d'aquesta columna poden ser nuls o si es requereix un valor (com és el cas de l'identificador), i també podem establir que els valors siguin d'un tipus que es pugui repetir, marcant \textit{indistint}. Finalment, es pot escriure una descripció per a la variable, que és opcional. 
+A continuació, passem a la secció d'Esquema. Podem fer ús d'aquesta interfície per a establir les columnes de la nostra taula, incloent-hi els tipus i altres configuracions. La primera columna que definirem és l'identificador de l'accident, que s'anomenarà \verb|ST_CASE|. Per al tipus de variable, podem triar d'entre menú d'opcions, que inclou tots els tipus amb els quals ja estem familiaritzats. Quant a la manera (columna \textit{modo} a la figura ~\ref{fig:bq8}), aquesta determinarà si els valors d'aquesta columna poden ser nuls o si es requereix un valor (com és el cas de l'identificador), i també podem establir que els valors siguin d'un tipus que es pugui repetir, marcant \textit{indistint}. Finalment, es pot escriure una descripció per a la variable, que és opcional. 
 
 
 \begin{figure}[h!]
@@ -385,7 +394,7 @@ A més, el validador també mostra la quantitat de dades que la consulta process
 \end{figure}
 
 
-Efecturem aquesta consulta prement \verb|Executar|. Els resultats apareixen sota la finestra d'editor i mostra certs detalls com, per exemple, que la consulta s'ha executat en uns 0 segons. Per descomptat, podem desplaçar-nos i donar un cop d'ull a tots els resultats (a la dreta de la Figura ~\ref{fig:bq19}). Entre els detalls que es mostren per a cada consulta s'hi troben la informació del treball, els resultats en forma de taula, els resultats en format JSON i certs detalls de l'execució de la consulta. 
+Efecturem aquesta consulta prement \textit{Ejecutar}. Els resultats apareixen sota la finestra d'editor i mostra certs detalls com, per exemple, que la consulta s'ha executat en uns 0 segons. Per descomptat, podem desplaçar-nos i donar un cop d'ull a tots els resultats (a la dreta de la Figura ~\ref{fig:bq19}). Entre els detalls que es mostren per a cada consulta s'hi troben la informació del treball, els resultats en forma de taula, els resultats en format JSON i certs detalls de l'execució de la consulta. 
 
 
 
@@ -403,7 +412,7 @@ FROM `el-meu-projecte-358912.dades_projecte.accidents_bd`
 GROUP BY DAY
 \end{verbatim}
 
-Un cop realitzada la consulta, hem d'exportar totes aquestes dades a una nova taula i, per a fer-ho, revisarem algunes de les opcions d'exportació que es troben al menú \verb|Guardar resultats|. En aquest, apareixen diverses opcions per a la manera de guardar els resultats (Figura ~\ref{fig:bq17}). Podem guardar-los com un arxiu CSV en Google Drive o en un arxiu local. En el nostre cas, exportarem el contingut a una nova taula de BigQuery. Una vegada feta aquesta selecció, podem decidir el nom del projecte i el conjunt de dades on s'aprovisionarà la taula i, a més, establir un nom de taula. 
+Un cop realitzada la consulta, hem d'exportar totes aquestes dades a una nova taula i, per a fer-ho, revisarem algunes de les opcions d'exportació que es troben al menú \textit{Guardar resultados}. En aquest, apareixen diverses opcions per a la manera de guardar els resultats (Figura ~\ref{fig:bq17}). Podem guardar-los com un arxiu CSV en Google Drive o en un arxiu local. En el nostre cas, exportarem el contingut a una nova taula de BigQuery. Una vegada feta aquesta selecció, podem decidir el nom del projecte i el conjunt de dades on s'aprovisionarà la taula i, a més, establir un nom de taula. 
 
 
 \begin{figure}[h!]
@@ -431,7 +440,7 @@ Hom es pot preguntar: \textit{Quina és la finalitat d'aquesta taula?} Bé, atè
 
 \subsection{Conjunts de dades públiques a BigQuery}
 
-Mentre continuem familiaritzant-nos amb la plataforma, podem explorar una altra opció que ofereix BigQuery, que són dades que estan disponibles públicament per a que qualsevol usuari pugui executar les seves consultes. Aquests conjunts de dades públiques es troben en un projecte anomenat BigQuery Public Data. Per a accedir a elles, farem servir al botó d'agregació de dades (\verb|ADD DATA|) que es troba al costat de l'explorador, i escollirem l'opció \verb|Explorar conjuntos de datos públicos|) (Figura ~\ref{fig:bq20}).
+Mentre continuem familiaritzant-nos amb la plataforma, podem explorar una altra opció que ofereix BigQuery, que són dades que estan disponibles públicament per a que qualsevol usuari pugui executar les seves consultes. Aquests conjunts de dades públiques es troben en un projecte anomenat BigQuery Public Data. Per a accedir a elles, farem servir al botó d'agregació de dades (\verb|ADD DATA|) que es troba al costat de l'explorador, i escollirem l'opció \textit{Explorar conjuntos de datos públicos}) (Figura ~\ref{fig:bq20}).
 
 
 \begin{figure}[h!]
@@ -460,11 +469,11 @@ Podem donar un cop d'ull als diferents conjunts de dades i taules d'aquest proje
 \end{figure}
 
 
-Si volguéssim descarregar la taula i situar-la dins del nostre projecte, BigQuery ens permet aquesta operació si premem \verb|Visualitzar conjunt de dades| seguit de \verb|crear taula|. Això no obstant, també és possible consultar la taula sense necessitat de descarregar-la dins del nostre projecte, fent servir el projecte \verb|bigquey-public-data|, que és el que farem en aquest cas.
+Si volguéssim descarregar la taula i situar-la dins del nostre projecte, BigQuery ens permet aquesta operació si premem \textit{Ver conjunto de datos} seguit de \textit{crear tabla}. Això no obstant, també és possible consultar la taula sense necessitat de descarregar-la dins del nostre projecte, fent servir el projecte \verb|bigquey-public-data|, que és el que farem en aquest cas.
 
 
 
-Dins la informació de la taula que ens proporciona la plataforma, apareix una secció amb consultes suggerides (les podem trobar a la dreta de la Figura ~\ref{fig:bq21}). D'entre aquestes, la primera fa referència als 10 pobles catalans amb pitjor cobertura de mòbil.  Si premem el botó \verb|Run this query|, el navegador ens redirigeix a l'editor amb la consulta preparada, i nosaltres la podem executar sense cap cost, ja que tant la taula com el resultat de la consulta estan emmagatzemats a BigQuery i les dades no s'han de processar (Figura ~\ref{fig:bq23}).
+Dins la informació de la taula que ens proporciona la plataforma, apareix una secció amb consultes suggerides (les podem trobar a la dreta de la Figura ~\ref{fig:bq21}). D'entre aquestes, la primera fa referència als 10 pobles catalans amb pitjor cobertura de mòbil.  Si premem el botó \textit{Run this query}, el navegador ens redirigeix a l'editor amb la consulta preparada, i nosaltres la podem executar sense cap cost, ja que tant la taula com el resultat de la consulta estan emmagatzemats a BigQuery i les dades no s'han de processar (Figura ~\ref{fig:bq23}).
 
 
 \begin{figure}[h!]
@@ -488,7 +497,7 @@ Per tant, la memòria cau només funciona si és la mateixa consulta la que es t
 
 \subsection{Taules externes de BigQuery}
 
-Una altra funció que presenta la plataforma és la lectura d'arxius externs que s'actualitzen de forma periòdica. Això és d'especial utilitat en els casos en què la informació de la qual es disposa és a temps real, que és una característica prou habitual quan es treballa amb volums de dades molt elevats. Per a il·lustrar el funcionament de BigQuery en aquests casos, crearem una nova taula que estarà vinculada, en aquest cas, a Google Drive, concretament a \verb|Hojas de cálculo| (Figura ~\ref{fig:bq24}). És molt important que el propietari de la taula sigui el mateix compte que està vinculat a BigQuery, perquè en cas contrari sorgeix un missatge d'error i no és capaç de vincular la taula externa.
+Una altra funció que presenta la plataforma és la lectura d'arxius externs que s'actualitzen de forma periòdica. Això és d'especial utilitat en els casos en què la informació de la qual es disposa és a temps real, que és una característica prou habitual quan es treballa amb volums de dades molt elevats. Per a il·lustrar el funcionament de BigQuery en aquests casos, crearem una nova taula que estarà vinculada, en aquest cas, a Google Drive, concretament als fulls de càlcul de la plataforma (Figura ~\ref{fig:bq24}). És molt important que el propietari de la taula sigui el mateix compte que està vinculat a BigQuery, perquè en cas contrari sorgeix un missatge d'error i no és capaç de vincular la taula externa.
 
 
 \begin{figure}[h!]
@@ -515,12 +524,12 @@ Si ens dirigim als detalls, aquí és on veiem quelcom interessant. La grandàri
 
 \newpage
 
-\section{Integració de BigQuery amb Data Studio}
+\section{Integració de BigQuery amb Looker Studio}
 
 Ara que hem cobert els diferents tipus de taules de BigQuery, ens centrarem en com podem visualitzar les nostres consultes. 
 
 
-Data Studio és una eina gratuïta que permet convertir les dades en panells o informes complets, fàcils de llegir, fàcils de compartir i totalment personalitzables. Algunes de les seves funcionalitats són:
+Looker Studio és una eina gratuïta que permet convertir les dades en panells o informes complets, fàcils de llegir, fàcils de compartir i totalment personalitzables. Algunes de les seves funcionalitats són:
 
 
 - Descriure les dades amb gràfiques, que inclouen gràfics de línies, de barres i circulars, mapes geogràfics, gràfics d’àrea i de bombolles, taules de dades dinàmiques i molt més.
@@ -535,9 +544,9 @@ Data Studio és una eina gratuïta que permet convertir les dades en panells o i
 - Facilita l’anotació i descripció dels informes amb text i imatges.
 
 
-A més de presentar totes aquestes característiques, amb Data Studio es poden elaborar fàcilment informes sobre dades procedents d’una gran varietat de fonts, sense necessitat de programar. En tan sols uns instants, ens podem connectar a conjunts de dades com BigQuery.
+A més de presentar totes aquestes característiques, amb Looker Studio es poden elaborar fàcilment informes sobre dades procedents d’una gran varietat de fonts, sense necessitat de programar. En tan sols uns instants, ens podem connectar a conjunts de dades com BigQuery.
 
-\subsection{Ús de Data Studio des de BigQuery}
+\subsection{Ús de Looker Studio des de BigQuery}
 
 Imaginem que volem tornar a consultar el nombre d'accidents de trànsit que es van donar cada dia durant aquell mes als Estats Units. Per a fer aquesta consulta, farem servir la \textit{query} anterior:
 
@@ -552,12 +561,12 @@ GROUP BY DAY
 \begin{center}
 \includegraphics[width=10cm]{bq26}
 \end{center}
-\caption{Visualització d'una consulta a Data Studio}
+\caption{Visualització d'una consulta a Looker Studio}
 \label{fig:bq26}
 \end{figure}
 
 
-Per a visualitzar la taula resultant, podem ampliar el menú \verb|Explorar dades|, tot seguit d'\verb|Explorar amb Data Studio| (Figura ~\ref{fig:bq26}).
+Per a visualitzar la taula resultant, podem ampliar el menú \textit{Explorar datos}, tot seguit d'\textit{Explorar con Looker Studio} (Figura ~\ref{fig:bq26}).
 
 
 Quan fem aquesta selecció, sorgeix una nova interfície que ja té una taula que conté alguna informació i un histograma amb les dades d'aquesta (Figura ~\ref{fig:bq27}).
@@ -566,11 +575,11 @@ Quan fem aquesta selecció, sorgeix una nova interfície que ja té una taula qu
 \begin{center}
 \includegraphics[width=10cm]{bq27}
 \end{center}
-\caption{Consulta des de Data Studio}
+\caption{Consulta des de Looker Studio}
 \label{fig:bq27}
 \end{figure}
 
-Data Studio, per defecte, ha entès que una taula de recompte es visualitza normalment a partir d'un gràfic de barres vertical o histograma, i per això l'ha creat sense que nosaltres ho hàgim especificat. Així i tot, nosaltres podem seleccionar una visualització abans de configurar-la per a presentar la informació que necessitem. Pose'm-nos en el cas que preferim un gràfic de barres horitzontal per a la visualització d'aquestes dades. Premem l'opció \verb|Afegir un gràfic| i ens assegurem que la dimensió, que en aquest cas són els dies, i la mètrica, la freqüència dels accidents, estiguin seleccionades segons el que vulguem representar (Figura ~\ref{fig:bq28}). 
+Data Studio, per defecte, ha entès que una taula de recompte es visualitza normalment a partir d'un gràfic de barres vertical o histograma, i per això l'ha creat sense que nosaltres ho hàgim especificat. Així i tot, nosaltres podem seleccionar una visualització abans de configurar-la per a presentar la informació que necessitem. Pose'm-nos en el cas que preferim un gràfic de barres horitzontal per a la visualització d'aquestes dades. Premem l'opció \textit{Añadir un gráfico} i ens assegurem que la dimensió, que en aquest cas són els dies, i la mètrica, la freqüència dels accidents, estiguin seleccionades segons el que vulguem representar (Figura ~\ref{fig:bq28}). 
 
 \begin{figure}[h!]
 \par
@@ -579,23 +588,23 @@ Data Studio, per defecte, ha entès que una taula de recompte es visualitza norm
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{bq29}}%
 \par
 
-\caption{Creació d'un gràfic a partir de Data Studio}
+\caption{Creació d'un gràfic a partir de Looker Studio}
 \label{fig:bq28}
 \end{figure}
 
-\subsection{Ús de Data Studio des de la pròpia plataforma}
+\subsection{Ús de Looker Studio des de la pròpia plataforma}
 
-Per a utilitzar aquesta eina és necessari disposar d’un compte a Google. Per accedir a la pàgina, naveguem a \href{https://datastudio.google.com}{Data Studio} i iniciem sessió amb el nostre compte de Google. Un cop dins, es troba una pantalla d’inici amb les característiques següents:
+Per a utilitzar aquesta eina és necessari disposar d’un compte a Google. Per accedir a la pàgina, naveguem a \href{https://datastudio.google.com}{Looker Studio} i iniciem sessió amb el nostre compte de Google. Un cop dins, es troba una pantalla d’inici amb les característiques següents:
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{ds1}
 \end{center}
-\caption{Inici de Data Studio}
+\caption{Inici de Looker Studio}
 \label{fig:ds1}
 \end{figure}
 
-A la pàgina d’inici hi ha una sèrie de plantilles, que són una forma entretinguda d’explorar les capacitats de Data Studio. En el nostre cas, com el que ens interessa és crear un informe des de zero, clicarem a \verb|Informe vacío|. Un cop dins l’informe en blanc, s’hauran d’afegir les dades que volem representar en aquest (Figura ~\ref{fig:ds2}). Tenim moltes opcions a l'hora d'escollir la font de les dades, però per a fer-ho més senzill vincularem l'informe a BigQuery, específicament al nostre conjunt de dades \verb|accidents_bd|.
+A la pàgina d’inici hi ha una sèrie de plantilles, que són una forma entretinguda d’explorar les capacitats de Looker Studio. En el nostre cas, com el que ens interessa és crear un informe des de zero, clicarem a \textit{Informe vacío}. Un cop dins l’informe en blanc, s’hauran d’afegir les dades que volem representar en aquest (Figura ~\ref{fig:ds2}). Tenim moltes opcions a l'hora d'escollir la font de les dades, però per a fer-ho més senzill vincularem l'informe a BigQuery, específicament al nostre conjunt de dades \verb|accidents_bd|.
 
 
 \begin{figure}[h!]
@@ -605,11 +614,11 @@ A la pàgina d’inici hi ha una sèrie de plantilles, que són una forma entret
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{ds3}}%
 \par
 
-\caption{Afegir dades a Data Studio}
+\caption{Afegir dades a Looker Studio}
 \label{fig:ds2}
 \end{figure}
 
-Per a crear un gràfic, podem clicar a \verb|Añadir un gráfico| i, d'aquesta manera, escollir el que ens interessa representar en el panell de la dreta, ajustant la dimensió i la mètrica del nostre interès. Un cop creat el gràfic, es pot editar la seva mida fent-lo més gran o més petit, segons la nostra preferència, i es pot moure de lloc dins la pàgina.
+Per a crear un gràfic, podem clicar a \textit{Añadir un gráfico} i, d'aquesta manera, escollir el que ens interessa representar en el panell de la dreta, ajustant la dimensió i la mètrica del nostre interès. Un cop creat el gràfic, es pot editar la seva mida fent-lo més gran o més petit, segons la nostra preferència, i es pot moure de lloc dins la pàgina.
 
 A més de gràfiques, es poden decorar les pàgines per fer-les més boniques, o per afegir informació. També podem afegir un nom a la pàgina, i crear-ne tantes com en necessitem per al nostre informe. Més enllà d'això, també podem establir un nom per a tot l'informe, perquè a l'hora de guardar-lo i compartir-lo sigui més fàcilment interpretable.
 
@@ -622,13 +631,12 @@ Per exemple, un informe de dues pàgines pot tenir un aspecte semblant a la Figu
 \raisebox{-.5\height}{\includegraphics[width=7.25cm]{ds5}}%
 \par
 
-\caption{Informe a Data Studio}
+\caption{Informe a Looker Studio}
 \label{fig:ds4}
 \end{figure}
 
-\newpage
 
-Per acabar, podem compartir el nostre informe de manera que altres usuaris puguin tenir accés. Això ho podem fer des de la pantalla d'inici de Data Studio, seleccionant l'opció de \verb|Compartir| l'informe i afegint les direccions de correu dels qui vulguem fer \textit{lectors} de l'informe (aquells qui poden veure l'informe, però no tenen permisos d'edició) o bé \textit{editors} (poden veure i editar l'informe). Figura ~\ref{fig:ds6}
+Per acabar, podem compartir el nostre informe de manera que altres usuaris puguin tenir accés. Això ho podem fer des de la pantalla d'inici de Data Studio, seleccionant l'opció de compartir l'informe i afegint les direccions de correu dels qui vulguem fer lectors de l'informe (aquells qui poden veure l'informe, però no tenen permisos d'edició) o bé editors (poden veure i editar l'informe). Figura ~\ref{fig:ds6}
 
 \begin{figure}[h!]
 \par
@@ -662,7 +670,7 @@ library(bigrquery)
 library(DBI)
 \end{verbatim}
 
-Asignem a l'objecte \texttt{projecte} el nom del nostre projecte, que a l'exemple correspon a \emph{el-meu-projecte-358912}
+Asignem a l'objecte \texttt{projecte} el nom del nostre projecte, que a l'exemple correspon a \emph{el-meu-} \emph{projecte-358912}.
 
 \begin{verbatim}
 projecte <- "el-meu-projecte-358912"
@@ -743,7 +751,7 @@ En primer lloc es presetava la taula de dades amb la qual s'havia de treballar, 
 
 
 \begin{longtable}[H]{p{.20\textwidth} | p{.80\textwidth} } 
-\textbf{Variable} & \textbf{Descripció}                              \\ \hline
+\textbf{Variable} & \textbf{Descripció}                              \\ 
 date              & Data de telemetria en format AAAA-MM-DD          \\
 hour              & Hora de telemetria en format HH24:MM:SS          \\
 lat               & Latitud                                          \\
@@ -819,7 +827,7 @@ ORDER BY Mitjana DESC
 LIMIT 10
 \end{Verbatim}
 
-\item Crea una taula que reculli les ciutats i la xarxa dels 10 primers usuarisque es van quedar sense servei mòvil, obviant els casos en què el nom de la ciutat o de la xarxa sigui NULL.
+\item Crea una taula que reculli les ciutats i la xarxa dels 10 primers usuarisque es van quedar sense servei mòvil, obviant els casos en què el nom de la ciutat o de la xarxa sigui \textit{NULL}.
 
 \begin{Verbatim}[frame=single]
 
@@ -846,7 +854,7 @@ ORDER BY Precisio_mitj DESC
 LIMIT 10
 \end{Verbatim}
 
-\item Fes un gràfic de sectors sobre l'aparició dels diferents tipus de xarxa, excloent els casos en què aquesta variable pren el valor NULL.
+\item Fes un gràfic de sectors sobre l'aparició dels diferents tipus de xarxa, excloent els casos en què aquesta variable pren el valor \textit{NULL}.
 
 \vspace{2mm}
 \begin{figure}[H]
@@ -894,11 +902,20 @@ Responeu a les següents preguntes sobre l'ús de BigQuery. Valoreu (0: molt fà
 
 \end{itemize}
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{val}
+\end{center}
+\caption{Valoració mitjana dels estudiants}
+\label{fig:val}
+\end{figure}
+
+
 
 Pel que fa a la connexió a BigQuery, la puntuació mitjana va ser de 5,44. Els estudiants no ho consideren fàcil, però tampoc li troben un grau de dificultat molt elevat a connectar-se a la plataforma per primera vegada. Alguns comenten que, en ser un entorn nou, els hi costa perquè no hi estan familiaritzats i els fa sortir de la seva zona de comfort.
 
 
-En relació a les consultes SQL (Structured Query Language) a l'entorn BigQuery, la puntuació mitjana baixa a 4,06. És a dir, als estudiants, en general, els sembla més senzill l'ús de BigQuery que l'entrada a la plataforma. El llenguatge que s'utilitza a BigQuery és molt similar a d'altres vistos a ACCES, R o SAS, i així ho fan saber els estudiants.
+En relació a les consultes SQL (\textit{Structured Query Language}) a l'entorn BigQuery, la puntuació mitjana baixa a 4,06. És a dir, als estudiants, en general, els sembla més senzill l'ús de BigQuery que l'entrada a la plataforma. El llenguatge que s'utilitza a BigQuery és molt similar a d'altres vistos a ACCES, R o SAS, i així ho fan saber els estudiants.
 
 
 En quant a la connexió amb R, la puntuació mitjana ha sigut de 6, una mica més elevada que les anteriors. S'ha trobat una mica més de complicació en aquest punt, ja que el funcionament de les APIs no s'havia tractat prèviament i era un concepte nou.
@@ -912,6 +929,7 @@ També s'ha preguntat si els alumnes volien deixar suggerències per la millora 
 
 Tot i que aquesta mostra d'alumnes difícilment és representativa, perquè només han participat vint-i-un alumnes a les sessions pràctiques, els resultats han sigut força positius i els estudiants han mostrat a les valoracions el seu interès en seguir coneixent aquest tipus d'eines, perquè els hi semblen interessants de cara al futur.
 
+
 \newpage
 
 \section{Anàlisi de dades mitjançant la connexió d'R i BigQuery}
@@ -921,9 +939,7 @@ Tot i que aquesta mostra d'alumnes difícilment és representativa, perquè nom�
 Les bases de dades que seran utilitzades al llarg de l'estudi provenen de l'agència estatal de trànsit dels Estats Units i contenen tres taules, entre les quals s'hi troba un llistat d’accidents de tràfic ocorreguts al desembre de 2015 als Estats Units, juntament amb un recompte de totes les persones (conductors, passatgers o vianants) involucrades als accidents i, finalment, un inventari de tots els vehicles involucrats als accidents. 
 
 
-L'enllaç a la base esmentada és el següent: 
-
-<https://www.transportation.gov/briefing-room/traffic-fatalities-sharply-2015>
+L'enllaç a la base esmentada és el següent:  \url{https://www.transportation.gov/briefing-room/traffic-fatalities-sharply-2015}
 
 
 Més concretament, en cada taula es poden trobar les variables següents:
@@ -1359,6 +1375,8 @@ Tipus de víctima & 1. Sobreviu & 5113 (74.1\%) & 0        \\
 \label{fig:F4}
 \end{figure}
 
+\newpage
+
 
 \subsection{Anàlisi descriptiva}
 
@@ -1399,8 +1417,8 @@ HOUR        & 2780    & 0   & 7  & 15      & 13.0122 & 6.7949       & 18 & 23  &
 MINUTE      & 2780    & 0   & 13 & 28      & 28.0417 & 17.2255      & 43 & 59  & 30  \\ \hline
 FATALS      & 2780    & 1   & 1  & 1       & 1.1000  & 0.3833       & 1  & 5   & 0   \\ \hline
 DRUNK\_DR   & 2780    & 0   & 0  & 0       & 0.2457  & 0.4429       & 0  & 2   & 0   \\ \hline
-MORTS       & 2780    & 1   & 1  & 2       & 2.5302  & 1.6805       & 3  & 19  & 2   \\ \hline
-NO\_PER     & 2780    & 0   & 0  & 1       & 0.6443  & 0.6346       & 1  & 5   & 1   \\ \hline
+MORTS       & 2780    & 0   & 0  & 1       & 0,6442  & 0.6346       & 1  & 5  & 1   \\ \hline
+NO\_PER     & 2780    & 1   & 1  & 2       & 2.5302  & 1.6805       & 3  & 19  & 2   \\ \hline
 NO\_VEHICLE & 2780    & 1   & 1  & 1       & 1.5079  & 0.6998       & 2  & 6   & 1   \\ \hline
 \end{tabular}
 \caption{Resum de les variables numèriques vinculades als accidents}
@@ -1413,7 +1431,9 @@ Per a comprobar que les dades són correctes i que les dades s'han tractat bé e
 Les variables \texttt{HOUR} i \texttt{MINUTE} prenen valors entre 0 i 23 i entre 0 i 59 respectivament, els quals són rangs esperats i no donen peu a cap dada atípica en la seva distribució. A la tercera fila de la taula es troba el nombre de ferits a l'accident, \texttt{FATALS}, que senyala que no hi ha cap accidents en què no hi hagi, com a mínim, un ferit. També veiem com el nombre màxim que ferits és 5, però en termes generals i en base als quartils 1 i 2 i la mitjana s'observa que la gran majoria dels accidents només presenten una persona ferida. Així mateix, pel que fa al nombre de conductors beguts involucrats a l'accident, \texttt{DRUNK\_DR}, no involucren a cap conductor begut, és a dir, aquesta variable pren el valor 0 en la majoria dels casos (el 75\% com a mínim, com indica el tercer quartil). Això no obstant, hi ha casos en que hi ha fins a 2 conductors beguts involucrats en un mateix accident. 
 
 
--Mirar variables NO\_PER i MORTS-
+Per la variable \texttt{NO\_PER}, s'observa que el mínim de persones que es trobaven als vehicles en el moment de l'accident era 1, cosa que té sentit ja que no podria haver cap accident de transit si no hi hagués com a mínim un conductor. La mitjana de gent implicada en cada accident va de 2 a 3 persones, i l'accident en el qual va haver-hi més participants van arribar a ser fins a 19 persones. Aquest tipus d'accident és creíble, ja que quatre cotxes poden arribar a col·lisionar en una carretera si hi ha molt poc temps de reacció i, si aquests cotxes van plens, podriem arribar a parlar de vint persones en un accidents, comptant que no hi hagués cap vianant.
+
+Pel que fa a \texttt{MORTS}, es pot veure com en el 25\% dels casos, com a mínim, no hi ha cap víctima mortal en aquests accidents. La mitjana no arriba a ser 1, cosa que indica que la majoria dels accidents no presenten cap mort, i fins el 75\% el màxim de víctimes és de 1. Així i tot, hi ha un cas en el que hi va haver 5 morts, que destaca per sobre de la resta. 
 
 
 Per últim, en tots els accidents de trànsit hi ha un mínim d'un vehicle, i així ho mostra la variable \texttt{NO\_VEHICLE}. L'accident amb més vehicles implicats en té 6.
@@ -1886,6 +1906,8 @@ Per la variable hora agrupada (\texttt{HOUR\_agrupat}) tenim cinc categories. D'
 \end{figure}
 
 Per la variable \texttt{Setmana} s'aprecia que cap de les categories està gaire explicada per les primeres components, ja que els vectors són de molt poca longitud, i tampoc s'entreveu cap patró destacable.
+
+\section{Aprenentatge automàtic amb BigQuery ML}
 
 \subsection{Regressió logística}
 
