@@ -1054,13 +1054,13 @@ Estudiant aquesta base de dades sobre persones que s'han vist implicades, de for
 
 \begin{itemize}
 
-\item Descriure els tipus d'accidents que estan registrats
+\item Descriure les característiques dels accidents registrats
 
-\item Analitzar els diferents perfils de persones que pateixen accidents de trànsit
-
-\item Desenvolupar un model de predicció que ens permeti establir el tipus de víctima que serà cada persona depenent les característiques de l'accident i els vehicles. 
+\item Tractar de forma adequada les dades mancants i els valors atípics de les taules
 
 \item Estudiar les relacions de dependència entre variables
+
+\item Desenvolupar un model de predicció que ens permeti establir el tipus de víctima que serà cada persona depenent les característiques de l'accident i els vehicles. 
 
 \end{itemize}
 
@@ -1072,9 +1072,11 @@ La base de dades d'accidents està formada per 2078 casos (accidents) i 11 varia
 
 Les variables que tenim són DAY, HOUR, MINUTE, RUR\_URB, DAY\_WEEK, FATALS, DRUNK\_DR, NO\_PER, MORTS, NO\_VEHICLE, HIHAMORTS, NO\_FUGITS, AGE, SEX, PER\_TYP i DOA.
 
-\subsubsection{Missings}
+\subsubsection{Dades mancantd}
 
-Per a poder tractar les dades mancants de la base de dades, en primer lloc haurem de tranformar-les, ja que les variables que presenten dades mancants les tenen codificades.
+Per a poder tractar les dades mancants (o \textit{missings}) de la base de dades, en primer lloc haurem de tranformar-les, ja que les variables que presenten dades mancants les tenen codificades.
+
+En el cas de les variables numèriques amb \texttt{missings}, que són l'edat (AGE), l'hora (HOUR) i el minut (MINUTE) en el qual es va tenir l'accident, les codificacions per aquestes dades són 99, 998 o 999, depenent de cada cas.
 
 \begin{table}[H]
 \parbox{.45\linewidth}{
@@ -1094,7 +1096,7 @@ Per a poder tractar les dades mancants de la base de dades, en primer lloc haure
 \multicolumn{1}{|l|}{NO\_VEHICLE} & 0  & 0.00 \\ \hline
 \multicolumn{1}{|l|}{HIHAMORTS}   & 0  & 0.00 \\ \hline
 \end{tabular}
-\caption{Taula accident}
+\caption{Taula accident\label{table:t1}}
 }
 \hfill
 \parbox{.45\linewidth}{
@@ -1118,27 +1120,28 @@ Per a poder tractar les dades mancants de la base de dades, en primer lloc haure
 \multicolumn{1}{|l|}{PER\_TYP}    & 0   & 0.00 \\ \hline
 \multicolumn{1}{|l|}{DOA}         & 0   & 0.00 \\ \hline
 \end{tabular}
-\caption{Taula person}
+\caption{Taula person\label{table:t2}}
 }
+%\label{table:t1}
 \end{table}
 
 
-En el cas de les variables numèriques amb \texttt{missings}, que són l'edat (AGE), l'hora (HOUR), el minut (MINUTE) i la velocitat estimada del vehicle quan va tenir l'accident (TRAV\_SP), les codificacions per aquestes dades són 99, 997, 998 o 999, depenent de cada cas.
 
 
-Un cop transformades aquestes dades, podem visualitzar a la taula següent els \emph{missings} per cada variable numèrica, tant en terme absolut com relatiu. A la taula següent s'hi poden trobar les variables de les bases de dades d'accidents i de persones, respectivament, juntament amb el nombre de dades mancants que presenten, i el tant per cent que aquestes suposen al total de la informació de la variable.
+
+Un cop transformades aquestes dades, podem visualitzar a la taula següent els \emph{missings} per cada variable numèrica, tant en terme absolut com relatiu. A les taules \ref{table:t1} i \ref{table:t2} s'hi poden trobar les variables de les bases de dades d'accidents i de persones, respectivament, juntament amb el nombre de dades mancants que presenten, i el tant per cent que aquestes suposen al total de la informació de la variable.
 
 
-Tal i com es pot observar, a la base de dades d'accidents s'hi troben \emph{missings} per a les variables \texttt{HOUR} i \texttt{MINUTES}, mentre que per a la base de dades de persones, s'hi troben missings per a les variables \texttt{HOUR}, \texttt{MINUTES} i \texttt{AGE}. En ambdós casos, totes les variables són numèriques i, per aquest motiu es pot usar l'algoritme KNN per a la imputació de valors a les dades mancants.
+Tal i com es pot observar, a la base de dades d'accidents s'hi troben \emph{missings} per a les variables \texttt{HOUR} i \texttt{MINUTES}, mentre que per a la base de dades de persones, hi ha \emph{missings} per a les variables \texttt{HOUR}, \texttt{MINUTES} i \texttt{AGE}. En ambdós casos, totes les variables són numèriques i, per aquest motiu es pot usar l'algoritme KNN per a la imputació de valors a les dades mancants.
 
 
-\emph{K-nearest neighbors} (KNN) és un tipus d'algoritme d'aprenentatge supervisat que s'utilitza tant per a la regressió com per a la classificació. La seva funció és intentar predir la classe correcta per a unes dades de prova (que, en el nostre cas, seran les variables que presenten dades mancants) en base a la seva similitut amb altres mostres de dades conegudes (en el nostre cas, les variables completes). Tot això es fa assumint que les dades amb trets similars es troben juntess, i utilitza mesures de distància en el seu nucli.
+\emph{K-nearest neighbors} (KNN) és un tipus d'algoritme d'aprenentatge supervisat que s'utilitza tant per a la regressió com per a la classificació. La seva funció és intentar predir la classe correcta per a unes dades de prova (que, en el nostre cas, seran les variables que presenten dades mancants) en base a la seva similitut amb altres mostres de dades conegudes (en el nostre cas, les variables completes). Tot això es fa assumint que les dades amb trets similars es troben juntes, i utilitza mesures de distància en el seu nucli.
 
 
 Un cop s'ha aplicat l'algoritme per a les variables corresponents, es pot veure, a continuació, com cap de les dues bases de dades presenta cap missing a les variables conflictives.
 
 
-Recordem que la taula mostra les bases de dades d'accidents i de les persones implicades en els accidents, respectivament:
+
 
 \begin{table}[H]
 \parbox{.45\linewidth}{
@@ -1149,7 +1152,7 @@ Recordem que la taula mostra les bases de dades d'accidents i de les persones im
 \multicolumn{1}{|l|}{HOUR}        & 0 & 0.00 \\ \hline
 \multicolumn{1}{|l|}{MINUTE}      & 0 & 0.00 \\ \hline
 \end{tabular}
-\caption{Taula Accident}
+\caption{Taula Accident \label{table:t3}}
 }
 \hfill
 \parbox{.45\linewidth}{
@@ -1161,15 +1164,17 @@ Recordem que la taula mostra les bases de dades d'accidents i de les persones im
 \multicolumn{1}{|l|}{MINUTE}      & 0 & 0.00 \\ \hline
 \multicolumn{1}{|l|}{AGE}         & 0 & 0.00 \\ \hline
 \end{tabular}
-\caption{Taula Person}
+\caption{Taula Person \label{table:t4}}
 }
 \end{table}
 
-\subsubsection{Outliers}
+Recordem que les taules \ref{table:t3} \ref{table:t4} i mostren les bases de dades d'accidents i de les persones implicades en els accidents, respectivament.
 
-Pel que fa a les dades atípiques, en destaca el nombre de persones implicades a l'accident. Més específicament, hi ha un cas en que 53 persones estan involucrades en un accident. A priori, res ens fa pensar que aquesta dada, tot i ser atípica, sigui certa. Això no obstant, a l'hora de la segmentació les dades es podrien veure afectades per aquest valor, ja que alguns algoritmes són molt sensibles a les dades atípiques.
+\subsubsection{Dades atípiques}
 
-A la següent figura es representa la variable nombre de persones (NO\_PER), on es poden identificar de forma clara aquests valors atípics:
+Pel que fa a les dades atípiques (\textit{outliers}), en destaca el nombre de persones implicades a l'accident. Més específicament, hi ha un cas en que 53 persones estan involucrades en un accident. A priori, res ens fa pensar que aquesta dada, tot i ser atípica, sigui certa. Això no obstant, a l'hora de la segmentació les dades es podrien veure afectades per aquest valor, ja que alguns algoritmes són molt sensibles a aquestes.
+
+A la següent figura \ref{fig:F1} es representa la variable nombre de persones (NO\_PER), on es poden identificar de forma clara aquests valors atípics. També es pot trobar un resum numèric de la variable a la taula \ref{table:Fig1a}, que indica el valor màxim que pren la variable.
 
 
 \begin{figure}[H]
@@ -1187,12 +1192,12 @@ A la següent figura es representa la variable nombre de persones (NO\_PER), on 
 N.Valid & Min & Q1 & Mediana & Mitjana  & Desv. estàndar & Q3 & Max & IQR \\ \hline
 7087    & 1   & 2  & 3       & 4.015098 & 4.938707       & 5  & 53  & 3   \\ \hline
 \end{tabular}
-\caption{Resum numeric de la variable Nombre de persones}
-\label{tab:Fig1-table}
+\caption{Resum numeric de la variable Nombre de persones \label{table:Fig1a}}
 \end{table}
 
 
-Per tal d'assegurar-nos que aquesta dada no afecta al nostre anàlisi, i tenint en compte que disposem d'una base de dades molt gran, treurem aquests casos d'ambdues bases de dades.
+
+Per tal d'assegurar-nos que aquesta dada no afecta al nostre anàlisi, i tenint en compte que disposem d'una base de dades molt gran, treurem aquests casos d'ambdues bases de dades. 
 
 
 \begin{figure}[H]
@@ -1216,7 +1221,7 @@ N.Valid & Min & Q1 & Mediana & Mitjana  & Desv. estàndar & Q3 & Max & IQR \\ \h
 
 \subsubsection{Categoritzar}
 
-En el cas de les dades mancants que es troben en variables categòriques, el que es farà serà factoritzar-les i, seguidament, definir els nivells que presenta el factor. Així, per exemple, la variable \textbf{PER\_TYP} presenta 8 nivells que s'han d'agrupar en 3 (\emph{Conductor}, \emph{Ocupant} i \emph{Altres}). 
+En el cas de les dades mancants que es troben en variables categòriques, el que es farà serà factoritzar-les i, seguidament, definir els nivells que presenta el factor. Així, per exemple, la variable \textbf{PER\_TYP} presenta 8 nivells que s'han d'agrupar en 3 (Conductor, Ocupant i Altres). 
 
 
 A continuació es mostren els canvis realitzats a algunes de les variables categòriques de la base de dades:
@@ -1328,7 +1333,7 @@ Per últim, definirem les variables resposta per a cada base de dades, és a dir
 Per una banda, és d'interès classificar els accidents segons si aquests han ocasionat morts o bé no ha sigut el cas. D'aquesta manera, es podria crear un model de predicció que permeti establir si un accident serà mortal o no en el futur en funció de les característiques que presenti.
 
 
-Per tant, la variable d'interès és \texttt{HIHAMORTS}, que es mostra a la següent figura.
+Per tant, la variable d'interès és \texttt{HIHAMORTS}, que es mostra a la figura \ref{fig:F3}.
 
 \begin{table}[H]
 \centering
@@ -1352,7 +1357,7 @@ Hi ha morts & 1. No & 1176 (42.3\%) & 0        \\
 \end{figure}
 
 
-Seguint aquesta línia, serà també de gran importància el tipus de víctima que esdevindran cadascuna de les persones implicades en un accident. En aquest cas, la variable d'interès serà \texttt{DOA}, de la qual es pot trobar un breu anàlisi descriptiu a la figuara següent.
+Seguint aquesta línia, serà també de gran importància el tipus de víctima que esdevindran cadascuna de les persones implicades en un accident. En aquest cas, la variable d'interès serà \texttt{DOA}, de la qual es pot trobar un breu anàlisi descriptiu a la figura \ref{fig:F4}.
 
 \begin{table}[H]
 \centering
@@ -1408,6 +1413,10 @@ NO\_VEHICLE & Numèrica & Nombre de vehicles implicats en l’accident          
 \label{tab:num-table}
 \end{table}
 
+Per a comprobar que les dades són correctes i que les dades s'han tractat bé en termes de \emph{missings} i \emph{outliers}, farem ús del resum numèric de cada variable que es mostra a la taula \ref{tab:num2-table}. 
+
+Les variables \texttt{HOUR} i \texttt{MINUTE} prenen valors entre 0 i 23 i entre 0 i 59 respectivament, els quals són rangs esperats i no donen peu a cap dada atípica en la seva distribució. A la tercera fila de la taula es troba el nombre de ferits a l'accident, \texttt{FATALS}, que senyala que no hi ha cap accidents en què no hi hagi, com a mínim, un ferit. També veiem com el nombre màxim que ferits és 5, però en termes generals i en base als quartils 1 i 2 i la mitjana s'observa que la gran majoria dels accidents només presenten una persona ferida. Així mateix, pel que fa al nombre de conductors beguts involucrats a l'accident, \texttt{DRUNK\_DR}, no involucren a cap conductor begut, és a dir, aquesta variable pren el valor 0 en la majoria dels casos (el 75\% com a mínim, com indica el tercer quartil). Això no obstant, hi ha casos en que hi ha fins a 2 conductors beguts involucrats en un mateix accident. 
+
 \begin{table}[H]
 \centering
 \begin{tabular}{lrrrrrrrrr}
@@ -1425,13 +1434,11 @@ NO\_VEHICLE & 2780    & 1   & 1  & 1       & 1.5079  & 0.6998       & 2  & 6   &
 \label{tab:num2-table}
 \end{table}
 
-Per a comprobar que les dades són correctes i que les dades s'han tractat bé en termes de \emph{missings} i \emph{outliers}, farem ús del resum numèric de cada variable que es mostra a la taula superior. 
 
 
-Les variables \texttt{HOUR} i \texttt{MINUTE} prenen valors entre 0 i 23 i entre 0 i 59 respectivament, els quals són rangs esperats i no donen peu a cap dada atípica en la seva distribució. A la tercera fila de la taula es troba el nombre de ferits a l'accident, \texttt{FATALS}, que senyala que no hi ha cap accidents en què no hi hagi, com a mínim, un ferit. També veiem com el nombre màxim que ferits és 5, però en termes generals i en base als quartils 1 i 2 i la mitjana s'observa que la gran majoria dels accidents només presenten una persona ferida. Així mateix, pel que fa al nombre de conductors beguts involucrats a l'accident, \texttt{DRUNK\_DR}, no involucren a cap conductor begut, és a dir, aquesta variable pren el valor 0 en la majoria dels casos (el 75\% com a mínim, com indica el tercer quartil). Això no obstant, hi ha casos en que hi ha fins a 2 conductors beguts involucrats en un mateix accident. 
 
 
-Per la variable \texttt{NO\_PER}, s'observa que el mínim de persones que es trobaven als vehicles en el moment de l'accident era 1, cosa que té sentit ja que no podria haver cap accident de transit si no hi hagués com a mínim un conductor. La mitjana de gent implicada en cada accident va de 2 a 3 persones, i l'accident en el qual va haver-hi més participants van arribar a ser fins a 19 persones. Aquest tipus d'accident és creíble, ja que quatre cotxes poden arribar a col·lisionar en una carretera si hi ha molt poc temps de reacció i, si aquests cotxes van plens, podriem arribar a parlar de vint persones en un accidents, comptant que no hi hagués cap vianant.
+Per la variable \texttt{NO\_PER}, s'observa que el mínim de persones que es trobaven als vehicles en el moment de l'accident era 1, cosa que té sentit ja que no podria haver cap accident de transit si no hi hagués, com a mínim, un conductor. La mitjana de gent implicada en cada accident va de 2 a 3 persones, i l'accident en el qual va haver-hi més participants van arribar a ser fins a 19 persones. Aquest tipus d'accident és creíble, ja que quatre cotxes poden arribar a col·lisionar en una carretera si hi ha molt poc temps de reacció i, si aquests cotxes van plens, podriem arribar a parlar de vint persones en un accidents, comptant que no hi hagués cap vianant.
 
 Pel que fa a \texttt{MORTS}, es pot veure com en el 25\% dels casos, com a mínim, no hi ha cap víctima mortal en aquests accidents. La mitjana no arriba a ser 1, cosa que indica que la majoria dels accidents no presenten cap mort, i fins el 75\% el màxim de víctimes és de 1. Així i tot, hi ha un cas en el que hi va haver 5 morts, que destaca per sobre de la resta. 
 
@@ -1442,6 +1449,8 @@ Per últim, en tots els accidents de trànsit hi ha un mínim d'un vehicle, i ai
 En quant als \emph{missings}, la primera columna de la taula és un recompte dels casos vàlids per a cada variable, és a dir, aquells que no presenten valors mancants per a aquella variable concreta. Es pot comprobar com el mètode de imputació s'ha realitzat correctament, perquè totes les variables presenten el mateix recompte de casos vàlids, que coincideix amb el nombre d'accidents total a la base de dades.
 
 \textbf{Variables vinculades a les persones}
+
+En quant a les variables vinculades a les persones (Taula \ref{tab:num3-table}), només varien les variables \texttt{NO\_FUGITS} i \texttt{EDAT} respecte a la taula anterior. De fet, la distribució de les variables \texttt{HOUR}, \texttt{MINUTE}, \texttt{FATALS}, \texttt{DRUNK\_DR}, \texttt{NO\_PER}, \texttt{MORTS} i \texttt{NO\_VEHICLE} no presenta canvis rellevants respecte a la distribució que es troba a la taula anterior. No es troba cap cas de dada atípica ni cap dada mancant per aquestes variables. Per aquest motiu, ens centrarem ara en els resums de les variables \texttt{NO\_FUGITS} i \texttt{EDAT}, que es troben a la taula \ref{tab:num4-table}.
 
 \begin{table}[H]
 \centering
@@ -1481,7 +1490,7 @@ AGE         & 6904    & 0   & 23.5 & 37      & 39.9005 & 20.4028      & 55 & 98 
 \label{tab:num4-table}
 \end{table}
 
-En quant a les variables vinculades a les persones, només varien les variables \texttt{NO\_FUGITS} i \texttt{EDAT} respecte a la taula anterior. De fet, la distribució de les variables \texttt{HOUR}, \texttt{MINUTE}, \texttt{FATALS}, \texttt{DRUNK\_DR}, \texttt{NO\_PER}, \texttt{MORTS} i \texttt{NO\_VEHICLE} no presenta canvis rellevants respecte a la distribució que es troba a la taula anterior. No es troba cap cas de dada atípica ni cap dada mancant per aquestes variables. Per aquest motiu, ens centrarem ara en els resums de les variables \texttt{NO\_FUGITS} i \texttt{EDAT}.
+
 
 
 Pel que fa al nombre de vehicles fugits a l'accident, el tercer quartil indica que al 75\% dels casos no hi ha cap vehicle fugit, i si en fixem en el valor màxim que pren aquesta variable, el cas amb més vehicles fugits en presenta 3. Finalment, en quant a l'edat de les persones, el rang de valors va des de 0 a 98 anys, és a dir, en alguns accidents hi ha implicats nadons, i en d'altres persones de mitjana edat. 
@@ -1622,7 +1631,7 @@ DOA    & 1. Sobreviu  & 5113 (74.1\%) & \multicolumn{1}{r}{0} \\
 Per acabar l'anàlisi descriptiva de les dades, s'estudiarà la relació que existeix entre diferents parells de variables. Aquest tipus d'anàlisi ajudarà a esbrinar si existeix una associació entre les variables i, en cas afirmatiu, quina és la força d'aquesta.
 
 
-Per a la visualització d'aquestes relacions entre variables s'ha fet d'ús d'una plataforma de Google anomenada \href{https://datastudio.google.com/overview}{Data Studio}. Aquesta permet convertir les dades en panells o informes complets, fàcils de llegir i de compartir i totalment personalitzables. Algunes de les seves funcionalitats són:
+Per a la visualització d'aquestes relacions entre variables s'ha fet d'ús d'una plataforma de Google anomenada \href{https://datastudio.google.com/overview}{Looker Studio}. Aquesta permet convertir les dades en panells o informes complets, fàcils de llegir i de compartir i totalment personalitzables. Algunes de les seves funcionalitats són:
 
 
 \begin{itemize}
@@ -1638,7 +1647,7 @@ Per a la visualització d'aquestes relacions entre variables s'ha fet d'ús d'un
 \end{itemize}
 
 
-A més de presentar totes aquestes característiques, amb Data Studio es poden elaborar fàcilment informes sobre dades procedents d'una gran varietat de fonts, sense necessitat de programar. En tan sols uns instants, permet la connexió a grans conjunts de dades com els que es troben a BigQuery.
+A més de presentar totes aquestes característiques, amb Looker Studio es poden elaborar fàcilment informes sobre dades procedents d'una gran varietat de fonts, sense necessitat de programar. En tan sols uns instants, permet la connexió a grans conjunts de dades com els que es troben a BigQuery.
 
 
 \textbf{Variables vinculades als accidents}
@@ -1655,7 +1664,7 @@ A més de presentar totes aquestes característiques, amb Data Studio es poden e
 \label{fig:G1}
 \end{figure}
 
-Pel que fa al nombre de conductors beguts segons el dia de la setmana en el qual succeeix l'accident, s'observa de forma clara a la gràfica esquerra de la figura 5 com la majoria dels conductors beguts es concentren al cap de setmana. Sembla que podria ser un patró perquè hi ha diferències notables entre la quantitat de conductor beguts a finals de la setmana, en comparació als dilluns, dimarts i dimecres. D'altra banda, si ens fixem, en aquest cas, en el nombre de morts segons el dia de la setmana, el dilluns es troba altra vegada en l'última posició, ja que és el dia en què es donen menys morts en accidents de trànsit. Paral·lelament, els últims dies de la setmana presenten un major nombre d'accidents mortals. Aquesta és la informació que presenta la gràfica dreta de la figura 5.
+Pel que fa al nombre de conductors beguts segons el dia de la setmana en el qual succeeix l'accident, s'observa de forma clara a la gràfica esquerra de la figura  \ref{fig:G1} com la majoria dels conductors beguts es concentren al cap de setmana. Sembla que podria ser un patró perquè hi ha diferències notables entre la quantitat de conductor beguts a finals de la setmana, en comparació als dilluns, dimarts i dimecres. D'altra banda, si ens fixem, en aquest cas, en el nombre de morts segons el dia de la setmana, el dilluns es troba altra vegada en l'última posició, ja que és el dia en què es donen menys morts en accidents de trànsit. Paral·lelament, els últims dies de la setmana presenten un major nombre d'accidents mortals. Aquesta és la informació que presenta la gràfica dreta de la figura \ref{fig:G1}.
 
 
 Si es té en compte la informació d'aquestes últimes gràfiques, es podria pensar que existeix una relació entre el nombre de conductors beguts i el nombre de ferits mortals als accidents de trànsit. S'haurà de tenir en compte aquesta hipòtesi per anàlisis posteriors de les dades.
@@ -1672,7 +1681,7 @@ Si es té en compte la informació d'aquestes últimes gràfiques, es podria pen
 \end{figure}
 
 
-Si centrem l'atenció en les hores del dia, a la figura 6 es poden veure les freqüències absolutes quant a la quantitat de morts en els diferents moments del dia. A l'esquerra, es divideix el dia en les seves hores, i s'observa com l'hora en què es produeixen més accidents és a les 6 de la tarda. Perquè la gràfica sigui més informativa, s'han agrupat les hores segons els moments del dia per crear la gràfica de la dreta. 
+Si centrem l'atenció en les hores del dia, a la figura \ref{fig:G2} es poden veure les freqüències absolutes quant a la quantitat de morts en els diferents moments del dia. A l'esquerra, es divideix el dia en les seves hores, i s'observa com l'hora en què es produeixen més accidents és a les 6 de la tarda. Perquè la gràfica sigui més informativa, s'han agrupat les hores segons els moments del dia per crear la gràfica de la dreta. 
 
 
 En definitiva, de les dues gràfiques s'extreu que la majoria de les morts es produeixen a la tarda i a la matinada, mentre que el moment del dia on hi ha menys morts és el migdia.
@@ -1689,7 +1698,7 @@ En definitiva, de les dues gràfiques s'extreu que la majoria de les morts es pr
 \end{figure}
 
 
-Pel que fa a la informació que tenim registrada sobre les persones involucrades en els accidents, i en la línia de les anàlisis anteriors, la figura 7 presenta una gràfica que mostra una clara relació entre el nombre de conductors beguts i el nombre de morts en l'accident a les diferents edats de les persones implicades. Els punts més extrems d'aquesta gràfica (els que presenten major nombre de conductors beguts i, alhora, major nombre de morts) són les edats 22 i 23. Aquestes dades indueixen a pensar que hi ha més perill d'accidents mortals per a la gent jove a la carretera, si hi ha conductors beguts. Una altra manera d'interpretar aquesta gràfica podria ser que hi ha més conductors joves que agafen el cotxe beguts i, en conseqüència, aquest grup d'edat pateix més accidents mortals.
+Pel que fa a la informació que tenim registrada sobre les persones involucrades en els accidents, i en la línia de les anàlisis anteriors, la figura  \ref{fig:G3} presenta una gràfica que mostra una clara relació entre el nombre de conductors beguts i el nombre de morts en l'accident a les diferents edats de les persones implicades. Els punts més extrems d'aquesta gràfica (els que presenten major nombre de conductors beguts i, alhora, major nombre de morts) són les edats 22 i 23. Aquestes dades indueixen a pensar que hi ha més perill d'accidents mortals per a la gent jove a la carretera, si hi ha conductors beguts. Una altra manera d'interpretar aquesta gràfica podria ser que hi ha més conductors joves que agafen el cotxe beguts i, en conseqüència, aquest grup d'edat pateix més accidents mortals.
 
 
 \begin{figure}[h!]
@@ -1703,7 +1712,7 @@ Pel que fa a la informació que tenim registrada sobre les persones involucrades
 \label{fig:G4}
 \end{figure}
 
-El nombre de vehicles fugits en els accidents de trànsit varia en funció del moment del dia en que es produeix l'accident, així com en funció de la setmana del mes. A la figura 8 es troba, a l'esquerra, la quantitat de vehicles fugits en els diferents moments del dia, i aquests es concentren sobretot a la tarda (de 15 a 19h incloses) i la matinada (de les 0 a les 5h incloses). En canvi, pel que fa a les diferents setmanes del mes es veu com la majoria de cotxes fugits es troben a la primera i la quarta setmana, i la distribució no és uniforme durant totes les setmanes del mes, com s'esperaria si no hi hagués cap relació entre ambdues variables.
+El nombre de vehicles fugits en els accidents de trànsit varia en funció del moment del dia en que es produeix l'accident, així com en funció de la setmana del mes. A la figura \ref{fig:G4} es troba, a l'esquerra, la quantitat de vehicles fugits en els diferents moments del dia, i aquests es concentren sobretot a la tarda (de 15 a 19 hores, incloses) i la matinada (de les 0 a les 5 hores, incloses). En canvi, pel que fa a les diferents setmanes del mes es veu com la majoria de cotxes fugits es troben a la primera i la quarta setmana, i la distribució no és uniforme durant totes les setmanes del mes, com s'esperaria si no hi hagués cap relació entre ambdues variables.
 
 \begin{figure}[H]
 \begin{center}
@@ -1714,7 +1723,7 @@ El nombre de vehicles fugits en els accidents de trànsit varia en funció del m
 \end{figure}
 
 
-Pel últim, la figura 9 mostra una taula de contingència entre les variables SEX i DOA (és a dir, el sexe de la persona i el tipus de víctima, si sobreviu o no a l'accident). Aquesta taula marca com a categoria més abundant a la base de dades els homes que sobreviuen a l'accident, i com a menys abundant les dones que no sobreviuen al mateix. 
+Pel últim, la figura \ref{fig:G5} mostra una taula de contingència entre les variables SEX i DOA (és a dir, el sexe de la persona i el tipus de víctima, si sobreviu o no a l'accident). Aquesta taula marca com a categoria més abundant a la base de dades els homes que sobreviuen a l'accident, i com a menys abundant les dones que no sobreviuen al mateix. 
 
 
 Si es considera aquesta informació de forma relativa, aproximadament el 39\% dels homes implicats en els accidents han siguts ferits mortals, mentre que d'entre les dones ho ha sigut aproximadament el 29\%. S'hauria d'investigar si aquestes diferències són estadísticament significatives o, d'altra banda, no existeix relació entre el sexe i el tipus de víctima en els accidents de trànsit.
@@ -1723,7 +1732,7 @@ Si es considera aquesta informació de forma relativa, aproximadament el 39\% de
 \subsection{Anàlisi per components principals}
 
 
-La nostra base de dades depurada té un total de 7 variables numèriques. Per tant, l'anàlisi de components principals tindrà un total de 7 components. Després de realitzar els càlculs corresponents, obtenim que l'ACP de les variables numèriques és el següent:
+La nostra base de dades depurada té un total de 7 variables numèriques. Per tant, l'anàlisi de components principals tindrà un total de 7 components. Després de realitzar els càlculs corresponents, obtenim l'ACP de les variables numèriques a la figura \ref{fig:ACP1}.
 
 \begin{figure}[H]
 \begin{center}
@@ -1733,7 +1742,7 @@ La nostra base de dades depurada té un total de 7 variables numèriques. Per ta
 \end{figure}
 
 
-Sabem que cada component representa una inèrcia concreta. Ho podem veure gràficament en els següent gràfic de barres.
+Sabem que cada component representa una inèrcia concreta. Ho podem veure gràficament en els següent gràfic de barres (Figura \ref{fig:ACP2}).
 
 
 \begin{figure}[H]
@@ -1749,7 +1758,7 @@ Tenint en compte que la inèrcia equival a la proporció de la variabilitat de l
 
 
 
-A continuació realitzem un gràfic de dispersió per a totes les combinacions possibles. Diferenciarem els individus, que en el nostre cas són accidents, depenent de si hi ha hagut víctimes mortals o no en aquest. 
+A continuació realitzem un gràfic de dispersió per a totes les combinacions possibles (Figura \ref{fig:ACP3}). Diferenciarem els individus, que en el nostre cas són accidents, depenent de si hi ha hagut víctimes mortals o no en aquest. 
 
 \begin{figure}[H]
 \begin{center}
@@ -1764,11 +1773,10 @@ Es pot observar que les dues primeres components no aconsegueixen diferenciar de
 
 \subsubsection{Projecció de variables numèriques}
 
-En aquest gràfic es pot veure totes les variables numèriques representades en la primera i segona component.
+A la gràfica corresponent a la figura \ref{fig:ACP4} es pot veure totes les variables numèriques representades en la primera i segona component.
 
 
-Veiem que la majoria de variables estan representades sobre l’eix horitzontal, que correspon
-a la primera component. Aquestes variables són \texttt{NO\_VEHICLE}, \texttt{MORTS}, \texttt{FATALS} i \texttt{NO\_PERSONES}. A més, aquestes dues últimes prenen un valor de gairebé 0.8 i per tant, són les que expliquen amb més precisió la primera component. Ens fixem que totes aquestes variables tenen relació amb el nombre de persones, i per tant, a la primera component li assignarem l’etiqueta de \emph{Nombre de persones involucrades}.
+Veiem que la majoria de variables estan representades sobre l’eix horitzontal, que correspon a la primera component. Aquestes variables són \texttt{NO\_VEHICLE}, \texttt{MORTS}, \texttt{FATALS} i \texttt{NO\_PERSONES}. A més, aquestes dues últimes prenen un valor de gairebé 0.8 i per tant, són les que expliquen amb més precisió la primera component. Ens fixem que totes aquestes variables tenen relació amb el nombre de persones, i per tant, a la primera component li assignarem l’etiqueta de "Nombre de persones involucrades".
 
 \begin{figure}[H]
 \begin{center}
@@ -1779,7 +1787,7 @@ a la primera component. Aquestes variables són \texttt{NO\_VEHICLE}, \texttt{MO
 \end{figure}
 
 
-Pel que fa a l’eix vertical, només hi ha dues variables que estiguin una mica relacionades amb la segona component. Aquestes són \texttt{HOUR} i \texttt{DRUNK\_DR}. que prenen un valor prop del 0.5. Com que a priori, aquestes dues varaibles no tenen gaire relació l'una amb l'altra, assignarem a la segona component l'etiqueta de \emph{Condicions en què es dona l'accident}, ja que a simple vista cap de les dues destaca sobre l'altre en la seva aportació a la segona component.
+Pel que fa a l’eix vertical, només hi ha dues variables que estiguin una mica relacionades amb la segona component. Aquestes són \texttt{HOUR} i \texttt{DRUNK\_DR}. que prenen un valor prop del 0.5. Com que a priori, aquestes dues varaibles no tenen gaire relació l'una amb l'altra, assignarem a la segona component l'etiqueta de "Condicions en què es dona l'accident", ja que a simple vista cap de les dues destaca sobre l'altre en la seva aportació a la segona component.
 
 \begin{figure}[H]
 \begin{center}
@@ -1790,10 +1798,10 @@ Pel que fa a l’eix vertical, només hi ha dues variables que estiguin una mica
 \end{figure}
 
 
-En aquestes gràfiques, la línia vermella discontinua indica el valor mitjà de contribució. Per una determinada component, una variable amb una contribució major a aquest límit pot considerar-se important a l'hora de contribuir a aquesta component. A l'esquerra, es pot veure que les variables \texttt{NO\_PER} i \texttt{FATALS} són les que més contribueixen a la PC1, tal i com s'havia destacat prèviament. D'altra banda, a la gràfica de la dreta destaca la variable \texttt{MORTS} com la més contribuent a la PC2.
+Als gràfics de la figura \ref{fig:ACP5}, la línia vermella discontinua indica el valor mitjà de contribució. Per una determinada component, una variable amb una contribució major a aquest límit pot considerar-se important a l'hora de contribuir a aquesta component. A l'esquerra, es pot veure que les variables \texttt{NO\_PER} i \texttt{FATALS} són les que més contribueixen a la PC1, tal i com s'havia destacat prèviament. D'altra banda, a la gràfica de la dreta destaca la variable \texttt{MORTS} com la més contribuent a la PC2.
 
 
-Pel que fa als vectors (variables) de la Figura 12, ens podem fixar, també en la seva longitud i en l'angle respecte als eixos de les components principals i entre ells mateixos. 
+Pel que fa als vectors (variables) de la Figura \ref{fig:ACP4}, ens podem fixar, també en la seva longitud i en l'angle respecte als eixos de les components principals i entre ells mateixos. 
 
 
 L'angle que formen les variables \texttt{HOUR} i \texttt{DRUNK\_DR} respecte l'eix vertical és petit, la qual cosa ens indica que, tot i no ser les variables més contribuents, estan estretament relacionades amb la creació d'aquesta component. Paral·lelament, es pot dir el mateix de les variables \texttt{NO\_PER} i \texttt{FATALS} respecte a la PC1.
@@ -1808,7 +1816,7 @@ Quant a la longitud, com major sigui la llargària d'un vector relacionat amb un
 \subsubsection{Projecció de variables categòriques}
 
 
-També podem fer una projecció de les variables categòriques sobre aquestes components. Si en el mateix gràfic, hi afegim totes les categories de totes les variables categòriques, obtenim el següent:
+També podem fer una projecció de les variables categòriques sobre aquestes components. Si en el mateix gràfic, s'afegeixen totes les categories de les variables categòriques, el resultat es pot consultar a la figura \ref{fig:ACP6}.
 
 \begin{figure}[H]
 \begin{center}
@@ -1819,8 +1827,8 @@ També podem fer una projecció de les variables categòriques sobre aquestes co
 \end{figure}
 
 
-Clarament aquest gràfic no es pot interpretar, ja que tenim tantes categories que no es poden distingir.
-Per tant, el que farem serà crear un gràfic per a cada variable categòrica, a veure si així ens és més fàcil interpretar-los.
+Clarament aquest gràfic no es pot interpretar, ja que hi ha tantes categories que no es poden distingir.
+Per tant, el que es farà serà crear un gràfic per a cada variable categòrica, a veure si d'aquesta manera és més senzilla la seva interpretació.
 
 
 
@@ -1935,6 +1943,7 @@ Abans de crear el model a la consola de BigQuery, dividirem la nostra base de da
 \multicolumn{1}{|l|}{Train}        & \multicolumn{1}{l|}{1342}   & 967    \\ \hline
 \multicolumn{1}{|l|}{Test}         & \multicolumn{1}{l|}{262}    & 209    \\ \hline
 \end{tabular}
+\label{tab:ent1}
 \end{table}
 
 
