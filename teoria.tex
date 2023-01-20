@@ -44,11 +44,14 @@
 \usepackage{hyperref}
 \usepackage{graphicx}
 \graphicspath{ {Imatges portada/} }
-
+\pagenumbering{gobble}
 \newlength\tindent
 \setlength{\tindent}{\parindent}
 \setlength{\parindent}{0pt}
 \renewcommand{\indent}{\hspace*{\tindent}}
+
+\usepackage{biblatex} %Imports biblatex package
+\addbibresource{bibliografia2.bib} %Import the bibliography file
 
 \usepackage{chngcntr}
 \counterwithin{figure}{section}
@@ -2139,6 +2142,14 @@ Si ens fixem en la variable \texttt{RUR\_URB}, es pot calcular que si, en compte
 \newpage
 
 \section{Repositori de Github}
+
+\newpage
+
+\section{Conclusions}
+
+\newpage
+
+\printbibliography
 
 \newpage
 
