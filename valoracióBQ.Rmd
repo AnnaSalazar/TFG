@@ -1,0 +1,66 @@
+---
+title: "tfg part 2"
+author: "Anna Salazar"
+date: "`r Sys.Date()`"
+output: pdf_document
+bibliography: bibliografia2.bib
+nocite: '@*'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+
+```{r}
+a <- c(3, 5, 6, 9, 5, 4, 7, 4, 9, 6, 7, 6, 5, 4, 6, 5, 4, 3)
+(mean_a <- round(sum(a)/length(a),4))
+
+b <- c(4, 3, 3, 7, 0, 2, 4, 4, 2, 7, 10, 4, 2, 5, 8, 4, 3, 1)
+(mean_b <- round(sum(b)/length(b),4))
+
+c <- c(7, 4, 7, 8, 3, 3, 8, 6, 5, 7, 8, 6, 6, 7, 7, 8, 3, 5)
+(mean_c <- round(sum(c)/length(c),4))
+
+d <- c(5, 6, 5, 7, 2, 3, 7, 6.5, 6, 8, 9, 6.5, 5, 8, 7, 9.5, 3)
+(mean_d <- round(sum(d)/length(d),4))
+```
+
+
+```{r}
+dades <- data.frame(Items = factor(c(rep("Connexió BigQuery", length(a)), 
+           rep("Consultes SQL BigQuery", length(b)),
+           rep("Connexió amb R", length(c)),
+           rep("Valoració global", length(d)))), Valoracio = c(a,b,c,d))
+```
+
+```{r}
+dades3 <- data.frame(cbind(rbind(mean_a, mean_b, mean_c, mean_d), rbind("Connexió BigQuery", "Consultes SQL BigQuery", "Connexió amb R", "Valoració global")))
+colnames(dades3) <- c("Valoració mitjana", "Entorn")
+```
+
+```{r}
+ggplot(dades, aes(x=Items, y=Valoracio)) + 
+  geom_boxplot(fill = "#1d91c0") + ylab("Valoració mitjana") +
+  xlab("") + theme_minimal()
+```
+
+
+```{r}
+ggplot(data=dades3, aes(x=dades3$Entorn, y=dades3$`Valoració mitjana`)) +
+  geom_bar(stat="identity", col = "#1d91c0", fill = 
+      "#1d91c0") + 
+        ylab("Valoració mitjana") +
+  xlab("") +
+        theme_minimal()
+```
+
+
+\pagebreak
+
+
+
+
+
+
