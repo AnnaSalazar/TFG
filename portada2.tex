@@ -1,0 +1,75 @@
+\documentclass[12pt,longbibliography]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{mathptmx}
+ %para cambiar el tipo de fuente por defecto
+\renewcommand{\sfdefault}{ptm}
+% fuente en los títulos
+\renewcommand{\rmfamily}{ptm}
+
+\usepackage{amsmath, amsthm, amsfonts, amssymb}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+
+\usepackage{afterpage}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
+
+\usepackage{mathrsfs} 
+\usepackage{bbm} 
+\renewcommand{\baselinestretch}{1.25}
+\pagenumbering{gobble}
+\setlength{\parskip}{7pt}
+\setlength{\parindent}{0pt}
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+
+\begin{document}
+\newpage
+\begin{center}
+\textbf{Resum}
+\end{center}
+
+Aquest treball està centrat en el funcionament de BigQuery, un programa per a l'emmagatzemament i l'anàlisi de dades al núvol. Es pretén crear una guia pràctica per l'ús d'aquesta eina en la seva versió gratuïta. L'escrit aborda les limitacions a respectar per la utilització de la plataforma sense cap cost, així com la connexió de BigQuery amb altres programes per facilitar l'anàlisi i visualització de les dades. Finalment, es presenten dos mètodes d'anàlisi de dades per discutir l'abast de l'eina en aquest moment.
+
+\textbf{Paraules clau}: Big Data, Magatzem de dades, Visualització de dades, API, Anàlisi de dades, Google Cloud, Plataforma al núvol.
+
+\begin{center}
+\textbf{Abstract}
+\end{center}
+
+\emph{This work focuses on the performance of BigQuery, a programme for storing and analysing data in the cloud. It aims to create a practical guide for the use of this tool in its free version. The paper addresses the limitations to be respected for the use of the platform at no cost, as well as the connection of BigQuery with other programmes to facilitate the analysis and visualization of data. Finally, two data analysis methods are presented to discuss the availability of the tool at this time.}
+
+\emph{\textbf{Keywords}: Big Data, Data Warehouse, Data Visualization, API, Data Analysis, Google Cloud, Cloud Platform.}
+
+\vspace{1cm}
+
+\begin{table}[h!]
+\begin{tabular}{lrl}
+\textbf{Classificació AMS:} & 47R50 & Data bases, information systems                      \\
+                            & 62-07 & Data analysis                                        \\
+                            & 68T09 & Computacional aspects of data analytics and big data \\
+                            & 94A16 & Informational aspects of data analytics and big data
+\end{tabular}
+\end{table}
+
+\newpage
+
+\afterpage{\blankpage}
+
+
+\end{document}
