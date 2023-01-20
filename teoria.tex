@@ -2,23 +2,23 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[catalan]{babel}
-\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage[a4paper, total={16cm, 24.7cm}]{geometry} %margin=2.5cm
 \renewcommand{\thefootnote}{\arabic{footnote}}
 \usepackage{multicol}
 %\setlength{\columnsep}{10mm}
 \usepackage[none]{hyphenat}
 \usepackage{float}
+\setlength{\marginparwidth}{0pt}
+\setlength{\marginparsep}{0pt}
 
-% \usepackage[sfdefault]{carlito}
+
 \usepackage{mathptmx}
-% \renewcommand{\familydefault}{\sfdefault}
  %para cambiar el tipo de fuente por defecto
 \renewcommand{\sfdefault}{ptm}
 % fuente en los títulos
 \renewcommand{\rmfamily}{ptm}
 
 % helvetica en el cuerpo del documento
-%\rmfamily{ptm}
 
 \usepackage{amsmath, amsthm, amsfonts, amssymb}
 \newtheorem{thm}{Theorem}[section]
@@ -37,7 +37,6 @@
 \usepackage{fancyvrb}
 \usepackage{bbm} 
 \renewcommand{\baselinestretch}{1.25}
-%\setlength{\parskip}{6pt}
 \setlength{\parskip}{7pt}
 
 
@@ -50,19 +49,17 @@
 \setlength{\parindent}{0pt}
 \renewcommand{\indent}{\hspace*{\tindent}}
 
-\usepackage{biblatex} %Imports biblatex package
-\addbibresource{bibliografia2.bib} %Import the bibliography file
-
 \usepackage{chngcntr}
 \counterwithin{figure}{section}
 \counterwithin{table}{section}
 
-\title{Big Query}
-\author{Anna Salazar}
+\title{Anàlisi de Big Data mitjançant les eines de Google Cloud}
+\author{Anna Salazar Belver}
 
 \renewcommand{\contentsname}{Índex}
 \renewcommand{\figurename}{Figura}
 \renewcommand{\tablename}{Taula}
+\renewcommand\refname{Bibliografia}
 
 \begin{document}
 
@@ -86,26 +83,51 @@
 
 \pagenumbering{arabic}
 
+\section{Introducció}
+
+L'objectiu d'aquest treball és conèixer un dels recursos de la plataforma Google Cloud, anomenat BigQuery. A partir de l'enteniment de com funciona la computació al núvol i l'emmagatzemament de dades en el mateix entorn, es vol crear un material pedagògic per a incloure al programari de l'assignatura de Fitxers i Bases de Dades del grau d'Estadística.
+
+Amb aquest objectiu en ment, en treball es divideix en tres seccions principals. En primer lloc, s'aprofundirà en la descripció de la plataforma al llarg de les primeres cinc seccions. Primer es descriurà BigQuery a alt nivell per, més endavant, poder entendre l'estructura de la interfície d'usuari i les maneres en què es pot interactuar amb el sistema. En aquest apartat també s'inclouran les connexions amb altres plataformes i \emph{softwares} per a poder treure el màxim profit de les dades d'estudi. Seguidament, la segona secció està conformada per un únic apartat, que contempla l'aplicació de BigQuery a l'entorn de classe i inclou la valoració dels propis alumnes sobre la seva experiència i visió. Per últim, es presenta l'anàlisi d'una base de dades mitjançant la connexió amb el programari R. En aquesta secció, es realitza part de l'exploració de les dades a R i part a BigQuery, tot tenint en compte les limitacions del llenguatge que s'utilitza en cada entorn i els recursos visuals que ofereixen. 
+
+\subsection{Motivació}
+
+Al llarg de la meva trajectòria acadèmica he anat identificant, cada cop de manera més precisa, els meus interessos i ambicions, així com les tècniques d'aprenentatge que em permeten aprendre i formar-me de manera més efectiva. En el meu cas, l'aprenentatge basat en la pràctica em permet aplicar els coneixements teòrics que he adquirit a problemes reals, la qual cosa fa que entengui millor els conceptes i vegi la seva utilitat. Tot això és el que m’ha donat motivació per continuar aprenent i intentar anar sempre una mica més enllà, i el motiu principal que em va portar a interessar-me per crear un recurs pedagògic pràctic per compartir-lo amb altres estudiants amb inquietuds similars a les meves.
+
+La meva tutora, la professora Montserrat Guillén, em va donar la oportunitat d'ajudar-la en aquest projecte, que va captar la meva atenció des del primer moment. A arrel de cursar l'assignatura de Fitxers i Bases de Dades, el meu interès en les macrodades o \textit{Big Data} va créixer i, cada cop més, penso que la solució del futur per treballar amb conjunts de dades massius serà fer-ho al núvol o d'alguna manera que no impliqui la descàrrega de dades a l'equip local. Fent aquest treball he conegut una de les alternatives per treballar amb aquest tipus de informació, però encara queda camí per davant i moltes ganes d'aprendre i conceptes en les quals aprofundir.
+
+\section{Metodologia}
+
+Per poder fer un seguiment del treball i exemplificar tota la informació teòrica que s'anirà veient en el transcurs del treball, s'ha fet ús de dos conjunts de dades. 
+
+Per una banda, s'ha tractat una base de dades pública a l'entorn de BigQuery, anomenada \textit{Catalonia Cell Coverage}. Aquesta conté informació sobre la cobertura de telefonia mòvil de la població catalana que va ser recopilada des de l'any 2015 fins al 2017, ambdós inclosos. Algunes de les variables que es van tenir en compte en aquest estudi van ser la senyal mitjana del dispositiu, el nom de la xarxa i de l'operador, la velocitat estimada de la font i el codi postal del lloc on es va adquirir la telemetria.
+
+Per altra part, s'han utilitzat unes dades que provenen de l'agència estatal de trànsit de Washington, Estats Units. L'Administració Nacional de Seguretat del Trànsit a les Carreteres, \textit{National Highway Traffic Safety Administration} (NHTSA) en anglès, va fer públiques tres taules que feien referència als accidents ocorreguts al llarg de l'any 2015, les persones involucrades en aquests (ja siguin conductors, passatgers o vianants) i un inventari de tots els vehicles que van ser afectats. Les dades tractades són una mostra que conté tots els accidents produïts el mes de desembre d'aquell any. Aquesta informació es pot trobat al web de la NHTSA: \url{https://www.transportation.gov/briefing-room/traffic-fatalities-sharply-2015}.
+
+Per poder dur a terme aquest treball s'ha utilitzat el \textit{software} R, mitjançant la interfície R-Studio, i dos llenguatges de programació. Principalment, s'ha fet ús del llenguatge SQL, tant a la pàgina de BigQuery com a l'entorn R, fent ús del paquet "sqldf" que es pot trobar al repositori oficial \href{https://cran.r-project.org}{CRAN}. Així i tot, també s'ha usat el propi llenguatge R per acomplir alguns altres aspectes de l'anàlisi que inclouen el preprocessament de les dades i la creació de gràfics descriptius.
+
+\pagebreak
+
 \section{Què és BigQuery?}
 
 BigQuery és un motor d’anàlisi de macrodades (\textit{Big Data}) que permet executar consultes amb llenguatge \emph{Structured Query Language} (SQL) al núvol sobre les dades emmagatzemades en aquest, sense importar el volum de les dades ni el tipus de consultes que es volen fer. El motor de consulta és capaç de treballar sobre terabytes de dades en qüestió de segons, i sobre petabytes en pocs minuts. Avui en dia, les empreses estan adoptant cada cop més la presa de decisions basades en dades i fomentant una cultura oberta en la qual les dades no estan aïllades dins dels departaments. BigQuery, en proporcionar els mitjans tecnològics per a promoure un canvi cultural cap a l’agilitat i l’obertura, realitza un paper molt important en l’augment del ritme de la innovació.
 
 
-Treballar amb dades a BigQuery implica 3 aspectes principals: l’emmagatzemament, la incorporació de les dades i la consulta d’aquestes, Google s’encarrega de tota la resta. Com BigQuery és un servei totalment gestionat, no és necessari configurar ni instal·lar res en el nostre ordinador i, pel mateix motiu, no necessitem un administrador de la base de dades. Simplement, podem entrar en el nostre projecte de Google Cloud des del mateix navegador i començar a analitzar.
+Treballar amb dades a BigQuery implica tres aspectes principals: l’emmagatzemament, la incorporació de les dades i la consulta d’aquestes, Google s’encarrega de tota la resta. Com BigQuery és un servei totalment gestionat, no és necessari configurar ni instal·lar res en el nostre ordinador i, pel mateix motiu, no necessitem un administrador de la base de dades. Simplement, podem entrar en el nostre projecte de Google Cloud des del mateix navegador i començar a analitzar.
 
 
-Pel que fa a l’emmagatzemament, les dades es guarden en una taula estructurada, la qual cosa significa que es pot utilitzar SQL estàndard per a facilitar la consulta i l’anàlisi de dades. BigQuery és perfecta pel \textit{Big Data} perquè gestiona tot aquest emmagatzemament i està proveïda d’operacions d’escalabilitat que funcionen de forma automàtica sense que l’usuari s’hagi d’involucrar,  per la qual cosa mai haurem de preocupar-nos per la grandària de les dades amb els quals treballem. Part de la consideració de disseny darrere de BigQuery és animar als usuaris a centrar-se en els coneixements en lloc de la infraestructura. 
+Pel que fa a l’emmagatzemament, les dades es guarden en una taula estructurada, la qual cosa significa que es pot utilitzar SQL estàndard per a facilitar la consulta i l’anàlisi de dades. BigQuery és perfecta pel \textit{Big Data} perquè gestiona tot aquest emmagatzemament i està proveïda d’operacions d’escalabilitat que funcionen de forma automàtica sense que l’usuari s’hagi d’involucrar,  per la qual cosa mai haurem de preocupar-nos per la grandària de les dades amb les quals treballem. Part de la consideració de disseny darrere de BigQuery és animar als usuaris a centrar-se en els coneixements en lloc de la infraestructura. 
 
 \noindent
 Per a més informació sobre BigQuery, es pot consultar la pàgina de \href{https://cloud.google.com/bigquery/docs/introduction}{Google Cloud}.
 
 \subsection{Per què hauríem d'utilitzar BigQuery en lloc d'altres eines?}
 
-Una de les característiques més rellevants que presenta BigQuery és que es tracta d'una plataforma sense servidor, és a dir, que els servidors s'executen en segon pla, sense la intervenció de l'usuari. A més, presenta una alta disponibilitat, la qual cosa es tradueix en que no cal preocupar-se per la caiguda dels servidors, ja que la plataforma s'encarrega del seu manteniment. També té propietats d'escalabilitat automàtica que fan possible gestionar fins a petabytes de dades. Aquestes característiques no estan disponibles a la majoria de plataformes d'emmagatzemament de dades tradicionals, i fan destacar BigQuery entre moltes.
+Una de les característiques més rellevants que presenta BigQuery és que es tracta d'una plataforma sense servidor local, és a dir, que els servidors s'executen en segon pla, sense la intervenció de l'usuari. A més, presenta una alta disponibilitat, la qual cosa es tradueix en que no cal preocupar-se per la caiguda dels servidors, ja que la plataforma s'encarrega del seu manteniment. També té propietats d'escalabilitat automàtica que fan possible gestionar fins a petabytes de dades. Aquestes característiques no estan disponibles a la majoria de plataformes d'emmagatzemament de dades tradicionals, i fan destacar BigQuery entre moltes.
 
 
 
 Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb moltes fonts de dades diferents. Es poden pujar les dades des del propi sistema d'arxius, des de Google Cloud Storage o des de Google Drive, entre moltes més fonts. Després de fer-ho, es poden consultar aquestes dades utilitzant SQL estàndard o SQL heretat. Els resultats de les consultes solen emmagatzemar-se en la memòria cau durant 24 hores, de manera que les següents execucions d'aquesta consulta només hauran d'obtenir les dades de la memòria cau en lloc de fer-ho del disc. És a dir, estarà lliure de cost fer la mateixa consulta en un plaç de 24 hores, ja que no s'haurà de tornar a examinar la base de dades per obtenir el resultat.
+
 
 
 \pagebreak
@@ -167,11 +189,11 @@ A més, ens trobem que tots els conjunts de dades tenen el temps de caducitat de
 
 Una altra característica destacable és que els projectes de la zona de proves no són compatibles amb:
 
-- La transmissió de dades
+- La transmissió de dades.
 
-- Sentències de llenguatge de manipulació de dades (DML)
+- Sentències de llenguatge de manipulació de dades (DML).
 
-- El servei de transferència de dades de BigQuery
+- El servei de transferència de dades de BigQuery.
 
 \subsection{Creació d'un conjunt de dades}
 
@@ -741,7 +763,7 @@ Aquesta correspon a que únicament va ocórrer un accident un cap de setmana a l
 
 BigQuery és una eina d'anàlisi de dades d'alt rendiment, capaç de processar un volum molt gran d'informació en segons, és senzill d'utilitzar i ofereix la zona de proves des de la que es pot treballar de forma gratuïta. És per aquest motiu que s'ha presentat aquest programa als estudiants del grau d'estadística a l'assignatura de Fitxers i Bases de Dades, perquè ells mateixos puguin avaluar la seva experiència amb la plataforma de Google Cloud, així com el grau de dificultat que troben en el seu ús.
 
-Per portar a terme aquesta dinàmica es van necessitar dues sessions de dues hores cadascuna. A la primera, es va presentar tota la informació teòrica sobre la plataforma. S'explicava les propietats de BigQuery, així com les limitacions que presenta la seva zona de proves. La professora Montserrat Guillén va fer unes diapositives per presentar-les a l'aula on s'incorporava tota la informació necessària per crear-se un compte a BigQuery i poder dur a terme l'activitat proposta.
+Per portar a terme aquesta dinàmica es van necessitar dues sessions de dues hores cadascuna. A la primera, es va presentar tota la informació teòrica sobre la plataforma. S'explicava les propietats de BigQuery, així com les limitacions que presenta la seva zona de proves. La professora Montserrat Guillén va fer unes diapositives per presentar-les a l'aula on s'incorporava tota la informació necessària per crear-se un compte a BigQuery i poder dur a terme l'activitat proposta. Aquestes diapositives van ser creades a partir de la recerca contemplada en aquest treball, i en elles es van fer algunes modificacions a l'hora de penjar-les al campus virtual, per evitar publicar un material que encara no s'havia presentat.
 
 
 \subsection{Consultes amb `bigrquery`}
@@ -793,7 +815,7 @@ Un cop els estudiants es trobaven a l'entorn BigQuery, les consultes a crear hav
 
 \begin{enumerate}
 
-\item Fes una taula de freqüències de l'activitat que fa cada usuari segons les dades recollides.
+\item Feu una taula de freqüències de l'activitat que fa cada usuari segons les dades recollides.
 
 \begin{Verbatim}[frame=single]
 
@@ -804,7 +826,7 @@ GROUP BY activity
 
 \end{Verbatim}
 
-\item Retorna un llistat de les 5 ciutats amb millor connexió mitjana de Catalunya.
+\item Retorneu un llistat de les 5 ciutats amb millor connexió mitjana de Catalunya.
 
 \begin{Verbatim}[frame=single]
 
@@ -816,7 +838,7 @@ ORDER BY AVG_SIGNAL DESC
 LIMIT 5
 \end{Verbatim}
 
-\item Fes un resum numèric (mínim, mitjana, desviació típica i màxim) de la precisió de la xarxa per aquelles 10 que tenen la mitjana més elevada.
+\item Feu un resum numèric (mínim, mitjana, desviació típica i màxim) de la precisió de la xarxa per aquelles 10 que tenen la mitjana més elevada.
 
 \begin{Verbatim}[frame=single]
 
@@ -830,7 +852,7 @@ ORDER BY Mitjana DESC
 LIMIT 10
 \end{Verbatim}
 
-\item Crea una taula que reculli les ciutats i la xarxa dels 10 primers usuarisque es van quedar sense servei mòvil, obviant els casos en què el nom de la ciutat o de la xarxa sigui \textit{NULL}.
+\item Creeu una taula que reculli les ciutats i la xarxa dels 10 primers usuarisque es van quedar sense servei mòvil, obviant els casos en què el nom de la ciutat o de la xarxa sigui \textit{NULL}.
 
 \begin{Verbatim}[frame=single]
 
@@ -843,7 +865,7 @@ ORDER BY date ASC
 LIMIT 10
 \end{Verbatim}
 
-\item Construeix una taula que reculli la xarxa, el seu tipus i la precisió mitjana. Llista els 10 primers casos, en ordre descendent, segons la precisió mitjana.
+\item Construiu una taula que reculli la xarxa, el seu tipus i la precisió mitjana. Llisteu els 10 primers casos, en ordre descendent, segons la precisió mitjana.
 
 \begin{Verbatim}[frame=single]
 
@@ -857,7 +879,7 @@ ORDER BY Precisio_mitj DESC
 LIMIT 10
 \end{Verbatim}
 
-\item Fes un gràfic de sectors sobre l'aparició dels diferents tipus de xarxa, excloent els casos en què aquesta variable pren el valor \textit{NULL}.
+\item Feu un gràfic de sectors sobre l'aparició dels diferents tipus de xarxa, excloent els casos en què aquesta variable pren el valor \textit{NULL}.
 
 \vspace{2mm}
 \begin{figure}[H]
@@ -867,7 +889,7 @@ LIMIT 10
 \label{fig:pbq1}
 \end{figure}
 
-\item Crea un histograma que mostri la freqüència en què apareix cada operador a la base de dades. Utilitza Looker Studio per a fer-ho.
+\item Creeu un histograma que mostri la freqüència en què apareix cada operador a la base de dades. Utilitza Looker Studio per a fer-ho.
 
 \vspace{2mm}
 \begin{figure}[H]
@@ -901,13 +923,13 @@ Responeu a les següents preguntes sobre l'ús de BigQuery. Valoreu (0: molt fà
 
 \begin{itemize}
 
-\item Suggeriu alguna milora en introducció a BigQuery?
+\item Suggeriu alguna milora en la introducció a BigQuery?
 
 \end{itemize}
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{val}
+\includegraphics[width=13.5cm]{val}
 \end{center}
 \caption{Valoració mitjana dels estudiants}
 \label{fig:val}
@@ -927,10 +949,10 @@ En quant a la connexió amb R, la puntuació mitjana ha sigut de 6, una mica mé
 Per últim, la valoració global ha estat de 6,09 en quant a la dificultat del programa.
 
 
-També s'ha preguntat si els alumnes volien deixar suggerències per la millora en la introducció a BigQuery, aquelles coses que canviarien i/o els hi facilitaria la introducció a aquesta eina. Molts dels comentaris que s'han repetit en les valoracions és que els hi hagués ajudat el fet de dedicar-hi més pràctiques, perquè suposava un volum de informació molt gran que se'ls hi ha explicat en poc temps. A més, demanden que l'explicació de la teoria vingui acompanyada d'un suport pràctic des de la primera sessió, per entendre millor des del principi el funcionament de BigQuery.
+També s'ha preguntat si els estudiants volien deixar suggerències per la millora en la introducció a BigQuery, aquelles coses que canviarien i/o els hi facilitaria la introducció a aquesta eina. Molts dels comentaris que s'han repetit en les valoracions és que els hi hagués ajudat el fet de dedicar-hi més pràctiques, perquè suposava un volum de informació molt gran que se'ls hi ha explicat en poc temps. A més, demanden que l'explicació de la teoria vingui acompanyada d'un suport pràctic des de la primera sessió, per entendre millor des del principi el funcionament de BigQuery.
 
 
-Tot i que aquesta mostra d'alumnes difícilment és representativa, perquè només han participat vint-i-un alumnes a les sessions pràctiques, els resultats han sigut força positius i els estudiants han mostrat a les valoracions el seu interès en seguir coneixent aquest tipus d'eines, perquè els hi semblen interessants de cara al futur.
+Tot i que aquesta mostra d'estudiants difícilment és representativa, perquè només han participat vint-i-un estudiants a les sessions pràctiques, els resultats han sigut força positius i els estudiants han mostrat a les valoracions el seu interès en seguir coneixent aquest tipus d'eines, perquè els hi semblen interessants de cara al futur.
 
 
 \newpage
@@ -1075,7 +1097,7 @@ La base de dades d'accidents està formada per 2078 casos (accidents) i 11 varia
 
 Les variables que tenim són DAY, HOUR, MINUTE, RUR\_URB, DAY\_WEEK, FATALS, DRUNK\_DR, NO\_PER, MORTS, NO\_VEHICLE, HIHAMORTS, NO\_FUGITS, AGE, SEX, PER\_TYP i DOA.
 
-\subsubsection{Dades mancantd}
+\subsubsection{Dades mancants}
 
 Per a poder tractar les dades mancants (o \textit{missings}) de la base de dades, en primer lloc haurem de tranformar-les, ja que les variables que presenten dades mancants les tenen codificades.
 
@@ -2143,13 +2165,53 @@ Si ens fixem en la variable \texttt{RUR\_URB}, es pot calcular que si, en compte
 
 \section{Repositori de Github}
 
+\url{https://github.com/AnnaSalazar/TFG}
+
 \newpage
 
 \section{Conclusions}
 
 \newpage
 
-\printbibliography
+\nocite{*}
+
+\newpage 
+
+\begin{thebibliography}{99} 
+
+
+\bibitem{Comtois} Dominic Comtois (2021). \textit{summarytools: Tools to Quickly and Neatly Summarize Data}. R package version 1.0.0. \url{https://CRAN.R-project.org/package=summarytools}.
+
+\bibitem{Cooksey} Cooksey, Brian. 2014. \textit{An Introduction to APIs}. (2016). Positional Accuracy of Twitter and Instagram Images in Urban Environment. \url{https://Doi.Org/10.1553/Giscience2016_01_s191}
+
+\bibitem{Azuela} “Git Essential Training: The Basics Online Class: LinkedIn Learning." 2019. \url{https://www.linkedin.com/learning/git-essential-training-the-basics}, LinkedIn. 
+
+\bibitem{sqldf} Grothendieck, G. 2017. \textit{Sqldf:  Manipulate r Data Frames Using SQL}. \url{https://CRAN.R-project.org/package=sqldf}
+
+\bibitem{Alboukadel} Alboukadel Kassambara and Fabian Mundt (2020). \textit{factoextra: Extract and Visualize the Results of Multivariate Data Analyses}. R package version 1.0.7. \url{https://CRAN.R-project.org/package=factoextra}
+
+\bibitem{VIM} Kowarik, Alexander, and Matthias Templ. 2016. “Imputation with the R Package VIM.” \textit{Journal of Statistical Software }74 (7): 1–16. \url{https://doi.org/10.18637/jss.v074.i07}.
+
+\bibitem{Lakshmana} Lakshmanan, Valliappa, and Jordan Tigani. 2019. \textit{Google BigQuery: The Definitive Guide: Data Ware-housing, Analytics, and Machine Learning at Scale.} O’Reilly Media.
+
+\bibitem{Looker} “Looker Studio for Beginners Online Class: LinkedIn Learning.” 2022. \url{https://www.linkedin.com/learning/google-data-studio-for-beginners-2022}; LinkedIn
+
+\bibitem{Ohri} Ohri, Ajay. 2014. \textit{R for Cloud Computing: An Approach for Data Scientists}. Springer.
+
+\bibitem{Quickstarts}“Quickstarts | BigQuery | Google Cloud.” n.d. \url{https://cloud.google.com/bigquery/docs/quickstarts}; Google
+
+\bibitem{dbi}R Special Interest Group on Databases (R-SIG-DB), Hadley Wickham, and Kirill Müller. 2022. \textit{DBI: RDatabase Interface}. \url{https://CRAN.R-project.org/package=DBI}.
+
+\bibitem{Wickham1}Wickham, Hadley, and Jennifer Bryan. 2021. \textit{Bigrquery: An Interface to Google’s ’BigQuery’ ’API’}. \url{https://CRAN.R-project.org/package=bigrquery}.
+
+\bibitem{Wickham}   Wickham et al., (2019). \textit{Welcome to the tidyverse}. Journal of Open Source Software, 4(43), 1686, \url{https://doi.org/10.21105/joss.01686}
+
+\bibitem{Xie} Yihui Xie (2022). \textit{knitr: A General-Purpose Package for Dynamic Report Generation in R}. R package version 1.41.
+
+\bibitem{Zhu} Hao Zhu (2021). \textit{kableExtra: Construct Complex Table with 'kable' and Pipe Syntax}. R package version 1.3.4. \url{https://CRAN.R-project.org/package=kableExtra}
+
+\end{thebibliography} 
+
 
 \newpage
 
