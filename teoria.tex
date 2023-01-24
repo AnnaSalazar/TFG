@@ -278,7 +278,7 @@ MINUTE    & Numèrica   & Minut de l’accident (99 = desconegut)               
 RUR\_URB  & Categòrica & Informació sobre la localització (1 = Rural, 2 = Urbà,   \\ 
 & & 6 = Via no classificada, 8 = No registrat, 9 = Desconegut) \\ \hline
 DAY\_WEEK & Categòrica & Dia de la setmana (1 = Diumenge, 2 = Dilluns, ..., 7 = Dissabte)                                                    \\ \hline
-FATALS    & Numèrica   & Nombre de ferits a l’accident                                                                                       \\ \hline
+FATALS    & Numèrica   & Nombre de víctimes a l’accident (poden der ferits o morts)                                                                                      \\ \hline
 DRUNK\_DR & Numèrica   & Nombre de conductors beguts involucrats a l’accident                                                                \\ \hline
 \end{tabular}%
 }
@@ -315,7 +315,7 @@ INSERT INTO `el-meu-projecte-358912.dades_projecte.accidents`
 VALUES (20055, 1, 20, 55, "1", "3", 3, 0);
 \end{verbatim}
 
-A partir d'aquesta consulta afegiríem a la taula el cas d'un accident amb identificador 20055, que es va produir el dia 1 del mes a les 20:55 a una zona rural (\verb|RUR_URB| = 1) un dimarts (\verb|DAY_WEEK| = 3), i en el que hi ha 3 ferits i cap conductor begut involucrat en l'accident.
+A partir d'aquesta consulta afegiríem a la taula el cas d'un accident amb identificador 20055, que es va produir el dia 1 del mes a les 20:55 a una zona rural (\verb|RUR_URB| = 1) un dimarts (\verb|DAY_WEEK| = 3), i en el que hi ha 3 víctimes i cap conductor begut involucrat en l'accident.
 
 Això no obstant, quan intentem executar la consulta, BigQuery ens informa d'un error (Figura ~\ref{fig:bq11}). Si recordem, prèviament s'han definit algunes de les limitacions per a l'ús de la zona de proves de BigQuery. Entre aquestes s´hi troba que no podem utilitzar el llenguatge de manipulació de dades (DML), és a dir, que no podem modificar la taula amb sentències com \verb|INSERT INTO|, \verb|UPDATE| o \verb|DELETE|, per exemple. Per aquest motiu, l'error ens avisa que no tenim el nostre projecte vinculat a un compte i, per tant, no ens avaluarà la nostra consulta.
 
@@ -973,7 +973,7 @@ Tot i que aquesta mostra d'estudiants difícilment és representativa, perquè n
 
 \subsection{Descripció de la base de dades}
 
-Les bases de dades que seran utilitzades al llarg de l'estudi provenen de l'agència estatal de trànsit dels Estats Units i contenen tres taules, entre les quals es troba un llistat d’accidents de trànsit ocorreguts el desembre de 2015 als Estats Units, juntament amb un recompte de totes les persones (conductors, passatgers o vianants) involucrades als accidents i, finalment, un inventari de tots els vehicles involucrats als accidents. 
+La base de dades que serà utilitzada al llarg de l'estudi provené de l'agència estatal de trànsit dels Estats Units i contené tres taules, entre les quals es troba un llistat d’accidents de trànsit ocorreguts el desembre de 2015 als Estats Units, juntament amb un recompte de totes les persones (conductors, passatgers o vianants) involucrades als accidents i, finalment, un inventari de tots els vehicles involucrats als accidents. 
 
 
 L'enllaç a la base esmentada és el següent:  \url{https://www.transportation.gov/briefing-room/traffic-fatalities-sharply-2015}
@@ -1045,10 +1045,10 @@ PREV\_SP & Categòrica & Indicador d’existència de límit de velocitat permes
 
 \subsubsection{Lectura de les dades}
 
-A partir d'aquestes tres taules, s'extreuran dues taules noves amb les quals es treballarà al llarg del projecte. La lectura i transformació de les taules s'ha fet mitjançant la connexió del programa R-Studio amb BigQuery, que és el lloc on s'hi trobaven guardades. Aquesta tècnica ha permès que l'ordinador no hagi de treballar directament amb el volum de dades complet, sinó amb un subconjunt d'aquestes.
+A partir d'aquestes tres taules, es definiran dues taules noves amb les quals es treballarà al llarg del projecte. La lectura i transformació de les taules originals s'ha fet mitjançant la connexió del programa R-Studio amb BigQuery, que és el lloc on s'hi trobaven guardades. Aquesta tècnica ha permès que l'ordinador no hagi de treballar directament amb el volum de dades complet, sinó amb un subconjunt d'aquestes.
 
 
-En primer lloc, es tindrà en compte la informació dels accidents. D'aquesta manera es podrà estudiar les característiques dels diferents accidents regitrats, així com es podran fer prediccions sobre els nous accidents en funció de les seves característiques. S'ha anomenat aquesta base "accident", i està conformada per les variables següents: DAY, HOUR, MINUTE, RUR\_URB, DAY\_WEEK, FATALS, DRUNK\_DR, NO\_PER, MORTS, NO\_VEHICLE, HIHAMORTS.
+En primer lloc, es tindrà en compte la informació dels accidents. D'aquesta manera es podrà estudiar les característiques dels diferents accidents regitrats, així com es podrà fer prediccions sobre els nous accidents en funció de les seves característiques. S'ha anomenat aquesta base "accident", i està conformada per les variables següents: DAY, HOUR, MINUTE, RUR\_URB, DAY\_WEEK, FATALS, DRUNK\_DR, NO\_PER, MORTS, NO\_VEHICLE, HIHAMORTS.
 
 
 Les variables MORTS, NO\_PER, NO\_VEHICLE i HIHAMORTS han sigut creades a posteriori a partir de les taules de les que es disposava mitjançant consultes SQL, i es defineixen a continuació:
@@ -1068,10 +1068,10 @@ HIHAMORTS & Categòrica & Variable identificadora dels accidents mortals (0: no 
 \caption{Llistat de variables definides a posteriori per a la taula Accidents}
 \end{table}
 
-D'altra banda, s'estudiarà la informació sobre les persones implicades en aquests accidents. D'aquesta manera es podrà perfilar el tipus de conductors en els casos en que hi hagi morts en l'accident, així com en els que no hi hagi. Aquesta informació també ens facilitarà l'elaboració de possibles models per predir el tipus de víctima que serà una persona involucrada en un accident de trànsit en base a les seves característiques. en aquest cas, s'ha anomenat aquesta base "persones", i està conformada per les variables següents: DAY, HOUR, MINUTE, RUR URB, DAY WEEK, FATALS, DRUNK DR, NO PER, MORTS, NO VEHICLE, NO FUGITS, AGE, SEX, PER\_TYP i DOA.
+D'altra banda, s'estudiarà la informació sobre les persones implicades en aquests accidents. D'aquesta manera es podrà perfilar el tipus de conductors en els casos en que hi hagi morts en l'accident, així com en els que no hi hagi. Aquesta informació també ens facilitarà l'elaboració de possibles models per predir el tipus de víctima que serà una persona involucrada en un accident de trànsit en base a les seves característiques. En aquest cas, s'ha anomenat aquesta taula "persones", i està conformada per les variables següents: DAY, HOUR, MINUTE, RUR\_URB, DAY\_WEEK, FATALS, DRUNK\_DR, NO\_PER, MORTS, NO\_VEHICLE, NO\_FUGITS, AGE, SEX, PER\_TYP i DOA.
 
 
-Las variable \textbf{NO FUGITS} ha sigut creada a posteriori a partir de les taules de les que es disposava mitjançant consultes SQL, i es defineix a continuació:
+Las variable NO\_FUGITS ha sigut creada a posteriori a partir de les taules de les que es disposava mitjançant consultes SQL, i es defineix a continuació:
 
 
 \begin{table}[H]
@@ -1087,7 +1087,7 @@ NO\_FUGITS     &   Numèrica    &  Nombre de vehicles fugits implicats en l'acci
 
 \subsubsection{Objectius del projecte}
 
-Estudiant aquesta base de dades sobre persones que s'han vist implicades, de forma directa o indirecta, en accidents de trànsit es preten:
+Estudiant aquestes taules sobre persones que s'han vist implicades, de forma directa o indirecta, en accidents de trànsit es pretén:
 
 \begin{itemize}
 
@@ -1104,14 +1104,14 @@ Estudiant aquesta base de dades sobre persones que s'han vist implicades, de for
 
 \subsection{Preprocessament}
 
-La base de dades d'accidents està formada per 2078 casos (accidents) i 11 variables. En canvi, la base de dades de persones la conformen 7087 individus (files) i 15 variables (columnes).
+La taula d'accidents està formada per 2078 casos (accidents) i 11 variables. En canvi, la taula de persones la conformen 7087 individus (files) i 15 variables (columnes).
 
 
 Les variables que tenim són DAY, HOUR, MINUTE, RUR\_URB, DAY\_WEEK, FATALS, DRUNK\_DR, NO\_PER, MORTS, NO\_VEHICLE, HIHAMORTS, NO\_FUGITS, AGE, SEX, PER\_TYP i DOA.
 
 \subsubsection{Dades mancants}
 
-Per a poder tractar les dades mancants (o \textit{missings}) de la base de dades, en primer lloc haurem de tranformar-les, ja que les variables que presenten dades mancants les tenen codificades.
+Per a poder tractar les dades mancants (o \textit{missings}) d'ambues taules, en primer lloc haurem de tranformar-les, ja que hi ha variables que presenten dades mancants, però les tenen codificades.
 
 En el cas de les variables numèriques amb \texttt{missings}, que són l'edat (AGE), l'hora (HOUR) i el minut (MINUTE) en el qual es va tenir l'accident, les codificacions per aquestes dades són 99, 998 o 999, depenent de cada cas.
 
@@ -1162,10 +1162,10 @@ En el cas de les variables numèriques amb \texttt{missings}, que són l'edat (A
 %\label{table:t1}
 \end{table}
 
-Un cop transformades aquestes dades, es poden visualitzar els \emph{missings} per cada variable, tant en terme absolut com relatiu. A les taules \ref{table:t1} i \ref{table:t2} s'hi poden trobar les variables de les bases de dades d'accidents i de persones, respectivament, juntament amb el nombre de dades mancants que presenten, i el tant per cent que aquestes suposen al total de la informació de la variable.
+Un cop transformades aquestes dades, es poden visualitzar els \emph{missings} per cada variable, tant en terme absolut com relatiu. A les taules \ref{table:t1} i \ref{table:t2} s'hi poden trobar les variables de les tauless d'accidents i de persones, respectivament, juntament amb el nombre de dades mancants que presenten, i el tant per cent que aquestes suposen al total de la informació de la variable.
 
 
-Tal i com es pot observar, a la base de dades d'accidents s'hi troben \emph{missings} per a les variables \texttt{HOUR} i \texttt{MINUTES}, mentre que per a la base de dades de persones, hi ha \emph{missings} per a les variables \texttt{HOUR}, \texttt{MINUTES} i \texttt{AGE}. En ambdós casos, totes les variables són numèriques i, per aquest motiu es pot usar l'algoritme KNN per a la imputació de valors a les dades mancants.
+Tal i com es pot observar, a la taula d'accidents s'hi troben \emph{missings} per a les variables \texttt{HOUR} i \texttt{MINUTES}, mentre que per a la base de dades de persones, hi ha \emph{missings} per a les variables \texttt{HOUR}, \texttt{MINUTES} i \texttt{AGE}. En ambdós casos, totes les variables són numèriques i, per aquest motiu es pot usar l'algoritme KNN per a la imputació de valors a les dades mancants.
 
 
 \emph{K-nearest neighbors} (KNN) és un tipus d'algoritme d'aprenentatge supervisat que s'utilitza tant per a la regressió com per a la classificació. La seva funció és intentar predir la classe correcta per a unes dades de prova (que, en el nostre cas, seran les variables que presenten dades mancants) en base a la seva similitut amb altres mostres de dades conegudes (en el nostre cas, les variables completes). Tot això es fa assumint que les dades amb trets similars es troben juntes, i utilitza mesures de distància en el seu nucli.
@@ -1205,7 +1205,7 @@ Recordem que les taules \ref{table:t3} i \ref{table:t4} i mostren les bases de d
 
 \subsubsection{Dades atípiques}
 
-Pel que fa a les dades atípiques (\textit{outliers}), en destaca el nombre de persones implicades a l'accident. Més específicament, hi ha un cas en que 53 persones estan involucrades en un accident. A priori, res ens fa pensar que aquesta dada, tot i ser atípica, no pugui ser certa. Per exemple, un accident pot tenir un nombre elevat de persones involucades si invlocra un autobús com a vehicle, per exemple. Això no obstant, a l'hora de la segmentació les dades es podrien veure afectades per aquest valor, ja que alguns algoritmes són molt sensibles als \textit{outliers}.
+Pel que fa a les dades atípiques (\textit{outliers}), en destaca el nombre de persones implicades a l'accident. Més específicament, hi ha un cas en que 53 persones estan involucrades en un accident. A priori, res ens fa pensar que aquesta dada, tot i ser atípica, no pugui ser certa. Per exemple, un accident pot tenir un nombre elevat de persones involucades si involucra un autobús com a vehicle, per exemple. Això no obstant, a l'hora de la segmentació les dades es podrien veure afectades per aquest valor, ja que alguns algoritmes són molt sensibles als \textit{outliers}.
 
 Al següent gràfic (figura \ref{fig:F1}) es representa la variable nombre de persones (NO\_PER), on es poden identificar de forma clara aquests valors atípics. També es pot trobar un resum numèric de la variable a la taula \ref{table:Fig1a}, que indica el valor màxim que pren la variable.
 
@@ -1230,7 +1230,7 @@ N.Valid & Min & Q1 & Mediana & Mitjana  & Desv. estàndar & Q3 & Max & IQR \\ \h
 
 
 
-Per tal d'assegurar-nos que aquesta dada no afecta al nostre anàlisi, i tenint en compte que disposem d'una base de dades molt gran, treurem aquests casos d'ambdues bases de dades. 
+Per tal d'assegurar-nos que aquesta dada no afecta al nostre anàlisi, i tenint en compte que disposem d'una base de dades molt gran, treurem aquests casos d'ambdues taules. 
 
 
 \begin{figure}[H]
@@ -1278,7 +1278,7 @@ A continuació es mostren els canvis realitzats a algunes de les variables categ
 
 \item Abans: 1, 2, 3, 4, 5, 6, 7
 
-\item Després: Dilluns, Dimarts, Dimecres, Dijous, Divendres, Dissabte, Diumenge
+\item Després: Diumenge, Dilluns, Dimarts, Dimecres, Dijous, Divendres, Dissabte
 
 \end{itemize}
 
@@ -1288,11 +1288,11 @@ A continuació es mostren els canvis realitzats a algunes de les variables categ
 
 \item Abans: 1, 2, 8, 9
 
-\item Després: Home, Dona, Desconegut
+\item Després: Home, Dona
 
 \end{itemize}
 
-Per la variable variable \texttt{SEX} hi ha una categoria anomenada "Desconegut", que representa aquelles persones de les quals no tenim informació del seu sexe. Com aquesta categoria no ens aporta informació d'utilitat a l'hora de realitzar l'estudi ni per a relitzar models predictius, prescindirem dels individus que corresponguin aquesta categoria per a realitzar el nostre anàlisi.
+Per la variable variable \texttt{SEX} hi ha les categories anomenades "No registrat" i "Desconegut", que representen aquelles persones de les quals no tenim informació del seu sexe. Com aquestes categories no ens aporten informació d'utilitat a l'hora de realitzar l'estudi ni per a realitzar models predictius, prescindirem dels individus que corresponguin a aquestes per a realitzar el nostre anàlisi.
 
 \textbf{RUR\_URB}: Informació sobre la localització (1 = Rural, 2 = Urbà, 6 = Via no classificada, 8 = No registrat, 9 = Desconegut). 
 
@@ -1322,11 +1322,11 @@ Per la variable variable \texttt{SEX} hi ha una categoria anomenada "Desconegut"
 
 \item  Abans: 0, 7, 8, 9
 
-\item  Després: Sobreviu, Mor, Desconegut
+\item  Després: Sobreviu, Mor
 
 \end{itemize}
 
-Per aquesta última variable, \texttt{DOA}, hi ha una categoria anomenada "Desconegut", que representa aquelles persones que no se sap si sobreviuen a l'accident o no. Ja que en aquest estudi el fet de sobreviure o no a l'accident és de gran interès, i aquesta categoria  no ens aporta informació útil, prescindirem dels individus enmarcats en aquesta categoria per a realitzar el nostre anàlisi.
+Per aquesta última variable, \texttt{DOA}, hi ha una categoria anomenada "Desconegut", que representa aquelles persones que no se sap si sobreviuen a l'accident o no. Ja que en aquest estudi el fet de sobreviure o no a l'accident és de gran interès, i aquesta categoria  no ens aporta informació útil, prescindirem dels individus enmarcats en aquesta categoria per a realitzar el nostre anàlisi. A més a més, agruparem les categories 7 i 8 (mort a l'accident i mort al trasllat, respectivament) en una única categoria.
 
 Per últim, es crearan dues variables noves a partir de \texttt{HOURS} i \texttt{DAY}, que ja són presents a ambdós conjunts de dades. Aquest pas es realitza perquè les variables \texttt{HOURS} i \texttt{DAY} tenen un rang de valors molt elevat que ens aporta poca informació. 
 
@@ -1389,7 +1389,7 @@ Hi ha morts & 1. No & 1176 (42.3\%) & 0        \\
 \label{fig:F3}
 \end{figure}
 
-El tant per cent d'accidents amb morts és molt elevat perquè tots són accidents amb víctimes que es van enregistrar per l'autoritat i, per tant, devia anar-hi un agent de trànsit al lloc on es va produir. Els accidents més lleus o superficials no van ser registrats per aquest estudi.
+El tant per cent d'accidents amb morts és molt elevat perquè tots són accidents amb víctimes que es van enregistrar per l'autoritat i, per tant, devia anar-hi un agent de trànsit al lloc on es va produir. Els accidents més lleus o superficials no van ser enregistrats per aquest estudi.
 
 
 Seguint aquesta línia, serà també de gran importància el tipus de víctima que esdevindran cadascuna de les persones implicades en un accident. En aquest cas, la variable d'interès serà \texttt{DOA}, de la qual es pot trobar un breu anàlisi descriptiu a la figura \ref{fig:F4}.
@@ -1450,7 +1450,7 @@ NO\_VEHICLE & Numèrica & Nombre de vehicles implicats en l’accident          
 
 Per a comprovar que les dades són correctes i que s'han tractat bé en termes de \emph{missings} i \emph{outliers}, farem ús del resum numèric de cada variable que es mostra a la taula \ref{tab:num2-table}. 
 
-Les variables \texttt{HOUR} i \texttt{MINUTE} prenen valors entre 0 i 23 i entre 0 i 59 respectivament, els quals són rangs esperats i no donen peu a cap dada atípica en la seva distribució. A la tercera fila de la taula es troba el nombre de ferits a l'accident, \texttt{FATALS}, que assenyala que no hi ha cap accident en què no hi hagi, com a mínim, un ferit. També veiem com el nombre màxim que ferits és 5, però en termes generals i d'acord amb els quartils 1 i 2 i la mitjana s'observa que la gran majoria dels accidents només presenten una persona ferida. Així mateix, pel que fa al nombre de conductors beguts involucrats a l'accident, \texttt{DRUNK\_DR}, aquesta variable pren el valor 0 en la majoria dels casos (el 75\% com a mínim, com indica el tercer quartil). Això no obstant, hi ha casos en què hi ha fins a 2 conductors beguts involucrats en un mateix accident. 
+Les variables \texttt{HOUR} i \texttt{MINUTE} prenen valors entre 0 i 23 i entre 0 i 59 respectivament, els quals són rangs esperats i no donen peu a cap dada atípica en la seva distribució. A la tercera fila de la taula es troba el nombre de víctimes de l'accident, \texttt{FATALS}, que assenyala que no hi ha cap accident en què no hi hagi, com a mínim, una víctima. També veiem com el nombre màxim de víctimes és 5, però en termes generals i d'acord amb els quartils 1, 2 i 3 i la mitjana s'observa que la gran majoria dels accidents (el 75\%) només en presenten una. Així mateix, pel que fa al nombre de conductors beguts involucrats a l'accident, \texttt{DRUNK\_DR}, aquesta variable pren el valor 0 en la majoria dels casos (el 75\% com a mínim, com indica el tercer quartil). Això no obstant, hi ha casos en què hi ha fins a 2 conductors beguts involucrats en un mateix accident. 
 
 \begin{table}[H]
 \centering
@@ -1528,7 +1528,7 @@ AGE         & 6904    & 0   & 23.5 & 37      & 39.9005 & 20.4028      & 55 & 98 
 
 
 
-Pel que fa al nombre de vehicles fugits a l'accident, el tercer quartil indica que al 75\% dels casos no hi ha cap vehicle fugit, i si en fixem en el valor màxim que pren aquesta variable, el cas amb més vehicles fugits en presenta 3. Finalment, sobre l'edat de les persones, el rang de valors va des de 0 a 98 anys, és a dir, en alguns accidents hi ha implicats nadons, i en altres a persones de mitjana edat. 
+Pel que fa al nombre de vehicles fugits a l'accident, el tercer quartil indica que al 75\% dels casos no hi ha cap vehicle fugit, i si en fixem en el valor màxim que pren aquesta variable, el cas amb més vehicles fugits en presenta 3. Finalment, sobre l'edat de les persones, el rang de valors va des de 0 fins a 98 anys, és a dir, en alguns accidents hi ha implicats nadons, i en altres a persones de mitjana edat. 
 
 Novament, ens trobem que la primera columna de la taula és un recompte dels casos vàlids per a cada variable, és a dir, aquells que no presenten valors mancants per a aquella variable concreta. Es pot comprovar com el mètode d'imputació s'ha realitzat correctament, perquè totes les variables presenten el mateix recompte de casos vàlids, que coincideix amb el nombre d'accidents total.
 
@@ -1581,7 +1581,7 @@ RUR\_URB     & 1. Rural                      & 1174 (42.2\%)                  & 
 \end{tabular}
 \end{table}
 
-En 318 casos no hi ha informació sobre la localització de l'accident, però en el 88,6\% dels casos es pot identificar si va ser en una zona rural o urbana, i els casos estan prou balancejats en aquestes dues categories.
+En 318 casos no hi ha informació sobre la localització de l'accident, però per la resta dels casos, el 88,6\%, es pot identificar si va ser en una zona rural o urbana, i els casos estan prou balancejats en aquestes dues categories.
 
 
 \textbf{DAY\_WEEK}: Dia de la setmana (1 = Diumenge, 2 = Dilluns, . . . , 7 = Dissabte). Tipus de variable: Factor
@@ -1624,7 +1624,7 @@ Aquesta és la variable resposta de la taula, és a dir, aquella que ens interes
 \textbf{Variables vinculades a les persones}
 
 
-\textbf{SEX}: Sexe de la persona (1 = home, 2 = dona, 8 = No registrat, 9 = Desconegut). Tipus de variable: Factor
+\textbf{SEX}: Sexe de la persona (1 = home, 2 = dona). Tipus de variable: Factor
 
 
 \begin{table}[H]
@@ -1680,7 +1680,7 @@ Per acabar l'anàlisi descriptiva de les dades, s'estudiarà la relació que exi
 Per a la visualització d'aquestes relacions entre variables s'ha fet d'ús d'una plataforma de Google anomenada \href{https://datastudio.google.com/overview}{Looker Studio}. Aquesta permet convertir les dades en panells o informes complets, fàcils de llegir i de compartir, així com totalment personalitzables. 
 
 
-Amb Looker Studio es poden elaborar fàcilment informes sobre dades procedents d'una gran varietat de fonts, sense necessitat de programar. En tan sols uns instants, permet la connexió a grans conjunts de dades com els que es troben a BigQuery. Amb aquesta finalitat, s'han pujat les taules preprocessades altra vegada a BigQuery, i s'ha establert la connexió amb l'eina de visualització per defecte, que és Looker Studio.
+Amb Looker Studio es poden elaborar fàcilment informes sobre dades procedents d'una gran varietat de fonts, sense necessitat de programar. En tan sols uns instants, permet la connexió a grans conjunts de dades com els que es troben a BigQuery. Amb aquesta finalitat, s'han pujat les taules preprocessades altra vegada a BigQuery, i s'ha establert la connexió amb l'eina de visualització.
 
 
 \textbf{Variables vinculades als accidents}
@@ -1840,7 +1840,7 @@ Pel que fa als vectors (variables) de la Figura \ref{fig:ACP4}, ens podem fixar,
 L'angle que formen les variables \texttt{HOUR} i \texttt{DRUNK\_DR} respecte l'eix vertical és petit, la qual cosa ens indica que, tot i no ser les variables més contribuents, estan estretament relacionades amb la creació d'aquesta component. Paral·lelament, es pot dir el mateix de les variables \texttt{NO\_PER} i \texttt{FATALS} respecte a la PC1.
 
 
-Una altra lectura que se li pot fer als angles entre vectors són les correlacions que mostren entre variables. D'una banda, el nombre de persones i el nombre de vehicles presenten una correlació positiva, ja que formen un angle proper a zero entre elles, així com les variables \texttt{FATALS} (nombre de ferits) i \texttt{MORTS}. D'altra banda, però, també s'entreveu que les variables \texttt{MORTS} i \texttt{HOUR} estan incorrelacionades, és a dir, són independents l'una de l'altra, perquè formen un angle de noranta graus, així com les variables \texttt{NO\_PER} i \texttt{NO\_VEHICLE} respecte \texttt{DRUNK\_DR}.
+Una altra lectura que se li pot fer als angles entre vectors són les correlacions que mostren entre variables. D'una banda, el nombre de persones i el nombre de vehicles presenten una correlació positiva, ja que formen un angle proper a zero entre elles, així com les variables \texttt{FATALS} (nombre de víctimes) i \texttt{MORTS}. D'altra banda, però, també s'entreveu que les variables \texttt{MORTS} i \texttt{HOUR} estan incorrelacionades, és a dir, són independents l'una de l'altra, perquè formen un angle de noranta graus, així com les variables \texttt{NO\_PER} i \texttt{NO\_VEHICLE} respecte \texttt{DRUNK\_DR}.
 
 
 Quant a la longitud, com major sigui la llargària d'un vector relacionat amb una variable (en un rang normalitzat del 0 a l'1), major variabilitat d'aquesta variable està continguda en la representació de les dues components representades, és a dir, millor està representada la seva informació a la gràfica. En aquest cas, \texttt{NO\_VEHICLE}, \texttt{NO\_PER}, \texttt{FATALS} i \texttt{MORTS} són les variables millor representades per les dues primeres components.
@@ -2160,7 +2160,7 @@ Per entendre l'efecte del pes de les variables del model en la probabilitat de r
 Pel que fa a les variables numèriques, que són \texttt{MINUTE}, \texttt{FATALS}, \texttt{DRUNK\_DR}, \texttt{NO\_PER} i \texttt{NO\_VEHICLE}, tenim que l'augment del valor de cada variable en una unitat afecta les probabilitats estimades en un factor de $e^{\beta_i}$, on $i$ és el subíndex de cada variable numèrica.
 
 
-En el cas de \texttt{FATALS}, per exemple, es troba una relació positiva entre el nombre de ferits a l'accident i el fet d'haver-hi hagut alguna víctima en el mateix. Per cada augment unitari en el nombre de ferits, la probabilitat de classe positiva canvia en un factor de $e^{0,79631994} = 2,217365856$.
+En el cas de \texttt{FATALS}, per exemple, es troba una relació positiva entre el nombre de víctimes a l'accident i el fet d'haver-hi hagut alguna mort en el mateix. Per cada augment unitari en el nombre de víctimes, la probabilitat de classe positiva canvia en un factor de $e^{0,79631994} = 2,217365856$.
 
 
 Altrament, les variables categòriques, \texttt{RUR\_URB}, \texttt{DAY\_WEEK} i \texttt{HOUR\_agrupat} s'interpreten de forma que, canviar la variable $x_i$ de la categoria de referència a una de les altres afecta les probabilitats estimades en un factor de $\beta_i$.
