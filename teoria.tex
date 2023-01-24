@@ -87,7 +87,7 @@
 
 L'objectiu d'aquest treball és conèixer un dels recursos de la plataforma Google Cloud, anomenat BigQuery. A partir de l'enteniment de com funciona la computació al núvol i l'emmagatzemament de dades en el mateix entorn, es vol crear un material pedagògic per a incloure en el programari de l'assignatura de Fitxers i Bases de Dades del grau d'Estadística.
 
-Amb aquest propòsit en ment, en treball es divideix en tres seccions principals. En primer lloc, s'aprofundirà en la descripció de la plataforma al llarg de les primeres cinc seccions. Primer es descriurà BigQuery a alt nivell per, més endavant, poder entendre l'estructura de la interfície d'usuari i les maneres en què es pot interactuar amb el sistema. En aquest apartat també s'inclouran les connexions amb altres plataformes i \emph{softwares} per a poder treure el màxim profit de les dades d'estudi. Seguidament, la segona secció està conformada per un únic apartat, que contempla l'aplicació de BigQuery a l'entorn de classe i inclou la valoració dels mateixos alumnes sobre la seva experiència i visió. En últim lloc, es presenta l'anàlisi d'una base de dades mitjançant la connexió amb el programari R. En aquesta secció, es realitza part de l'exploració de les dades a R i part a BigQuery, tot tenint en compte les limitacions del llenguatge que s'utilitza en cada entorn i els recursos visuals que ofereixen. 
+Amb aquest propòsit en ment, en treball es divideix en tres apartats principals. En primer lloc, s'aprofundirà en la descripció de la plataforma al llarg de les primeres cinc seccions. Primer es descriurà BigQuery a alt nivell per, més endavant, poder entendre l'estructura de la interfície d'usuari i les maneres en què es pot interactuar amb el sistema. En aquest apartat també s'inclouran les connexions amb altres plataformes i \emph{softwares} per a poder treure el màxim profit de les dades d'estudi. Seguidament, el segon apartat està conformat per una única secció, que contempla l'aplicació de BigQuery a l'entorn de classe i inclou la valoració dels mateixos alumnes sobre la seva experiència i visió. En últim lloc, es presenta l'anàlisi d'una base de dades mitjançant la connexió amb el programari R. En aquest apartat, es realitza part de l'exploració de les dades a R i part a BigQuery, tot tenint en compte les limitacions del llenguatge que s'utilitza en cada entorn i els recursos visuals que ofereixen. 
 
 \subsection{Motivació}
 
@@ -120,6 +120,7 @@ Treballar amb dades a BigQuery implica tres aspectes principals: l’emmagatzema
 Pel que fa a l’emmagatzemament, les dades es guarden en una taula estructurada, la qual cosa significa que es pot utilitzar SQL estàndard per a facilitar la consulta i l’anàlisi de dades. BigQuery és perfecta pel \textit{Big Data} perquè gestiona tot aquest emmagatzemament i està proveïda d’operacions d’escalabilitat que funcionen de forma automàtica sense que l’usuari s’hagi d’involucrar,  per la qual cosa mai haurem de preocupar-nos per la grandària de les dades amb les quals treballem. Part de la consideració de disseny darrere de BigQuery és animar als usuaris a centrar-se en els coneixements en lloc de la infraestructura. 
 
 \noindent
+
 Per a més informació sobre BigQuery, es pot consultar la pàgina de \href{https://cloud.google.com/bigquery/docs/introduction}{Google Cloud}.
 
 \subsection{Per què hauríem d'utilitzar BigQuery en lloc d'altres eines?}
@@ -761,6 +762,8 @@ Aquesta correspon a que únicament va ocórrer un accident un cap de setmana a l
 
 \newpage
 
+
+
 \section{Implementació de BigQuery a l'aula}
 
 BigQuery és una eina d'anàlisi de dades d'alt rendiment, capaç de processar un volum molt gran d'informació en segons, és senzill d'utilitzar i ofereix la zona de proves des de la que es pot treballar de forma gratuïta. És per aquest motiu que s'ha presentat aquest programa als estudiants del grau d'estadística a l'assignatura de Fitxers i Bases de Dades, perquè ells mateixos puguin avaluar la seva experiència amb la plataforma de Google Cloud, així com el grau de dificultat que troben en el seu ús.
@@ -965,6 +968,7 @@ Tot i que aquesta mostra d'estudiants difícilment és representativa, perquè n
 
 \newpage
 
+
 \section{Anàlisi de dades mitjançant la connexió d'R i BigQuery}
 
 \subsection{Descripció de la base de dades}
@@ -993,7 +997,7 @@ RUR\_URB  & Categòrica & Informació sobre la localització (1 = Rural, 2 = Urb
    &   & 6 = Via no classificada, 8 = No registrat, 9 = Desconegut) \\
 DAY\_WEEK & Categòrica & Dia de la setmana (1 = Diumenge, 2 = Dilluns, ...,                                              \\
   &   &  7 = Dissabte)                                                  \\
-FATALS            & Numèrica       & Nombre de ferits a l’accident                        \\
+FATALS            & Numèrica       & Nombre de víctimes a l’accident   (poden ser ferits o morts)                     \\
 DRUNK\_DR          & Numèrica       & Nombre de conductors beguts involucrats a l’accident \\\hline
 \end{tabular}
 \caption{\label{accident-table}Llistat de variables de la taula Accident}
@@ -1197,11 +1201,11 @@ Un cop s'ha aplicat l'algoritme per a les variables corresponents, es pot veure,
 }
 \end{table}
 
-Recordem que les taules \ref{table:t3} \ref{table:t4} i mostren les bases de dades d'accidents i de les persones implicades en els accidents, respectivament.
+Recordem que les taules \ref{table:t3} i \ref{table:t4} i mostren les bases de dades d'accidents i de les persones implicades en els accidents, respectivament.
 
 \subsubsection{Dades atípiques}
 
-Pel que fa a les dades atípiques (\textit{outliers}), en destaca el nombre de persones implicades a l'accident. Més específicament, hi ha un cas en que 53 persones estan involucrades en un accident. A priori, res ens fa pensar que aquesta dada, tot i ser atípica, no pugui ser certa. Això no obstant, a l'hora de la segmentació les dades es podrien veure afectades per aquest valor, ja que alguns algoritmes són molt sensibles als \textit{outliers}.
+Pel que fa a les dades atípiques (\textit{outliers}), en destaca el nombre de persones implicades a l'accident. Més específicament, hi ha un cas en que 53 persones estan involucrades en un accident. A priori, res ens fa pensar que aquesta dada, tot i ser atípica, no pugui ser certa. Per exemple, un accident pot tenir un nombre elevat de persones involucades si invlocra un autobús com a vehicle, per exemple. Això no obstant, a l'hora de la segmentació les dades es podrien veure afectades per aquest valor, ja que alguns algoritmes són molt sensibles als \textit{outliers}.
 
 Al següent gràfic (figura \ref{fig:F1}) es representa la variable nombre de persones (NO\_PER), on es poden identificar de forma clara aquests valors atípics. També es pot trobar un resum numèric de la variable a la taula \ref{table:Fig1a}, que indica el valor màxim que pren la variable.
 
@@ -1385,6 +1389,8 @@ Hi ha morts & 1. No & 1176 (42.3\%) & 0        \\
 \label{fig:F3}
 \end{figure}
 
+El tant per cent d'accidents amb morts és molt elevat perquè tots són accidents amb víctimes que es van enregistrar per l'autoritat i, per tant, devia anar-hi un agent de trànsit al lloc on es va produir. Els accidents més lleus o superficials no van ser registrats per aquest estudi.
+
 
 Seguint aquesta línia, serà també de gran importància el tipus de víctima que esdevindran cadascuna de les persones implicades en un accident. En aquest cas, la variable d'interès serà \texttt{DOA}, de la qual es pot trobar un breu anàlisi descriptiu a la figura \ref{fig:F4}.
 
@@ -1432,7 +1438,7 @@ Tipus de víctima & 1. Sobreviu & 5113 (74.1\%) & 0        \\
 Variable    & Tipus    & Descripció                                           \\ \hline
 HOUR        & Numèrica & Hora de l’accident (99 = desconeguda)                \\
 MINUTE      & Numèrica & Minut de l’accident (99 = desconegut)                \\
-FATALS      & Numèrica & Nombre de ferits a l’accident                        \\
+FATALS      & Numèrica & Nombre de víctimes a l’accident (poden ser ferits o morts)                      \\
 DRUNK\_DR   & Numèrica & Nombre de conductors beguts involucrats a l’accident \\
 MORTS       & Numèrica & Nombre de morts en l’accident                        \\
 NO\_PER     & Numèrica & Nombre de persones implicades en l’accident          \\
@@ -1488,7 +1494,7 @@ Sobre les variables vinculades a les persones (Taula \ref{tab:num3-table}), nom�
 Variable    & Tipus    & Descripció                                           \\ \hline
 HOUR        & Numèrica & Hora de l’accident (99 = desconeguda)                \\
 MINUTE      & Numèrica & Minut de l’accident (99 = desconegut)                \\
-FATALS      & Numèrica & Nombre de ferits a l’accident                        \\
+FATALS      & Numèrica & Nombre de víctimes a l’accident  (poden ser ferits o morts)                     \\
 DRUNK\_DR   & Numèrica & Nombre de conductors beguts involucrats a l’accident \\
 MORTS       & Numèrica & Nombre de morts en l’accident                        \\
 NO\_PER     & Numèrica & Nombre de persones implicades en l’accident          \\
@@ -1720,7 +1726,7 @@ En definitiva, de les dues gràfiques s'extreu que la majoria de les morts es pr
 \begin{center}
 \includegraphics[width=12.5cm]{Graph12}
 \end{center}
-\caption{Nombre de morts segons el nombre de conductor beguts a les diferents edats}
+\caption{Nombre de morts quan hi ha un conductor begut a les diferents edats}
 \label{fig:G3}
 \end{figure}
 
@@ -1753,7 +1759,7 @@ El nombre de vehicles fugits en els accidents de trànsit varia en funció del m
 En últim lloc, la figura \ref{fig:G5} mostra una taula de contingència entre les variables SEX i DOA (és a dir, el sexe de la persona i el tipus de víctima, si sobreviu o no a l'accident). Aquesta taula marca com a categoria més abundant a la base de dades els homes que sobreviuen a l'accident, i com a menys abundant les dones que no sobreviuen al mateix. 
 
 
-Si es considera aquesta informació de forma relativa, aproximadament el 39\% dels homes implicats en els accidents han resultat ferits mortalment, mentre que d'entre les dones ho ha sigut aproximadament el 29\%. S'hauria d'investigar si aquestes diferències són estadísticament significatives o, d'altra banda, no existeix relació entre el sexe i el tipus de víctima en els accidents de trànsit.
+Si es considera aquesta informació de forma relativa, aproximadament el 39\% dels homes implicats en els accidents han resultat ferits mortalment, mentre que d'entre les dones ho ha sigut aproximadament el 29\%. Tots els accidents enregistrats a la base de dades, ho són perquè en aquests hi ha hagut ferits o alguna complicació que ha portat als agents de trànsit a intervenir en aquest. Per tant, sembla haver-hi una relació en la qual els accidents que tenen algún ferit i després una víctima, aleshores és molt més freqüent que sigui un home qui mori.
 
 
 \subsection{Anàlisi per components principals}
@@ -1791,7 +1797,7 @@ A continuació, realitzem un gràfic de dispersió per a totes les combinacions 
 \begin{center}
 \includegraphics[width=15cm]{acp3}
 \end{center}
-\caption{Gràfica de la projecció dels individus}
+\caption{Gràfica de la projecció dels accidents}
 \label{fig:ACP3}
 \end{figure}
 
@@ -2175,35 +2181,35 @@ fgfg
 \begin{thebibliography}{99} 
 
 
-\bibitem{Comtois} Dominic Comtois (2021). \textit{summarytools: Tools to Quickly and Neatly Summarize Data}. R package version 1.0.0. \url{https://CRAN.R-project.org/package=summarytools}.
+\bibitem{Comtois} Comtois, D. (2021). Package 'summarytools'. \textit{Tools to Quickly and Neatly Summarize Data}. URL \url{https://CRAN.R-project.org/package=summarytools}. R package version 1.0.0. 
 
-\bibitem{Cooksey} Cooksey, Brian. 2014. \textit{An Introduction to APIs}. (2016). Positional Accuracy of Twitter and Instagram Images in Urban Environment. \url{https://Doi.Org/10.1553/Giscience2016_01_s191}
+\bibitem{Cooksey} Cooksey, B. (2014). An Introduction to APIs. \textit{Zapier, Inc. Cvetojevic, S. Juhasz, L., \& Hochmair, H. (2016). Positional Accuracy of Twitter and Instagram Images in Urban Environment}. URL \url{https://Doi.Org/10.1553/Giscience2016_01_s191}.
 
-\bibitem{Azuela} ``Git Essential Training: The Basics Online Class: LinkedIn Learning.'' 2019. \url{https://www.linkedin.com/learning/git-essential-training-the-basics}, LinkedIn. 
+\bibitem{Azuela} Skoglund, K. (2019). ``Git Essential Training: The Basics''.  LinkedIn Learning. URL \url{https://www.linkedin.com/learning/git-essential-training-the-basics}.
 
-\bibitem{sqldf} Grothendieck, G. 2017. \textit{Sqldf:  Manipulate r Data Frames Using SQL}. \url{https://CRAN.R-project.org/package=sqldf}
+\bibitem{Quickstarts} Google. n.d. ``Quickstarts | BigQuery | Google Cloud.'' \textit{Google}. URL \url{https://cloud.google.com/bigquery/docs/quickstarts}.
 
-\bibitem{Alboukadel} Alboukadel Kassambara and Fabian Mundt (2020). \textit{factoextra: Extract and Visualize the Results of Multivariate Data Analyses}. R package version 1.0.7. \url{https://CRAN.R-project.org/package=factoextra}
+\bibitem{sqldf} Grothendieck, G., \& Grothendieck, M. G. (2017). Package 'sqldf'. \textit{Manipulate r Data Frames Using SQL}. URL \url{https://CRAN.R-project.org/package=sqldf}. R package version 0.4-11.
 
-\bibitem{VIM} Kowarik, Alexander, and Matthias Templ. 2016. “Imputation with the R Package VIM.” \textit{Journal of Statistical Software }74 (7): 1–16. \url{https://doi.org/10.18637/jss.v074.i07}.
+\bibitem{Alboukadel} Kassambara, A., \& Mundt, F. (2020). Package 'factoextra'. \textit{Extract and Visualize the Results of Multivariate Data Analyses}. URL \url{https://CRAN.R-project.org/package=factoextra}. R package version 1.0.7. 
 
-\bibitem{Lakshmana} Lakshmanan, Valliappa, and Jordan Tigani. 2019. \textit{Google BigQuery: The Definitive Guide: Data Ware-housing, Analytics, and Machine Learning at Scale.} O’Reilly Media.
+\bibitem{VIM} Kowarik, A., \& Templ, M. (2016). Imputation with the R Package VIM. \textit{Journal of Statistical Software} 74, 1–16. doi:10.18637/jss.v074.i07. 
 
-\bibitem{Looker} “Looker Studio for Beginners Online Class: LinkedIn Learning.” 2022. \url{https://www.linkedin.com/learning/google-data-studio-for-beginners-2022}; LinkedIn
+\bibitem{Lakshmana} Lakshmanan, V., \& Tigani, J. (2019). \textit{Google BigQuery: The Definitive Guide: Data Ware-housing, Analytics, and Machine Learning at Scale}. O’Reilly Media.
 
-\bibitem{Ohri} Ohri, Ajay. 2014. \textit{R for Cloud Computing: An Approach for Data Scientists}. Springer.
+\bibitem{Ohri} Ohri, A. (2014). \textit{R for Cloud Computing: An Approach for Data Scientists}. Springer.
 
-\bibitem{Quickstarts}“Quickstarts | BigQuery | Google Cloud.” n.d. \url{https://cloud.google.com/bigquery/docs/quickstarts}; Google
+\bibitem{Looker} Rischin, J. (2022). ``Looker Studio for Beginners''. LinkedIn Learning. URL \url{https://www.linkedin.com/learning/google-data-studio-for-beginners-2022}.
 
-\bibitem{dbi}R Special Interest Group on Databases (R-SIG-DB), Hadley Wickham, and Kirill Müller. 2022. \textit{DBI: RDatabase Interface}. \url{https://CRAN.R-project.org/package=DBI}.
+\bibitem{dbi} Wickham, H., \& Müller, K. (2022). Package 'DBI'. \textit{RDatabase Interface}. URL \url{https://CRAN.R-project.org/package=DBI}. R package version 1.1.3. 
 
-\bibitem{Wickham1}Wickham, Hadley, and Jennifer Bryan. 2021. \textit{Bigrquery: An Interface to Google’s ’BigQuery’ ’API’}. \url{https://CRAN.R-project.org/package=bigrquery}.
+\bibitem{Wickham1} Wickham, H., \& Bryan, J. (2022). Package 'bigrquery'. \textit{An Interface to Google’s ’BigQuery’ ’API’}. URL \url{https://CRAN.R-project.org/package=bigrquery}. R package version 1.4.1.
 
-\bibitem{Wickham}   Wickham et al., (2019). \textit{Welcome to the tidyverse}. Journal of Open Source Software, 4(43), 1686, \url{https://doi.org/10.21105/joss.01686}
+\bibitem{Wickham}  Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D. A., François, R., ... \& Yutani, H. (2019). Welcome to the tidyverse. \textit{Journal of Open Source Software}, 4(43), 1686. doi: 10.21105/joss.01686 (URL: \url{https://doi.org/10.21105/joss.01686}).
 
-\bibitem{Xie} Yihui Xie (2022). \textit{knitr: A General-Purpose Package for Dynamic Report Generation in R}. R package version 1.41.
+\bibitem{Xie} Xie, Y. (2022). Package 'knitr'. \textit{A General-Purpose Package for Dynamic Report Generation in R}. R package version 1.41.
 
-\bibitem{Zhu} Hao Zhu (2021). \textit{kableExtra: Construct Complex Table with 'kable' and Pipe Syntax}. R package version 1.3.4. \url{https://CRAN.R-project.org/package=kableExtra}
+\bibitem{Zhu} Zhu, H. (2021). Package 'kableExtra'. \textit{Construct Complex Table with 'kable' and Pipe Syntax}. URL \url{https://CRAN.R-project.org/package=kableExtra}. R package version 1.3.4.  
 
 \end{thebibliography} 
 
