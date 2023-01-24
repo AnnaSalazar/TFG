@@ -57,9 +57,12 @@ dades <- dbConnect(
 # Descripció de la base de dades
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, include=FALSE}
-A <- data.frame(dbGetQuery(dades, "SELECT * FROM `level-oxygen-353005.examen_final.accident`"))
-B <- data.frame(dbGetQuery(dades, "SELECT * FROM `level-oxygen-353005.examen_final.person`"))
-C <- data.frame(dbGetQuery(dades, "SELECT * FROM `level-oxygen-353005.examen_final.vehicle`"))
+#A <- data.frame(dbGetQuery(dades, "SELECT * FROM `level-oxygen-353005.examen_final.accident2`"))
+#B <- data.frame(dbGetQuery(dades, "SELECT * FROM `level-oxygen-353005.examen_final.person`"))
+#C <- data.frame(dbGetQuery(dades, "SELECT * FROM `level-oxygen-353005.examen_final.vehicle`"))
+A <- data.frame(read.csv2("/Users/annasalazar/Documents/GitHub/TFG/Dades originals/accident.csv", sep = ";"))
+B <- data.frame(read.csv2("/Users/annasalazar/Documents/GitHub/TFG/Dades originals/person.csv", sep = ";"))
+C <- data.frame(read.csv2("/Users/annasalazar/Documents/GitHub/TFG/Dades originals/vehicle.csv", sep = ";"))
 C$HIT_RUN[C$HIT_RUN==9] <- 0 
 B$MORT == 0
 B$MORT[B$DOA==7 | B$DOA==8 ] <- 1 
