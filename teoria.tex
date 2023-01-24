@@ -1722,17 +1722,10 @@ En definitiva, de les dues gràfiques s'extreu que la majoria de les morts es pr
 
 \textbf{Variables vinculades a les persones}
 
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=12.5cm]{Graph12}
-\end{center}
-\caption{Nombre de morts quan hi ha un conductor begut a les diferents edats}
-\label{fig:G3}
-\end{figure}
 
+Pel que fa a la informació que tenim registrada sobre les persones involucrades en els accidents, i en la línia de les anàlisis anteriors, la figura  \ref{fig:G4} presenta una gràfica que mostra com el nombre de vehicles fugits en els accidents de trànsit varia en funció del moment del dia en que es produeix l'accident, així com en funció de la setmana del mes. 
 
-Pel que fa a la informació que tenim registrada sobre les persones involucrades en els accidents, i en la línia de les anàlisis anteriors, la figura  \ref{fig:G3} presenta una gràfica que mostra una clara relació entre el nombre de conductors beguts i el nombre de morts en l'accident a les diferents edats de les persones implicades. Els punts més extrems d'aquesta gràfica (els que presenten major nombre de conductors beguts i, alhora, major nombre de morts) són les edats 22 i 23. Aquestes dades indueixen a pensar que hi ha més perill d'accidents mortals per a la gent jove a la carretera, si hi ha conductors beguts. Una altra manera d'interpretar aquesta gràfica podria ser que hi ha més conductors joves que agafen el cotxe havent begut i, en conseqüència, aquest grup d'edat pateix més accidents mortals.
-
+A la figura \ref{fig:G4} es troba, a l'esquerra, la quantitat de vehicles fugits en els diferents moments del dia, i aquests es concentren sobretot a la tarda (de 15 a 19 hores, incloses) i la matinada (de les 0 a les 5 hores, incloses). En canvi, pel que fa a les diferents setmanes del mes es veu com la majoria de cotxes fugits es troben a la primera i la quarta setmana, i la distribució no és uniforme durant totes les setmanes del mes, com s'esperaria si no hi hagués cap relació entre ambdues variables.
 
 \begin{figure}[h!]
 \par
@@ -1745,7 +1738,8 @@ Pel que fa a la informació que tenim registrada sobre les persones involucrades
 \label{fig:G4}
 \end{figure}
 
-El nombre de vehicles fugits en els accidents de trànsit varia en funció del moment del dia en que es produeix l'accident, així com en funció de la setmana del mes. A la figura \ref{fig:G4} es troba, a l'esquerra, la quantitat de vehicles fugits en els diferents moments del dia, i aquests es concentren sobretot a la tarda (de 15 a 19 hores, incloses) i la matinada (de les 0 a les 5 hores, incloses). En canvi, pel que fa a les diferents setmanes del mes es veu com la majoria de cotxes fugits es troben a la primera i la quarta setmana, i la distribució no és uniforme durant totes les setmanes del mes, com s'esperaria si no hi hagués cap relació entre ambdues variables.
+
+En últim lloc, la figura \ref{fig:G5} mostra una taula de contingència entre les variables SEX i DOA (és a dir, el sexe de la persona i el tipus de víctima, si sobreviu o no a l'accident). Aquesta taula marca com a categoria més abundant a la base de dades els homes que sobreviuen a l'accident, i, com a menys abundant, les dones que no sobreviuen al mateix. 
 
 \begin{figure}[H]
 \begin{center}
@@ -1756,10 +1750,7 @@ El nombre de vehicles fugits en els accidents de trànsit varia en funció del m
 \end{figure}
 
 
-En últim lloc, la figura \ref{fig:G5} mostra una taula de contingència entre les variables SEX i DOA (és a dir, el sexe de la persona i el tipus de víctima, si sobreviu o no a l'accident). Aquesta taula marca com a categoria més abundant a la base de dades els homes que sobreviuen a l'accident, i com a menys abundant les dones que no sobreviuen al mateix. 
-
-
-Si es considera aquesta informació de forma relativa, aproximadament el 39\% dels homes implicats en els accidents han resultat ferits mortalment, mentre que d'entre les dones ho ha sigut aproximadament el 29\%. Tots els accidents enregistrats a la base de dades, ho són perquè en aquests hi ha hagut ferits o alguna complicació que ha portat als agents de trànsit a intervenir en aquest. Per tant, sembla haver-hi una relació en la qual els accidents que tenen algún ferit i després una víctima, aleshores és molt més freqüent que sigui un home qui mori.
+Si es considera aquesta informació de forma relativa, aproximadament el 39\% dels homes implicats en els accidents han resultat ferits mortalment, mentre que d'entre les dones ho ha sigut aproximadament el 29\%. Tots els accidents enregistrats a la base de dades, ho són perquè en aquests hi ha hagut ferits o alguna complicació que ha portat als agents de trànsit a intervenir en aquest. Per tant, sembla haver-hi una relació en la qual els accidents que tenen algun ferit i després una víctima, aleshores és molt més freqüent que sigui un home qui mori.
 
 
 \subsection{Anàlisi per components principals}
@@ -1849,7 +1840,7 @@ Quant a la longitud, com major sigui la llargària d'un vector relacionat amb un
 \subsubsection{Projecció de variables categòriques}
 
 
-També es pot fer una projecció de les variables categòriques sobre aquestes components, si en el mateix gràfic s'afegeixen totes les categories de les variables categòriques. El resultat es pot consultar a la figura \ref{fig:ACP6}.
+
 
 \begin{figure}[H]
 \begin{center}
@@ -1859,6 +1850,7 @@ També es pot fer una projecció de les variables categòriques sobre aquestes c
 \label{fig:ACP6}
 \end{figure}
 
+També es pot fer una projecció de les variables categòriques sobre aquestes components, si en el mateix gràfic s'afegeixen totes les categories de les variables categòriques. El resultat es pot consultar a la figura \ref{fig:ACP6}.
 
 Clarament aquest gràfic no es pot interpretar, ja que hi ha tantes categories que no es poden distingir.
 Per tant, el que es farà serà crear un gràfic per a cada variable categòrica, a veure si d'aquesta manera és més senzilla la seva interpretació.
@@ -1947,6 +1939,8 @@ Per la variable hora agrupada (\texttt{HOUR\_agrupat}) tenim cinc categories. D'
 \end{figure}
 
 Per la variable \texttt{Setmana} s'aprecia que cap de les categories està gaire explicada per les primeres components, ja que els vectors són de molt poca longitud (tenen un mòdul proper a zero), i tampoc s'entreveu cap patró destacable.
+
+\newpage
 
 \section{Aprenentatge automàtic amb BigQuery ML}
 
