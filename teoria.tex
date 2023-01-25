@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[catalan]{babel}
-\usepackage[a4paper, total={16cm, 24.7cm}]{geometry} %margin=2.5cm
+\usepackage[a4paper, total={16cm, 24.7cm}]{geometry} 
 \renewcommand{\thefootnote}{\arabic{footnote}}
 \usepackage{multicol}
 %\setlength{\columnsep}{10mm}
@@ -1723,9 +1723,7 @@ En definitiva, de les dues gràfiques s'extreu que la majoria de les morts es pr
 \textbf{Variables vinculades a les persones}
 
 
-Pel que fa a la informació que tenim registrada sobre les persones involucrades en els accidents, i en la línia de les anàlisis anteriors, la figura  \ref{fig:G4} presenta una gràfica que mostra com el nombre de vehicles fugits en els accidents de trànsit varia en funció del moment del dia en que es produeix l'accident, així com en funció de la setmana del mes. 
 
-A la figura \ref{fig:G4} es troba, a l'esquerra, la quantitat de vehicles fugits en els diferents moments del dia, i aquests es concentren sobretot a la tarda (de 15 a 19 hores, incloses) i la matinada (de les 0 a les 5 hores, incloses). En canvi, pel que fa a les diferents setmanes del mes es veu com la majoria de cotxes fugits es troben a la primera i la quarta setmana, i la distribució no és uniforme durant totes les setmanes del mes, com s'esperaria si no hi hagués cap relació entre ambdues variables.
 
 \begin{figure}[h!]
 \par
@@ -1737,6 +1735,10 @@ A la figura \ref{fig:G4} es troba, a l'esquerra, la quantitat de vehicles fugits
 \caption{Nombre de vehicles fugits segons el dia de la setmana i segons el dia del mes, respectivament}
 \label{fig:G4}
 \end{figure}
+
+Pel que fa a la informació que tenim registrada sobre les persones involucrades en els accidents, i en la línia de les anàlisis anteriors, la figura  \ref{fig:G4} presenta una gràfica que mostra com el nombre de vehicles fugits en els accidents de trànsit varia en funció del moment del dia en que es produeix l'accident, així com en funció de la setmana del mes. 
+
+A la figura \ref{fig:G4} es troba, a l'esquerra, la quantitat de vehicles fugits en els diferents moments del dia, i aquests es concentren sobretot a la tarda (de 15 a 19 hores, incloses) i la matinada (de les 0 a les 5 hores, incloses). En canvi, pel que fa a les diferents setmanes del mes es veu com la majoria de cotxes fugits es troben a la primera i la quarta setmana, i la distribució no és uniforme durant totes les setmanes del mes, com s'esperaria si no hi hagués cap relació entre ambdues variables.
 
 
 En últim lloc, la figura \ref{fig:G5} mostra una taula de contingència entre les variables SEX i DOA (és a dir, el sexe de la persona i el tipus de víctima, si sobreviu o no a l'accident). Aquesta taula marca com a categoria més abundant a la base de dades els homes que sobreviuen a l'accident, i, com a menys abundant, les dones que no sobreviuen al mateix. 
@@ -1952,7 +1954,7 @@ BigQuery ML és una eina d'anàlisi que pertany a BigQuery i permet crear i exec
 Les dades que s'estan analitzant tenen com a variable resposta \texttt{HIHAMORTS}, que és una variable binària que pren el valor 1 en el cas d'haver-hi alguna víctima mortal a l'accident, i 0 altrament. En ser la variable d'interès binària, s'haurà de crear un model de classificació que ens permeti determinar si un accident tindrà víctimes mortals o no. 
 
 
-La regressió logística és un enfocament estadístic que s'utilitza pels problemes de classificació, ja que permet modelar la probabilitat de què es doni una de les categories de la variable resposta (classe).
+La regressió logística és un enfocament estadístic que s'utilitza pels problemes de classificació, ja que permet modelar la probabilitat de què es doni una de les categories de la variable resposta (classe) en funció d'un conjunt de variables predictores.
 
 
 \subsubsection{Entrenament del model}
@@ -1974,7 +1976,7 @@ Abans de crear el model a la consola de BigQuery, dividirem la nostra base de da
 \end{table}
 
 
-Tal com s'observa a la taula, les dades estan aproximadament balancejades en els tres subconjunts. En cadascun, els accidents on hi ha víctimes mortals representen entre el 56 i el 58\% dels casos.
+Tal com s'observa a la taula, les dades estan aproximadament balancejades en els tres subconjunts. En cadascun, els accidents on hi ha víctimes mortals representen entre el 56 i el 58\% dels casos. Aquesta divisió s'ha pogut efectuar directament a la consola, a partir de les dades preprocessades, creant una variables fictícia perquè actui com a clau primària i identifiqui cada accident de forma única.
 
 
 Per crear el model logístic a BigQuery ML, s'utilitzarà la següent sintaxi:
@@ -1989,7 +1991,23 @@ AS
 \end{verbatim}
 
 
-Es farà servir la base preprocessada a R, que s'ha importat novament a BigQuery. També cal destacar que s'ha usat totes les variables explicatives excepte les variables \texttt{MORTS}, \texttt{HOUR} i \texttt{SETMANA}. S'ha pres aquesta decisió per l'alta correlació que tenen aquestes variables amb d'altres de la mateixa taula. 
+També cal destacar que s'ha usat totes les variables explicatives excepte les variables \texttt{MORTS}, \texttt{HOUR} i \texttt{SETMANA}. S'ha pres aquesta decisió per l'alta correlació que tenen aquestes variables amb d'altres de la mateixa taula. 
+
+Les variables predictores del model creat són les següents:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+ \textbf{Variables numèriques} &  \textbf{Variables categòriques} \\ \hline
+ MINUTE &  RUR\_URB \\
+ FATALS &  DAY\_WEEK\\
+ DRUNK\_DR & HOUR\_AGRUPAT\\
+ NO\_PER & \\
+ NO\_VEHICLE & \\
+\end{tabular}
+\end{table}
+
+En el cas de les variables categòriques, s'haurà d'especificar a les opcions del model que la seva codifificació es faci mitjançant el mètode \textit{dummy}. Això crearà columnes noves a la matriu de dades, tantes com possibles valors prengui la variable categòrica menys un, que serà la categoria base del model. Aquesta especificació s'indica amb la comanda següent: \texttt{CATEGORY\_ENCODING\_METHOD = 'DUMMY\_ENCODING'}.
 
 Seguidament, ajustem el model a les dades d'entrenament amb una nova consulta.
 
@@ -2019,7 +2037,7 @@ Aquest model, un cop entrenat, retorna un seguit de mètriques que fan referènc
 \end{figure}
 
 
-Per entendre com ha sigut l'entrenament d'aquest model, donarem un cop d'ull als resultats obtinguts.
+Per entendre com ha sigut l'entrenament d'aquest model, donarem un cop d'ull als resultats obtinguts (Figura \ref{fig:log1}).
 
 
 
@@ -2031,11 +2049,11 @@ La següent mètrica que es troba és la duració de les iteracions. Aquest és 
 
 
 
-En últim lloc, es troba la taxa d'aprenentatge o \emph{learning rate}. Aquest valor es calcula mitjançant l'algoritme de descens del gradient, i afecta la velocitat en què aquest algoritme convergeix en les ponderacions òptimes pels paràmetres. Una taxa d'aprenentatge massa elevada podria impedir que les ponderacions arribin a les ponderacions òptimes, mentre que una taxa petita podria requerir moltes iteracions per calcular les ponderacions.
+En últim lloc, es troba la taxa d'aprenentatge o \emph{learning rate}. Aquest valor es calcula mitjançant l'algoritme de descens del gradient, i afecta la velocitat en què aquest algoritme convergeix en les ponderacions òptimes pels paràmetres. Una taxa d'aprenentatge massa elevada podria impedir que les ponderacions arribin a les ponderacions òptimes, mentre que una taxa petita podria requerir moltes iteracions per arribar a calcular-les.
 
 
 
-Seguidament, es pot avaluar el rendiment del model a partir de les dades de prova (\emph{text}). Es fa servir una consulta com l'anterior, però aquest cop dirigida aquesta altra taula de dades. En aquest cas el model retorna un seguit de mètriques i uns gràfics que permeten l'avaluació del model amb les noves dades.
+Seguidament, es pot avaluar el rendiment del model a partir de les dades de prova (\emph{test}). Es fa servir una consulta com l'anterior, però aquest cop dirigida a aquesta altra taula de dades. En aquest cas el model retorna un seguit de mètriques i uns gràfics que permeten l'avaluació del model amb les noves dades.
 
 
 
@@ -2047,7 +2065,7 @@ La mesura de recuperació fa referència al tant per cent de les dades classific
 
 
 
-D'altra banda, la puntuació F1 es calcula a través de la mitjana harmònica entre les mètriques de precisió i recuperació, S'utilitza la mitjana harmònica en comptes de l'aritmètica perquè aquesta té la propietat de comportar-se com la mitjana harmònica si els valors són molt semblants, però s'apropa més cap al valor petit quan hi ha diferències entre les dues mesures.
+D'altra banda, la puntuació F1 es calcula a través de la mitjana harmònica entre les mètriques de precisió i recuperació. S'utilitza la mitjana harmònica en comptes de l'aritmètica perquè aquesta té la propietat de comportar-se com la mitjana aritmètica si els valors són molt semblants, però s'apropa més cap al valor petit quan hi ha diferències entre les dues mesures.
 
 
 \begin{figure}[H]
@@ -2060,7 +2078,7 @@ D'altra banda, la puntuació F1 es calcula a través de la mitjana harmònica en
 
 
 
-Per acabar, es troben les mètriques de pèrdua logística (\emph{log loss}) i àrea sota la corba ROC (AUC). La corba ROC és un gràfic que mostra el rendiment d'un model de classificació en tots els llindars de classificació, presentant la taxa de falsos positius a l'eix d'abscisses i la de veritables positius a l'eix d'ordenades. L'AUC mesura l'àrea sota la corba d'aquest model i, segons el valor que prengui es pot saber com és el model:
+Per acabar, es troben les mètriques de pèrdua logística (\emph{log loss}) i àrea sota la corba ROC (AUC). La corba ROC és un gràfic que mostra el rendiment d'un model de classificació en tots els llindars de classificació, presentant la taxa de falsos positius a l'eix d'abscisses i la de veritables positius a l'eix d'ordenades. L'AUC mesura l'àrea sota la corba d'aquest model i, segons el valor que prengui es pot saber com de bo o dolent és el model:
 
 
 
@@ -2082,23 +2100,23 @@ Per acabar, es troben les mètriques de pèrdua logística (\emph{log loss}) i �
 
 El valor de l’AUC es pot interpretar de la següent manera: donat un parell d’individus (accidents), un amb resposta positiva (Y = 1, hi ha víctimes mortals) i un altre amb resposta negativa (Y = 0, no hi ha víctimes mortals), es té un 69\% de probabilitats que l'accident on sí que hi ha hagut víctimes tingui una probabilitat predita pel model superior a la probabilitat predita per a l'accident amb resposta negativa.
 
+Pel model creat, el valor de l'àrea sota la corba és de 0,6871. Per tant, aquest model no és bo en termes d'AUC.
 
-
-La pèrdua logística, per la seva banda, és un indicador de què tan a prop està la probabilitat de predicció del valor real corresponent i, per tant, pren valors del 0 a l'1. Com més s'apropi la probabilitat predita al valor real, major serà el valor de la pèrdua logística. En aquest model pren el valor de 0,6871.
-
-
-
-\textbf{Llindar de prediccions}
+La pèrdua logística, per la seva banda, és un indicador de què tan a prop està la probabilitat de predicció del valor real corresponent i, per tant, pren valors del 0 a l'1. Com més s'apropi la probabilitat predita al valor real, major serà el valor de la pèrdua logística. En aquest model pren el valor de 0,6261.
 
 
 
-A la dreta de la figura s'hi troba una sèrie de mètriques. Per una banda, s'identifica que la classe positiva és la categoria ``Sí'', de la variable \texttt{HIHAMORTS}, mentre que la classe negativa és ``No'', i també s'hi troben altra vegada les mesures de precisió, recuperació, exactitud i puntuació F1. L'única cosa que canvia és el llindar de classe positiva, que es pot modificar a conveniència per l'usuari.
+\textbf{Llindar de puntuació}
 
 
 
-Per decidir a quina classe pertany un individu es pot establir un llindar. En funció d'aquest llindar, la probabilitat estimada obtinguda classifica les observacions. El valor per defecte que apareix a la figura és de 0,3527, i implica que tots els individus que tinguin una probabilitat de resposta positiva d'aquest valor o més alt es classificaran com a positius. Aquest és el valor mínim en el nostre cas, perquè no hi ha cap individu pel qual s'hagi calculat una probabilitat menor. Si ens fixem en la corba ROC, es veu que amb aquest valor de llindar, els falsos positius estan presents en el 100\% dels casos, perquè cap individu s'ha classificat a la classe negativa. Si movem el valor del llindar, veurem com canvien les mètriques d'avaluació del model i en quin punt de la corba ens situem.
+A la dreta de la figura \ref{fig:log2} s'hi troba una sèrie de mètriques. Per una banda, s'identifica que la classe positiva és la categoria ``Sí'', de la variable \texttt{HIHAMORTS}, mentre que la classe negativa és ``No'', i també s'hi troben altra vegada les mesures de precisió, recuperació, exactitud i puntuació F1. L'única cosa que canvia és el llindar de classe positiva, que es pot modificar a conveniència per l'usuari.
 
-En el cas de la classificació logística binària, totes les mètriques reflexen els valors calculats quan el llindar es fixa en 0.5.
+
+
+Per decidir a quina classe pertany un individu es pot establir un llindar. En funció d'aquest llindar, la probabilitat estimada obtinguda classifica les observacions. El valor per defecte que apareix a la figura és de 0,3527, i implica que tots els individus que tinguin una probabilitat de resposta positiva d'aquest valor o més alt es classificaran com a positius. Aquest és el valor mínim en el nostre cas, perquè no hi ha cap individu pel qual s'hagi calculat una probabilitat menor. Si ens fixem en la corba ROC, es veu que amb aquest valor de llindar, els falsos positius estan presents en el 100\% dels casos, perquè cap individu s'ha classificat a la classe negativa. Si movem el valor del llindar, veurem com canvien les mètriques d'avaluació del model i en quin punt de la corba ens situem, ja que es reajusta la manera en què el model assigna la classe de la variable resposta a les observacions.
+
+En el cas de la classificació logística binària, totes les mètriques reflexen els valors calculats quan el llindar es fixa en 0,5, que és un criteri molt comú quan es treballa amb una variable resposta balancejada.
 
 \subsubsection{Interpretació del model}
 
@@ -2115,7 +2133,7 @@ On $p$ és el nombre de paràmetres que conformen el model.
 
 
 
-Al terme esquerre de la igualtat se l'anomena \emph{log-odds}. Els \emph{odds}, que és l'equació que es troba dins del logaritme són la probabilitat de resposta positiva entre la probabilitat de resposta negativa. Podem entendre el model logístic com un model lineal pels \emph{log-odds}, ja que a través la combinació de termes es pot quantificar com canvia la classificació o la predicció en modificar alguna de les variables. Per fer-ho, s'haurà de treballar amb els exponents de la funció anterior.
+Al terme esquerre de la igualtat se l'anomena \emph{log-odds}. Els \emph{odds}, que és l'equació que es troba dins del logaritme, són la probabilitat de resposta positiva entre la probabilitat de resposta negativa. Podem entendre el model logístic com un model lineal pels \emph{log-odds}, ja que a través la combinació de termes es pot quantificar com canvia la classificació o la predicció en modificar alguna de les variables. Per fer-ho, s'haurà de treballar amb els exponents de la funció anterior.
 
 \begin{center}
 
@@ -2140,6 +2158,13 @@ $\frac{odds_{x_1 + 1}}{odds} = e^{\beta_1}$
 
 Un canvi en una variable d'una unitat augmenta el log-odds tant com el valor del seu pes assignat.
 
+Per entendre l'efecte del pes de les variables del model en la probabilitat de resposta positiva (accidents on hi ha víctimes mortals), executem la següent consulta, que retornarà els coeficients beta del model:
+
+\begin{verbatim}
+SELECT * 
+FROM ML.WEIGHTS(MODEL [nom_projecte].[nom_base_de_dades].[nom_model]);
+\end{verbatim}
+
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=15cm]{log3a}
@@ -2149,7 +2174,26 @@ Un canvi en una variable d'una unitat augmenta el log-odds tant com el valor del
 \end{figure}
 
 
-Per entendre l'efecte del pes de les variables del model en la probabilitat de resposta positiva, el primer que farem serà mirar l'intercept ($\beta_0$). Quan totes les variables numèriques prenen el valor zero i les variables categòriques estan en la categoria de referència, les probabilitats estimades de resposta positiva són $e^{\beta_0} = e^{-1,0228353} = 0,3595739934$. Les categories de referència de les variables categòriques són ``urbà'', pel que fa a la informació de la localització, ``Dissabte'' (en el cas de dies de la setmana) i ``Tarda'', per la variable d'hores agrupades.
+El primer que farem serà mirar l'intercept ($\beta_0$). Quan totes les variables numèriques prenen el valor zero i les variables categòriques estan en la categoria de referència o categoria base, les \textit{odds} estimades de resposta positiva són $e^{\beta_0} = e^{-1,0228353} = 0,3595739934$. 
+
+Els \textit{odds} es descriuen com $odds = \frac{P(y = Si)}{P(y = No)}$ i, per tant, per calcular la probabilitat de resposta positiva haurem de fer el càlcul següent:
+
+\begin{center}
+
+$odds = \frac{P(y = Si)}{P(y = No)}$
+
+$odds = \frac{P(y = Si)}{1 - P(y = Si)}$
+
+$P(y = Si) = \frac{odds}{1 + odds}$
+
+$P(y = Si) = \frac{e^{-1,0228353} }{1 + e^{-1,0228353} }$
+
+$P(y = Si) = 0,2644755$
+
+\end{center}
+
+Les categories de referència de les variables categòriques són ``urbà'', pel que fa a la informació de la localització; ``Dissabte'', en el cas de dies de la setmana; i ``Tarda'', per la variable d'hores agrupades. Per tant, la probabilitat de què hi hagi víctimes mortals en un accident que es dona en aquestes condicions és de 0,2644755.
+
 
 Pel que fa a les variables numèriques, que són \texttt{MINUTE}, \texttt{FATALS}, \texttt{DRUNK\_DR}, \texttt{NO\_PER} i \texttt{NO\_VEHICLE}, tenim que l'augment del valor de cada variable en una unitat afecta les probabilitats estimades en un factor de $e^{\beta_i}$, on $i$ és el subíndex de cada variable numèrica.
 
@@ -2166,7 +2210,17 @@ Si ens fixem en la variable \texttt{RUR\_URB}, es pot calcular que si, en compte
 \newpage
 
 \section{Conclusions}
-fgfg
+
+Per acabar, un cop explorada la plataforma BigQuery, tractant conceptes com la computació al núvol i l’emmagatzemament de dades en el mateix entorn, es farà un recull de conclusions i idees que han sorgit al llarg de la realització d'aquest treball.
+
+L'objectiu principal d'aquest treball era la creació d'un material pedagògic per a incloure en el programari de l’assignatura de Fitxers i Bases de Dades del grau d’Estadística. Per fer-ho, es va crear un material enfocat al coneixement de BigQuery com a motor d'anàlisi de macrodades i la seva diferenciació envers altres eines d'anàlisi de dades. Aquest material també incloïa exemples pràctics a l'hora d'interactuar amb la plataforma, com pot ser la creació de conjunts de dades, la consulta a taules incloses en aquests i, fins i tot, la visualització dels resultats de les consultes. Un cop recopilada tota aquesta informació, es van dissenyar unes diapositives que encabien tot el ventall teòric, així com una pràctica guiada perquè els estudiants tinguessin l'oportunitat de posar-se a prova i experimentar ells mateixos el funcionament d'aquesta eina d'anàlisi.
+
+La primera dificultat amb la qual ens vam trobar va ser que, en ser BigQuery una eina en desenvolupament que s'adapta de forma contínua a les necessitats del mercat, encara hi ha aspectes estètics o de presentació cap als usuaris que poden variar, com es va donar el cas amb Looker Studio. Durant el procés de recerca d'informació i la creació del material pedagògic, Looker Studio prenia el nom de Data Studio. Això no va comportar canvis pel que fa al funcionament, però va portar els estudiants a la confusió, perquè no trobaven el que exactament estava descrit al material. Així i tot, aquest imprevist es va poder resoldre a classe i no va suposar cap impediment per a la realització de la pràctica.
+
+Quant a la implementació de BigQuery a l'aula, tot i que les sessions es van donar sense gaires complicacions pels estudiants i els comentaris van ser positius, no s'ha analitzat la valoració que van fer més enllà de la mitjana i la variància entre les puntuacions per falta de representativitat. Si es pogués haver realitzat la mateixa pràctica a un grup més gran, es podrien extreure conclusions que ajudessin a millorar el material de cara a l'any següent, o la manera de treballar amb aquest.
+
+En últim lloc, pel que fa a l'anàlisi d'un conjunt de dades pròpiament, s'ha trobat que BigQuery permet alguns tipus d'anàlisi, però d'altres no. Això pot ser degut al fet que s'hagi volgut enfocar cap a l'aprenentatge automàtic o \textit{machine learning}, i per això alguns altres tipus d'anàlisi com el de components principals no estan al seu abast, o són molt més complicats de realitzar en comparació a totes les alternatives que presenta R amb la seva gran varietat de paquets. Potser en un futur aquesta problemàtica es resolgui i BigQuery arribi a ser una eina completa per l'anàlisi estadística.
+
 
 \newpage
 
@@ -2212,18 +2266,14 @@ fgfg
 
 \section{Annex}
 
-(Repositori de Github)
-
-\url{https://github.com/AnnaSalazar/TFG}
+El codi en R i SQL, així com les dades utilitzades per la realització d'aquest treball es troben a un repositori de Github al que es pot arribar a partir de l'enllaç següent: \url{https://github.com/AnnaSalazar/TFG}.
 
 
-%\newpage
+A partir d'aquest material, es poden reproduir els resultats als quals s'ha arribat, i es poden visualitzar les comandes íntegres fetes servir en cada secció del treball.
 
-%\listoffigures
+El repositori està organitzat de manera que s'hi troben totes les dades, les originals i les preprocessades, així com el codi pel tractament i transformació d'aquestes. D'altra banda, hi ha una carpeta on es troben les valoracions dels estudiants, anonimitzades, per la consulta d'aquests i, per últim, el codi de l'anàlisi per components principals i de la creació del model logístic.
 
-%\newpage
-
-%\listoftables
+Tota aquesta informació està exposada en un arxiu README al mateix repositori, per facilitar la navegació dins d'aquest.
 
 
 \end{document}
