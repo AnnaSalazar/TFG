@@ -87,7 +87,7 @@
 
 L'objectiu d'aquest treball és conèixer un dels recursos de la plataforma Google Cloud, anomenat BigQuery. A partir de l'enteniment de com funciona la computació al núvol i l'emmagatzemament de dades en el mateix entorn, es vol crear un material pedagògic per a incloure en el programari de l'assignatura de Fitxers i Bases de Dades del grau d'Estadística.
 
-Amb aquest propòsit en ment, en treball es divideix en tres apartats principals. En primer lloc, s'aprofundirà en la descripció de la plataforma al llarg de les primeres cinc seccions. Primer es descriurà BigQuery a alt nivell per, més endavant, poder entendre l'estructura de la interfície d'usuari i les maneres en què es pot interactuar amb el sistema. En aquest apartat també s'inclouran les connexions amb altres plataformes i \emph{softwares} per a poder treure el màxim profit de les dades d'estudi. Seguidament, el segon apartat està conformat per una única secció, que contempla l'aplicació de BigQuery a l'entorn de classe i inclou la valoració dels mateixos alumnes sobre la seva experiència i visió. En últim lloc, es presenta l'anàlisi d'una base de dades mitjançant la connexió amb el programari R. En aquest apartat, es realitza part de l'exploració de les dades a R i part a BigQuery, tot tenint en compte les limitacions del llenguatge que s'utilitza en cada entorn i els recursos visuals que ofereixen. 
+Amb aquest propòsit en ment, el treball es divideix en tres apartats principals. En primer lloc, s'aprofundirà en la descripció de la plataforma al llarg de les primeres cinc seccions. Primer es descriurà BigQuery a alt nivell per, més endavant, poder entendre l'estructura de la interfície d'usuari i les maneres en què es pot interactuar amb el sistema. En aquest apartat també s'inclouran les connexions amb altres plataformes i \emph{softwares} per a poder treure el màxim profit de les dades d'estudi. Seguidament, el segon apartat està conformat per una única secció, que contempla l'aplicació de BigQuery a l'entorn de classe i inclou la valoració dels mateixos alumnes sobre la seva experiència i visió. En últim lloc, es presenta l'anàlisi d'una base de dades mitjançant la connexió amb el programari R. En aquest apartat, es realitza part de l'exploració de les dades a R i part a BigQuery, tot tenint en compte les limitacions del llenguatge que s'utilitza en cada entorn i els recursos visuals que ofereixen. 
 
 \subsection{Motivació}
 
@@ -105,19 +105,19 @@ Per una banda, s'ha tractat una base de dades pública a l'entorn de BigQuery, a
 
 Per altra part, s'han utilitzat unes dades que provenen de l'agència estatal de trànsit de Washington, Estats Units. L'Administració Nacional de Seguretat del Trànsit a les Carreteres, \textit{National Highway Traffic Safety Administration} (NHTSA) en anglès, va fer públiques tres taules que feien referència als accidents ocorreguts al llarg de l'any 2015, les persones involucrades en aquests (siguin conductors, passatgers o vianants) i un inventari de tots els vehicles que van ser afectats. Les dades tractades són una mostra que conté tots els accidents produïts el mes de desembre d'aquell any. Aquesta informació es pot trobar al web de la NHTSA: \url{https://www.transportation.gov/briefing-room/traffic-fatalities-sharply-2015}.
 
-Per poder dur a terme aquest treball s'ha emprat el \textit{software} R, mitjançant la interfície R-Studio, i dos llenguatges de programació. Principalment, s'ha fet ús del llenguatge SQL, tant a la pàgina de BigQuery com a l'entorn R, fent ús del paquet "sqldf" que es pot trobar al repositori oficial \href{https://cran.r-project.org}{CRAN}. Així i tot, també s'ha usat el mateix llenguatge R per acomplir alguns altres aspectes de l'anàlisi que inclouen el preprocessament de les dades i la creació de gràfics descriptius.
+Per poder dur a terme aquest treball s'ha emprat el \textit{software} R, mitjançant la interfície R-Studio, i dos llenguatges de programació. Principalment, s'ha fet ús del llenguatge SQL, tant a la pàgina de BigQuery com a l'entorn R, fent ús del paquet ``sqldf'', que es pot trobar al repositori oficial \href{https://cran.r-project.org}{CRAN}. Així i tot, també s'ha usat el mateix llenguatge R per acomplir alguns altres aspectes de l'anàlisi que inclouen el preprocessament de les dades i la creació de gràfics descriptius.
 
 \pagebreak
 
 \section{Què és BigQuery?}
 
-BigQuery és un motor d’anàlisi de macrodades (\textit{Big Data}) que permet executar consultes amb llenguatge \emph{Structured Query Language} (SQL) al núvol sobre les dades emmagatzemades en aquest, sense importar el volum de les dades ni el tipus de consultes que es volen fer. El motor de consulta és capaç de treballar sobre terabytes de dades en qüestió de segons, i sobre petabytes en pocs minuts. Avui en dia, les empreses estan adoptant cada cop més la presa de decisions basades en dades i fomentant una cultura oberta en la qual les dades no estan aïllades dins dels departaments. BigQuery, en proporcionar els mitjans tecnològics per a promoure un canvi cultural cap a l’agilitat i l’obertura, realitza un paper molt important en l’augment del ritme de la innovació.
+BigQuery és un motor d’anàlisi de macrodades (\textit{Big Data}) que permet executar consultes amb llenguatge SQL (\emph{Structured Query Language}) al núvol sobre les dades emmagatzemades en aquest, sense importar el volum de les dades ni el tipus de consultes que es volen fer. El motor de consulta és capaç de treballar sobre terabytes de dades en qüestió de segons, i sobre petabytes en pocs minuts. Avui en dia, les empreses estan adoptant cada cop més la presa de decisions basades en dades, i fomentant una cultura oberta en la qual les dades no estan aïllades dins dels departaments. BigQuery, en proporcionar els mitjans tecnològics per a promoure un canvi cultural cap a l’agilitat i l’obertura, realitza un paper molt important en l’augment del ritme de la innovació.
 
 
-Treballar amb dades a BigQuery implica tres aspectes principals: l’emmagatzemament, la incorporació de les dades i la consulta d’aquestes, Google s’encarrega de tota la resta. Com BigQuery és un servei totalment gestionat, no és necessari configurar ni instal·lar res en el nostre ordinador i, pel mateix motiu, no necessitem un administrador de la base de dades. Simplement, podem entrar en el nostre projecte de Google Cloud des del mateix navegador i començar a analitzar.
+Treballar amb dades a BigQuery implica tres aspectes principals: l’emmagatzemament, la incorporació de les dades i la consulta d’aquestes, Google s’encarrega de tota la resta. Com BigQuery és un servei totalment gestionat, no és necessari configurar ni instal·lar res en el nostre ordinador i, pel mateix motiu, no necessitem un administrador de la base de dades. Simplement, podem entrar al nostre projecte de Google Cloud des del mateix navegador i començar a analitzar.
 
 
-Pel que fa a l’emmagatzemament, les dades es guarden en una taula estructurada, la qual cosa significa que es pot utilitzar SQL estàndard per a facilitar la consulta i l’anàlisi de dades. BigQuery és perfecta pel \textit{Big Data} perquè gestiona tot aquest emmagatzemament i està proveïda d’operacions d’escalabilitat que funcionen de forma automàtica sense que l’usuari s’hagi d’involucrar,  per la qual cosa mai haurem de preocupar-nos per la grandària de les dades amb les quals treballem. Part de la consideració de disseny darrere de BigQuery és animar als usuaris a centrar-se en els coneixements en lloc de la infraestructura. 
+Pel que fa a l’emmagatzemament, les dades es guarden en una taula estructurada, la qual cosa significa que es pot utilitzar SQL estàndard per a facilitar la consulta i l’anàlisi de dades. BigQuery és perfecta pel \textit{Big Data} perquè gestiona tot aquest emmagatzemament i està proveïda d’operacions d’escalabilitat que funcionen de forma automàtica sense que l’usuari tingui la necessitat d’involucrar-se,  per la qual cosa mai haurem de preocupar-nos per la grandària de les dades amb les quals treballem. Part de la consideració de disseny darrere de BigQuery és animar als usuaris a centrar-se en els coneixements en lloc de la infraestructura. 
 
 \noindent
 
@@ -141,7 +141,7 @@ Com en molts altres magatzems de dades, BigQuery és capaç de treballar amb mol
 
 \graphicspath{ {BigQuery/Imatges tutorial/} }
 
-Per utilitzar aquesta eina d’anàlisi només ens caldrà crear un compte a Google Cloud i treballar a la zona de proves (\textit{Sandbox}) que ofereix Google per operar de forma gratuïta.
+Per utilitzar aquesta eina d’anàlisi només caldrà crear-se un compte a Google Cloud i treballar a la zona de proves (\textit{Sandbox}) que ofereix Google per operar de forma gratuïta.
 Per fer servir la zona de proves seguirem els passos següents: 
 
 
@@ -154,9 +154,9 @@ Per fer servir la zona de proves seguirem els passos següents:
 
 
 
-3. Un cop dins, podem veure com és l'espai de treball SQL. Hi ha una secció de l'Explorador a l'esquerra que ens permet navegar en projectes, conjunts de dades i taules. Per tal de fer servir la zona de proves, haurem de crear un projecte.
+3. Un cop dins, podem veure com és l'espai de treball SQL. Hi ha una secció de l'Explorador a l'esquerra que ens permet navegar entre projectes, conjunts de dades i taules. Per tal de fer servir la zona de proves, és necessària la creació d'un projecte.
 
-S'introdueix un nom al projecte i fem clic a \textit{Create}. En el nostre cas, l'hem anomenat \verb|el_meu_| \verb|projecte| (Figura ~\ref{fig:bq1}), i treballarem sobre aquest per il·lustrar el funcionament de la plataforma.
+S'introdueix un nom al projecte i es fa clic a \textit{Create}. En el nostre cas, l'hem anomenat \verb|el_meu_| \verb|projecte| (Figura ~\ref{fig:bq1}), i treballarem sobre aquest per il·lustrar el funcionament de la plataforma.
 
 
 \begin{figure}[h!]
@@ -218,7 +218,7 @@ Per a crear-ne un, només s'ha de desplegar el menú i triar l'opció de \texttt
 \end{figure}
 
 
-Tal com es pot veure a la figura ~\ref{fig:bq3}, hem creat un nou conjunt de dades anomenat \verb|dades_projecte| que estarà ubicat en el projecte \verb|el_meu_projecte|, la ubicació de les dades l'hem posat a diverses regions dels Estats Units i, per últim, no hem habilitat un temps de venciment de la taula, sinó que per defecte BigQuery l'emmagatzemarà per 60 dies.
+Tal com es pot veure a la figura ~\ref{fig:bq3}, hem creat un nou conjunt de dades anomenat \verb|dades_projecte| que estarà ubicat en el projecte \verb|el_meu_projecte|, la ubicació de les dades s'ha establert a diverses regions dels Estats Units i, per últim, no s'ha habilitat un temps de venciment de la taula, de manera que, per defecte, BigQuery l'emmagatzemarà per 60 dies.
 
 
 \begin{figure}[h!]
@@ -230,15 +230,17 @@ Tal com es pot veure a la figura ~\ref{fig:bq3}, hem creat un nou conjunt de dad
 \end{figure}
 
 
-Un cop creat \verb|dades_projecte|, es pot comprovar que ara apareix dins de \verb|el_meu_projecte| a la interfície d'usuari (UI) de BigQuery, i s'observa que no hi ha taules dins d'aquest. També es pot donar un cop d'ull als detalls associats a aquest conjunt de dades (Figura ~\ref{fig:bq5}). Des d'aquest menú, podem triar obrir-lo, i es desplegarà a la dreta tota la informació del conjunt de dades. Aquí podem confirmar l'identificador del conjunt de dades, que també assenyala el projecte en el qual s'ha creat el conjunt de dades, i després altres detalls que inclouen les hores de creació i modificació, així com la ubicació d'aquest.
+Un cop creat \verb|dades_projecte|, es pot comprovar que ara apareix dins de \verb|el_meu_projecte| a la interfície d'usuari (UI) de BigQuery, i s'observa que no hi ha taules dins d'aquest. També es pot donar un cop d'ull als detalls associats a aquest conjunt de dades (Figura ~\ref{fig:bq5}). Des d'aquest menú, podem triar obrir-lo, i es desplegarà a la dreta tota la informació del conjunt de dades. En aquesta secció es troba l'identificador del conjunt de dades, que també assenyala el projecte en el qual s'ha creat el conjunt de dades, i després altres detalls que inclouen les hores de creació i modificació, així com la ubicació d'aquest.
 
 
 
-A més, des d'aquesta finestra podrem compartir el conjunt de dades amb altres usuaris. Hi ha opcions per a copiar i eliminar aquest conjunt de dades. I després, a l'opció \textit{editar detalles}, podem reconfigurar el temps de caducitat de les taules, establir una descripció o afegir etiquetes. Per exemple, si volem marcar aquest conjunt de dades com a pertanyent a un equip, podem establir una etiqueta amb la clau d'equip i el valor corresponent. En acabant, quan el guardem, les etiquetes apareixen a l'apartat d'informació.
+A més, des d'aquesta finestra es pot compartir el conjunt de dades amb altres usuaris. Hi ha opcions per a copiar i eliminar aquest conjunt de dades. I després, a l'opció \textit{editar detalles}, és possible reconfigurar el temps de caducitat de les taules, establir una descripció o afegir etiquetes. Per exemple, si volem marcar aquest conjunt de dades com a pertanyent a un equip, podem establir una etiqueta amb la clau d'equip i el valor corresponent. En acabant, quan el guardem, les etiquetes apareixen a l'apartat d'informació.
 
 \subsection{Definició d'una taula de BigQuery des de la interfície d'usuari}
 
-Després d'haver creat un conjunt o base de dades en un projecte, ja es pot crear una taula dins d'ell. Si tenim la informació de la base, hauríem de veure aquesta opció per a crear una nova taula des d'aquí. Alternativament, podem dirigir-nos al projecte, després al conjunt de dades i triar l'opció de crear una taula. Apareixerà un formulari i tindrem l'opció d'especificar una font per a la nostra taula. Això ens permetrà importar dades de fonts ja existents, com l'emmagatzematge en el núvol de Google o bé un arxiu dels nostres propis sistemes. La primera taula que crearem serà bastant simple, i ens servirà per explorar una mica la plataforma. De fet, serà una taula buida anomenada \verb|accidents| (Figura ~\ref{fig:bq6}). 
+Després d'haver creat un conjunt o base de dades en un projecte, ja es pot crear una taula dins d'ell. Si es té la informació de la base, s'hauria de veure aquesta opció per a crear una nova taula des d'aquí. Alternativament, hom es pot dirigir al projecte, després al conjunt de dades i, finalment, triar l'opció de crear una taula. Apareixerà un formulari i donarà l'opció d'especificar una font per a la taula en qüestió. Això permetrà importar dades de fonts ja existents, com l'emmagatzematge en el núvol de Google, o bé un arxiu dels propis sistemes de l'ordinador. 
+
+La primera taula que crearem serà bastant simple, i ens servirà per explorar una mica la plataforma. De fet, serà una taula buida anomenada \verb|accidents| (Figura ~\ref{fig:bq6}). 
 
 
 \begin{figure}[h!]
@@ -252,7 +254,7 @@ Després d'haver creat un conjunt o base de dades en un projecte, ja es pot crea
 \end{figure}
 
 
-A continuació, passem a la secció d'Esquema. Podem fer ús d'aquesta interfície per a establir les columnes de la nostra taula, incloent-hi els tipus i altres configuracions. La primera columna que definirem és l'identificador de l'accident, que s'anomenarà \verb|ST_CASE|. Per al tipus de variable, podem triar d'entre menú d'opcions, que inclou tots els tipus amb els quals ja estem familiaritzats. Quant a la manera (columna \textit{modo} a la figura ~\ref{fig:bq8}), aquesta determinarà si els valors d'aquesta columna poden ser nuls o si es requereix un valor (com és el cas de l'identificador), i també podem establir que els valors siguin d'un tipus que es pugui repetir, marcant \textit{indistint}. Finalment, es pot escriure una descripció per a la variable, que és opcional. 
+A continuació, passem a la secció d'Esquema. Podem fer ús d'aquesta interfície per a establir les columnes de la nostra taula, incloent-hi els tipus i altres configuracions. La primera columna que definirem és l'identificador de l'accident, que s'anomenarà \verb|ST_CASE|. Per al tipus de variable, podem triar d'entre menú d'opcions, que inclou tots els tipus amb els quals ja estem familiaritzats. Quant a la manera (columna \textit{modo} a la figura ~\ref{fig:bq8}), aquesta determinarà si els valors que pren la variable poden ser nuls o si es requereix un valor (com és el cas de l'identificador), i també podem establir que els valors siguin d'un tipus que es pugui repetir, marcant \textit{indistint}. Finalment, es pot escriure una descripció per a la variable, que és opcional. 
 
 
 \begin{figure}[h!]
@@ -288,11 +290,11 @@ DRUNK\_DR & Numèrica   & Nombre de conductors beguts involucrats a l’accident
 
 
 
-En el transcurs del treball, farem ús d'aquesta taula, juntament amb dues més, que prenen de nom de \verb|persones| i \verb|vehicles|, per analitzar les dades que es van prendre d'un conjunt d'accidents de trànsit que es van donar a Washington, Estats Units durant el mes de desembre de l'any 2015. L'agència estatal de trànsit va fer públiques aquestes dades al seu portal web (\url{https://www.transportation.gov/briefing-room/traffic-fatalities-sharply-2015})
+En el transcurs del treball, farem ús d'aquesta taula, juntament amb dues més, que prenen de nom de \verb|persones| i \verb|vehicles|, per analitzar les dades que es van prendre d'un conjunt d'accidents de trànsit que es van donar a Washington, Estats Units, durant el mes de desembre de l'any 2015. L'agència estatal de trànsit va fer públiques aquestes dades al seu portal web (\url{https://www.transportation.gov/briefing-room/traffic-fatalities-sharply-2015}).
 
 \subsubsection{Afegir dades a una taula de BigQuery senzilla}
 
-Ara que hem creat una taula de consulta, podem centrar-nos a treballar amb ella. Per a això, ens desplaçarem cap avall i donarem un cop d'ull al primer esquema de la taula (a la figura ~\ref{fig:bq9}), on es troba a alguna informació interessant. Més enllà de la identificació de la taula, a l'esquerra de la figura, també podem comprovar la grandària de la taula a la dreta, que ens donarà una indicació de la quantitat de dades que es processarien en cas d'executar consultes sobre aquesta. La grandària d'emmagatzematge a llarg termini assenyala les dades a les quals no s'ha accedit en els últims 90 dies, i després, per descomptat, tenim les hores de creació i modificació, juntament amb la ubicació de les dades de la taula. Des d'aquesta interfície també podem editar els detalls existents d'aquesta taula. Aquí podem establir un temps de caducitat en cas que vulguem anul·lar el que s'ha establert en el nivell del conjunt de dades. També hi ha l'opció d'establir una descripció o afegir etiquetes.
+Ara que ja s'ha creat una taula de consulta, podem centrar-nos a treballar amb ella. Per a això, ens desplaçarem cap avall i donarem un cop d'ull al primer esquema de la taula (a la figura ~\ref{fig:bq9}), on es troba a alguna informació interessant. Més enllà de la identificació de la taula, a l'esquerra de la figura, també es pot comprovar la grandària de la taula a la dreta, que ens donarà una indicació de la quantitat de dades que es processarien en cas d'executar consultes sobre aquesta. La grandària d'emmagatzematge a llarg termini assenyala les dades a les quals no s'ha accedit en els últims 90 dies, i després, per descomptat, tenim les hores de creació i modificació, juntament amb la ubicació de les dades de la taula. Des d'aquesta interfície també és possible editar els detalls existents d'aquesta taula. Aquí es permet l'establiment d'un temps de caducitat en cas que es vulgui anul·lar el que s'ha establert en el nivell del conjunt de dades. També hi ha l'opció d'establir una descripció o afegir etiquetes.
 
 
 \begin{figure}[h!]
@@ -307,7 +309,7 @@ Ara que hem creat una taula de consulta, podem centrar-nos a treballar amb ella.
 \end{figure}
 
 
-Una altra característica que podem consultar és la vista prèvia de la taula, i com és lògic, veurem que aquesta encara no conté dades, ja que simplement hem creat l'esquema de la taula, sense inserir cap dada en aquesta. Si féssim ús de SQL, en qualsevol altre context es podrien afegir dades a partir d'una simple consulta a la taula, que tindria l'estructura següent:
+Una altra característica la qual es pot consultar és la vista prèvia de la taula, i com és lògic, veurem que aquesta que acabem de crear encara no conté dades, ja que simplement hem creat l'esquema de la taula, sense inserir cap dada en aquesta. Si féssim ús de SQL, en qualsevol altre context es podrien afegir dades a partir d'una simple consulta a la taula, que tindria l'estructura següent:
 
 \begin{verbatim}
 INSERT INTO `el-meu-projecte-358912.dades_projecte.accidents` 
@@ -315,7 +317,7 @@ INSERT INTO `el-meu-projecte-358912.dades_projecte.accidents`
 VALUES (20055, 1, 20, 55, "1", "3", 3, 0);
 \end{verbatim}
 
-A partir d'aquesta consulta afegiríem a la taula el cas d'un accident amb identificador 20055, que es va produir el dia 1 del mes a les 20:55 a una zona rural (\verb|RUR_URB| = 1) un dimarts (\verb|DAY_WEEK| = 3), i en el que hi ha 3 víctimes i cap conductor begut involucrat en l'accident.
+A partir d'aquesta consulta afegiríem a la taula el cas d'un accident amb identificador 20055, que es va produir el dia 1 del mes a les 20:55 a una zona rural (\verb|RUR_URB| = 1) un dimarts (\verb|DAY_WEEK| = 3), i en el que hi va haver 3 víctimes i cap conductor begut involucrat en l'accident.
 
 Això no obstant, quan intentem executar la consulta, BigQuery ens informa d'un error (Figura ~\ref{fig:bq11}). Si recordem, prèviament s'han definit algunes de les limitacions per a l'ús de la zona de proves de BigQuery. Entre aquestes s´hi troba que no podem utilitzar el llenguatge de manipulació de dades (DML), és a dir, que no podem modificar la taula amb sentències com \verb|INSERT INTO|, \verb|UPDATE| o \verb|DELETE|, per exemple. Per aquest motiu, l'error ens avisa que no tenim el nostre projecte vinculat a un compte i, per tant, no ens avaluarà la nostra consulta.
 
@@ -331,9 +333,9 @@ Això no obstant, quan intentem executar la consulta, BigQuery ens informa d'un 
 
 \newpage
 
-\subsection{Càrrega de dades per crear una taula de BigQuery}
+\subsection{Càrrega de dades per crear una taula a BigQuery}
 
-Ara explorarem un cas d'ús més comú per als usuaris de BigQuery, que tracta de crear una taula a partir de dades existents. Per a això, ens dirigirem al nostre conjunt de dades, \verb|dades_projecte|, i triarem crear una nova taula. Aquest cop, la font no serà una taula buida, sinó que carregarem un arxiu CSV del nostre propi sistema d'arxius. Un cop seleccionem importar les dades, es pot seleccionar diferents tipus d'arxiu com ara CSV, JSON, Avro o Parquet, principalment. Per a respectar les limitacions de la zona de proves, hi ha algunes restriccions quant a la grandària de l'arxiu que podem pujar, recordem que aquestes han de ser menors a 10 Gb. Procedim llavors a navegar pels nostres sistemes d'arxius per a l'arxiu a pujar. Una vegada que l'arxiu ha estat seleccionat, el format de l'arxiu s'ha establert automàticament en CSV (Figura ~\ref{fig:bq12}). 
+Ara explorarem un cas d'ús més comú per als usuaris de BigQuery, que tracta de crear una taula a partir de dades existents. Per a això, ens dirigirem al nostre conjunt de dades, \verb|dades_projecte|, i triarem crear una nova taula. Aquest cop, la font no serà una taula buida, sinó que carregarem un arxiu CSV del nostre propi sistema d'arxius. Un cop seleccionem importar les dades, es pot seleccionar diferents tipus d'arxiu, com ara CSV, JSON, Avro o Parquet, principalment. Per a respectar les limitacions de la zona de proves, hi ha algunes restriccions quant a la grandària de l'arxiu que es pot pujar, recordem que aquestes han de ser menors a 10 Gb. Procedim llavors a navegar pels nostres sistemes d'arxius per a l'arxiu a pujar. Una vegada que l'arxiu ha estat seleccionat, el format de l'arxiu s'ha establert automàticament en CSV (Figura ~\ref{fig:bq12}). 
 
 
 \begin{figure}[h!]
@@ -348,7 +350,7 @@ Ara explorarem un cas d'ús més comú per als usuaris de BigQuery, que tracta d
 \end{figure}
 
 
-Quant al projecte i al conjunt de dades, els deixarem com estan. I escollirem el nom de la taula, \verb|accidents_bd|, el qual farà saber que inclou informació sobre diversos accidents de trànsit. A continuació, tenim l'opció de definir explícitament l'esquema. això no obstant, atès que es tracta d'un arxiu CSV amb múltiples columnes, podem triar l'opció de detectar automàticament. D'aquesta manera, BigQuery donarà un cop d'ull al contingut de cada columna i determinarà quin ha de ser l'esquema. 
+Quant al projecte i al conjunt de dades, els deixarem com estan, i escollirem el nom de la taula, \verb|accidents_bd|, el qual farà saber que inclou informació sobre diversos accidents de trànsit. A continuació, es troba l'opció de definir explícitament l'esquema. Això no obstant, atès que es tracta d'un arxiu CSV amb múltiples columnes, es pot triar l'opció de detectar automàticament. D'aquesta manera, BigQuery donarà un cop d'ull al contingut de cada columna i determinarà quin ha de ser l'esquema. 
 
 
 
@@ -360,7 +362,7 @@ Si hem establert totes aquestes especificacions, ja podrem començar amb l’an�
 
 
 
-Ara es pot comprovar que \verb|accidents_bd| apareix dins la nostra base de dades, \verb|dades_projecte|. A continuació, podem accedir a la informació de la taula i al seu contingut desplegant el menú i triant \texttt{Obrir}. En l'esquema de la taula, sortirà que s'ha detectat automàticament el tipus dels diferents camps. Donem un cop d'ull als detalls de la taula. Aquí es pot veure que la grandària total és de poc més de 280 kB. El nombre de files és d'unes 2.780. I després, quan ens dirigim a la vista prèvia, obtenim un cop d'ull als continguts (Figura ~\ref{fig:bq13}). 
+Ara es pot comprovar que \verb|accidents_bd| apareix dins la nostra base de dades, \verb|dades_projecte|. A continuació, podem accedir a la informació de la taula i al seu contingut desplegant el menú i triant \texttt{Obrir}. En l'esquema de la taula, sortirà que s'ha detectat automàticament el tipus dels diferents camps. Donem un cop d'ull als detalls de la taula. Aquí es pot veure que la grandària total és de poc més de 280 kB. El nombre de files és d'unes 2.780. I després, quan ens dirigim a la vista prèvia, tenim un primer contacte amb el contingut (Figura ~\ref{fig:bq13}). 
 
 
 \begin{figure}[h!]
@@ -378,7 +380,7 @@ Ara es pot comprovar que \verb|accidents_bd| apareix dins la nostra base de dade
 
 \subsection{Consulta de dades i visualització d'estadístiques de consultes}
 
-Per a executar consultes en aquesta taula, ens dirigim al botó de consulta i s'obrirà en una nova pestanya. Aquesta pot ser una pestanya completament nova, és a dir, ocultant aquesta vista de detalls, o bé pot ser una pestanya dividida, que ens permetrà veure alhora aquesta vista de detalls per a la taula mentre construïm una consulta. Mitjançant aquest procés, ha aparegut una nova pestanya cap a la dreta, i la consulta que apareix per defecte inclou una clàusula \verb|SELECT|, però no inclou cap camp (Figura ~\ref{fig:bq14}). Precisament per això hi ha un error de sintaxi, com es mostra a la dreta de la figura. 
+Per a executar consultes en aquesta taula, ens dirigim al botó de consulta i s'obrirà en una nova pestanya. Aquesta pot ser una pestanya completament nova, és a dir, ocultant aquesta vista de detalls, o bé pot ser una pestanya dividida, que ens permetrà veure alhora aquesta vista de detalls de la taula mentre construïm una consulta. Mitjançant aquest procés, ha aparegut una nova pestanya cap a la dreta, i la consulta que apareix per defecte inclou una clàusula \verb|SELECT|, però no inclou cap camp (Figura ~\ref{fig:bq14}). Precisament per això hi ha un error de sintaxi, com es mostra a la dreta de la figura. 
 
 
 \begin{figure}[h!]
@@ -422,11 +424,11 @@ A més, el validador també mostra la quantitat de dades que la consulta process
 \end{figure}
 
 
-Efecturem aquesta consulta prement \textit{Ejecutar}. Els resultats apareixen sota la finestra d'editor i mostra certs detalls com, per exemple, que la consulta s'ha executat en uns 0 segons. Per descomptat, podem desplaçar-nos i donar un cop d'ull a tots els resultats (a la dreta de la Figura ~\ref{fig:bq19}). Entre els detalls que es mostren per a cada consulta s'hi troben la informació del treball, els resultats en forma de taula, els resultats en format JSON i certs detalls de l'execució de la consulta. 
+Efecturem aquesta consulta prement \textit{Ejecutar}. Els resultats apareixen sota la finestra d'editor i mostra certs detalls com, per exemple, que la consulta s'ha executat en uns 0 segons. Per descomptat, podem desplaçar-nos i donar un cop d'ull a tots els resultats (a la dreta de la Figura ~\ref{fig:bq19}). Entre els detalls que es mostren, per a cada consulta s'hi troben la informació del treball, els resultats en forma de taula, els resultats en format JSON i certs detalls sobre l'execució de la consulta. 
 
 
 
-Si posem el focus en la informació del treball, es troba l'identificador d'aquest, l'usuari que l'ha executat, la ubicació on s'emmagatzemen les dades, l'hora de la creació i l'execució d'aquesta, el temps d'execució i els bytes processats i facturats. Veiem que el nombre de bytes facturats és de 10 MB, aquesta és la quantitat mínima que surt per defecte per a cada consulta per \textit{Google Cloud Platform}, i té en compte les despeses generals. Per a consultes a bases de dades més extenses, aquesta facturació serà major i ens impedirà l'ús de la zona de proves. L'última característica que crida l'atenció de la informació del treball és que els resultats s'emmagatzemen en una taula temporal. Això vol dir que aquesta taula resultant no es guardarà com una més en el nostre conjunt de dades i, per tant, no la podrem consultar.
+Si posem el focus en la informació del treball, es troba l'identificador d'aquest, l'usuari que l'ha executat, la ubicació on s'emmagatzemen les dades, l'hora de la creació i l'execució d'aquesta, el temps d'execució i els bytes processats i facturats. Veiem que el nombre de bytes facturats és de 10 MB, aquesta és la quantitat mínima que surt per defecte per a cada consulta a la plataforma de Google Cloud, i té en compte les despeses generals. Per a consultes a bases de dades més extenses, aquesta facturació serà major i impedirà l'ús de la zona de proves. L'última característica que crida l'atenció de la informació del treball és que els resultats s'emmagatzemen en una taula temporal. Això vol dir que aquesta taula resultant no es guardarà com una més en el nostre conjunt de dades i, per tant, no la podrem consultar.
 
 
 
@@ -440,7 +442,7 @@ FROM `el-meu-projecte-358912.dades_projecte.accidents_bd`
 GROUP BY DAY
 \end{verbatim}
 
-Un cop realitzada la consulta, hem d'exportar totes aquestes dades a una nova taula i, per a fer-ho, revisarem algunes de les opcions d'exportació que es troben al menú \textit{Guardar resultados}. En aquest, apareixen diverses opcions per a la manera de guardar els resultats (Figura ~\ref{fig:bq17}). Podem guardar-los com un arxiu CSV en Google Drive o en un arxiu local. En el nostre cas, exportarem el contingut a una nova taula de BigQuery. Una vegada feta aquesta selecció, podem decidir el nom del projecte i el conjunt de dades on s'aprovisionarà la taula i, a més, establir un nom de taula. 
+Un cop realitzada la consulta, s'han d'exportar totes aquestes dades a una nova taula i, per a fer-ho, revisarem algunes de les opcions d'exportació que es troben al menú \textit{Guardar resultados}. En aquest, apareixen diverses opcions per a la manera de guardar els resultats (Figura ~\ref{fig:bq17}). Es poden guardar com un arxiu CSV a Google Drive o en una carpeta local. En el nostre cas, exportarem el contingut a una nova taula de BigQuery. Una vegada feta aquesta selecció, podem decidir el nom del projecte i el conjunt de dades on s'aprovisionarà la taula i, a més, establir un nom de taula. 
 
 
 \begin{figure}[h!]
@@ -456,7 +458,7 @@ Un cop realitzada la consulta, hem d'exportar totes aquestes dades a una nova ta
 
 
 
-Llavors, quan guardem les coses, això haurà iniciat un nou treball per a guardar la nova taula i carregar-la amb dades. Una vegada que tanquem aquesta notificació, podem treure el pin de l'Explorador i, avall, hi apareix com una taula. En obrir-la confirmem que l'esquema apunta a les mateixes columnes que havíem referenciat en la clàusula \verb|SELECT| de la consulta que va crear aquesta taula. Des dels detalls podem confirmar que el nombre de files coincideix amb el dels resultats de la consulta, concretament 31. I després la vista prèvia ens mostrarà quines són les dades exactament. 
+Llavors, quan guardem les coses, això haurà iniciat un nou treball per a guardar la nova taula i carregar-la amb dades. Un cop tanquem aquesta notificació, podem treure el pin de l'Explorador i, avall, hi apareix com una taula. En obrir-la confirmem que l'esquema apunta a les mateixes columnes que havíem referenciat en la clàusula \verb|SELECT| de la consulta que va crear aquesta taula. Des dels detalls es pot confirmar que el nombre de files coincideix amb el dels resultats de la consulta, concretament 31. I, a més, la vista prèvia mostra quines són les dades exactament. 
 
 
 
@@ -480,7 +482,7 @@ Mentre continuem familiaritzant-nos amb la plataforma, podem explorar una altra 
 \end{figure}
 
 
-Podem donar un cop d'ull als diferents conjunts de dades i taules d'aquest projecte i navegar entre les diferents opcions per a poder triar aquells que cridin la nostra atenció i, en definitiva, amb els que treballarem. Per exemple, entre totes aquestes taules s'hi troba una que conté informació sobre la població catalana recopilada per l'aplicació \textit{GenCat Mobile Coverage} (Figura ~\ref{fig:bq21}). Dins d'aquesta taula s'hi troben dades recollides mitjançant crowdsourcing\footnote[1]{La pràctica d'obtenir informació o aportacions a una tasca o projecte recorrent als serveis d'un gran nombre de persones, remunerades o no, normalment a través d'Internet.} i tenen informació sobre l'estat de la cobertura de la telefonia mòbil a Catalunya. La plataforma utilitza una aplicació Android per a registrar les dades dels ciutadans a través dels seus dispositius mòbils sobre el nivell de cobertura per operador, la xarxa utilitzada (2G, 3G i 4G) i la ubicació del dispositiu. Aquestes dades en concret van ser recopilades durant els anys 2015-2017.
+Podem donar un cop d'ull als diferents conjunts de dades i taules d'aquest projecte i navegar entre les diferents opcions per a poder triar aquells que cridin la nostra atenció i, en definitiva, amb els que treballarem. Per exemple, entre totes aquestes taules s'hi troba una que conté informació sobre la població catalana recopilada per l'aplicació \textit{GenCat Mobile Coverage} (Figura ~\ref{fig:bq21}). Dins d'aquesta taula s'hi troben dades recollides mitjançant crowdsourcing\footnote[1]{La pràctica d'obtenir informació o aportacions a una tasca o projecte recorrent als serveis d'un gran nombre de persones, remunerades o no, normalment a través d'Internet.}, que contenen informació sobre l'estat de la cobertura de la telefonia mòbil a Catalunya. La plataforma utilitza una aplicació Android per a registrar les dades dels ciutadans a través dels seus dispositius mòbils sobre el nivell de cobertura per operador, la xarxa utilitzada (2G, 3G i 4G) i la ubicació del dispositiu. Aquestes dades en concret van ser recopilades durant els anys 2015-2017.
 
 
 
@@ -497,7 +499,7 @@ Podem donar un cop d'ull als diferents conjunts de dades i taules d'aquest proje
 \end{figure}
 
 
-Si volguéssim descarregar la taula i situar-la dins del nostre projecte, BigQuery ens permet aquesta operació si premem \textit{Ver conjunto de datos} seguit de \textit{crear tabla}. Això no obstant, també és possible consultar la taula sense necessitat de descarregar-la dins del nostre projecte, fent servir el projecte \verb|bigquey-public-data|, que és el que farem en aquest cas.
+Si volguéssim descarregar la taula i situar-la dins del nostre projecte, BigQuery ens permet aquesta operació prement la opció \textit{Ver conjunto de datos}, seguida de \textit{crear tabla}. Això no obstant, també és possible consultar la taula sense necessitat de descarregar-la dins del nostre projecte, fent servir el projecte \verb|bigquey-public-data|, que és el que farem en aquest cas.
 
 
 
@@ -513,11 +515,11 @@ Dins la informació de la taula que ens proporciona la plataforma, apareix una s
 \end{figure}
 
 
-Els resultats d'aquesta consulta ens diuen que els pobles catalans amb menys cobertura mòbil són Canejan, Boadella i les Escaules, Cabó, la Vajol, Gaià, Farrera, Gisclareny, Viver i Serrateix, Savallà del Comtat i Torroja del Priorat. A més, els bytes processats en aquesta consulta apareixen com un paràmetre indefinit, ja que aquests resultats estan emmagatzemats a la memòria cau de BigQuery.
+Els resultats d'aquesta consulta assenyalen que els pobles catalans amb menys cobertura mòbil són Canejan, Boadella i les Escaules, Cabó, la Vajol, Gaià, Farrera, Gisclareny, Viver i Serrateix, Savallà del Comtat i Torroja del Priorat. A més, els bytes processats en aquesta consulta apareixen com un paràmetre indefinit, ja que aquests resultats estan emmagatzemats a la memòria cau de BigQuery.
 
 
 
-Tal com hem vist, BigQuery emmagatzema a la seva memòria cau els resultats de la consulta perquè les dades puguin ser recuperades més ràpidament la pròxima vegada que s'executi una mateixa consulta. Això no obstant, cal tenir en compte que només s'accedeix a les dades de la memòria cau quan s'executa la mateixa consulta després de la seva creació. Per exemple, si es modifiqués una mica aquesta consulta i demanés tan sols el nom del poble, en comptes d'aquest i la mitjana del senyal mòbil, podríem arribar a pensar que els resultats de la consulta d'aquesta execució haurien de retornar-nos un subconjunt de les dades que ja són presents en la memòria cau (ja que és un subconjunt de la nostra consulta anterior). Però, per la forma en què funciona la memòria cau de BigQuery, quan executem això, observarem que la informació no s'ha recuperat d'aquesta. En canvi, quan aquesta consulta es torna a executar, és quan la memòria cau s'activa, i és d'on es recuperen les dades. 
+Tal com hem vist, BigQuery emmagatzema a la seva memòria cau els resultats de la consulta perquè les dades puguin ser recuperades més ràpidament la pròxima vegada que s'executi una mateixa consulta. Això no obstant, cal tenir en compte que només s'accedeix a les dades de la memòria cau quan s'executa exactament la mateixa consulta després de la seva creació. Per exemple, si es modifiqués una mica aquesta consulta i demanés tan sols el nom del poble, en comptes d'aquest i la mitjana del senyal mòbil, podríem arribar a pensar que els resultats de la consulta d'aquesta execució haurien de retornar-nos un subconjunt de les dades que ja són presents en la memòria cau (ja que és un subconjunt de la nostra consulta anterior). Però, per la forma en què funciona la memòria cau de BigQuery, quan executem això, observarem que la informació no s'ha recuperat d'aquesta. En canvi, quan aquesta consulta es torna a executar, és quan la memòria cau s'activa, i és d'on es recuperen les dades. 
 
 
 
@@ -538,7 +540,9 @@ Una altra funció que presenta la plataforma és la lectura d'arxius externs que
 
 
 
-Si ens dirigim als detalls, aquí és on veiem quelcom interessant. La grandària de la taula és de zero bytes, atès que les dades són externes a BigQuery (Figura ~\ref{fig:bq25}). Si ens desplacem, podem veure els detalls de les dades externes. Això significa que quan actualitzem el full de càlcul, qualsevol consulta cap a aquesta taula recollirà automàticament les dades més recents. Ja que la nostra consulta de la taula gran no és només una còpia del full de càlcul, sinó que és de fet una referència a ella. Parlant de consultar les dades, ens dirigirem a \textit{Query}, i a obrir un editor de consultes en una nova pestanya. Quan una consulta s'executa, totes les dades són retornades a nosaltres, i podem accedir a elles com ho faríem amb qualsevol dada que resideixi en una taula nativa de BigQuery. 
+Si ens dirigim als detalls, aquí és on veiem quelcom interessant. La grandària de la taula és de zero bytes, atès que les dades són externes a BigQuery (Figura ~\ref{fig:bq25}). Si ens desplacem, es poden veure els detalls de les dades externes. Això significa que quan s'actualitza el full de càlcul, qualsevol consulta cap a aquesta taula recollirà automàticament les dades més recents, ja que la nostra consulta de la taula gran no és només una còpia del full de càlcul, sinó que és de fet una referència a ella. 
+
+Quan una consulta s'executa, totes les dades són retornades a nosaltres, i podem accedir a elles com ho faríem amb qualsevol dada que resideixi en una taula nativa de BigQuery. 
 
 
 \begin{figure}[h!]
@@ -554,16 +558,16 @@ Si ens dirigim als detalls, aquí és on veiem quelcom interessant. La grandàri
 
 \section{Integració de BigQuery amb Looker Studio}
 
-Ara que hem cobert els diferents tipus de taules de BigQuery, ens centrarem en com podem visualitzar les nostres consultes. 
+Ara que hem cobert els diferents tipus de taules de BigQuery, ens centrarem en com es poden visualitzar les consultes. 
 
 
-Looker Studio és una eina gratuïta que permet convertir les dades en panells o informes complets, fàcils de llegir, fàcils de compartir i totalment personalitzables. Algunes de les seves funcionalitats són:
+Looker Studio és una eina gratuïta que permet convertir les dades en panells o informes complets, fàcils de llegir i de compartir, i totalment personalitzables. Algunes de les seves funcionalitats són:
 
 
-- Descriure les dades amb gràfiques, que inclouen gràfics de línies, de barres i circulars, mapes geogràfics, gràfics d’àrea i de bombolles, taules de dades dinàmiques i molt més.
+- Descriure les dades amb gràfiques, que inclouen gràfics de línies, de barres i circulars (o \textit{pie plots}), mapes geogràfics, gràfics d’àrea i de bombolles, taules de dades dinàmiques i molt més.
 
 
-- Permet que els nostres informes siguin interactius amb filtres de visualització.
+- Permet que els informes siguin interactius amb filtres de visualització.
 
 
 - Inclou enllaços i imatges en les quals es pot clicar per crear catàlegs de productes, biblioteques de vídeo i altres continguts amb URL.
@@ -572,7 +576,7 @@ Looker Studio és una eina gratuïta que permet convertir les dades en panells o
 - Facilita l’anotació i descripció dels informes amb text i imatges.
 
 
-A més de presentar totes aquestes característiques, amb Looker Studio es poden elaborar fàcilment informes sobre dades procedents d’una gran varietat de fonts, sense necessitat de programar. En tan sols uns instants, ens podem connectar a conjunts de dades com BigQuery.
+A més de presentar totes aquestes característiques, amb Looker Studio es poden elaborar fàcilment informes sobre dades procedents d’una gran varietat de fonts, sense necessitat de programar. En tan sols uns instants, es pot connectar a conjunts de dades com BigQuery.
 
 \subsection{Ús de Looker Studio des de BigQuery}
 
@@ -597,7 +601,7 @@ GROUP BY DAY
 Per a visualitzar la taula resultant, podem ampliar el menú \textit{Explorar datos}, tot seguit d'\textit{Explorar con Looker Studio} (Figura ~\ref{fig:bq26}).
 
 
-Quan fem aquesta selecció, sorgeix una nova interfície que ja té una taula que conté alguna informació i un histograma amb les dades d'aquesta (Figura ~\ref{fig:bq27}).
+Una vegada feta aquesta selecció, sorgeix una nova interfície que ja té una taula que conté alguna informació i un histograma amb les dades d'aquesta (Figura ~\ref{fig:bq27}).
 
 \begin{figure}[h!]
 \begin{center}
@@ -607,7 +611,7 @@ Quan fem aquesta selecció, sorgeix una nova interfície que ja té una taula qu
 \label{fig:bq27}
 \end{figure}
 
-Data Studio, per defecte, ha entès que una taula de recompte es visualitza normalment a partir d'un gràfic de barres vertical o histograma, i per això l'ha creat sense que nosaltres ho hàgim especificat. Així i tot, nosaltres podem seleccionar una visualització abans de configurar-la per a presentar la informació que necessitem. Pose'm-nos en el cas que preferim un gràfic de barres horitzontal per a la visualització d'aquestes dades. Premem l'opció \textit{Añadir un gráfico} i ens assegurem que la dimensió, que en aquest cas són els dies, i la mètrica, la freqüència dels accidents, estiguin seleccionades segons el que vulguem representar (Figura ~\ref{fig:bq28}). 
+Looker Studio, per defecte, ha entès que una taula de recompte es visualitza normalment a partir d'un gràfic de barres vertical o histograma, i, per això, l'ha creat sense que nosaltres ho hàgim especificat. Així i tot, nosaltres podem seleccionar una visualització abans de configurar-la per a presentar la informació que necessitem. Pose'm-nos en el cas que preferim un gràfic de barres horitzontal per a la visualització d'aquestes dades. Premem l'opció \textit{Añadir un gráfico} i ens assegurem que la dimensió, que en aquest cas són els dies, i la mètrica, la freqüència dels accidents, estiguin seleccionades segons el que vulguem representar (Figura ~\ref{fig:bq28}). 
 
 \begin{figure}[h!]
 \par
@@ -648,7 +652,7 @@ A la pàgina d’inici hi ha una sèrie de plantilles, que són una forma entret
 
 Per a crear un gràfic, podem clicar a \textit{Añadir un gráfico} i, d'aquesta manera, escollir el que ens interessa representar en el panell de la dreta, ajustant la dimensió i la mètrica del nostre interès. Un cop creat el gràfic, es pot editar la seva mida fent-lo més gran o més petit, segons la nostra preferència, i es pot moure de lloc dins la pàgina.
 
-A més de gràfiques, es poden decorar les pàgines per fer-les més boniques, o per afegir informació. També podem afegir un nom a la pàgina, i crear-ne tantes com en necessitem per al nostre informe. Així mateix, podem establir un nom per a tot l'informe, de manera que a l'hora de guardar-lo i compartir-lo sigui més fàcilment interpretable.
+A més de gràfiques, es poden decorar les pàgines per fer-les més boniques, o per afegir informació. També és possible assignar un nom a la pàgina, i crear-ne tantes com sihuin necessàries per al nostre informe. Així mateix, podem establir un nom per a tot l'informe, de manera que a l'hora de guardar-lo i compartir-lo sigui més fàcilment interpretable.
 
 Per exemple, un informe de dues pàgines pot tenir un aspecte semblant a la Figura ~\ref{fig:ds4}.
 
@@ -664,7 +668,7 @@ Per exemple, un informe de dues pàgines pot tenir un aspecte semblant a la Figu
 \end{figure}
 
 
-Per acabar, podem compartir el nostre informe perquè altres usuaris puguin tenir accés. Això ho podem fer des de la pantalla d'inici de Data Studio, seleccionant l'opció de compartir l'informe (Figura ~\ref{fig:ds6}) i afegint les adreces de correu dels qui vulguem fer lectors de l'informe (aquells qui poden veure l'informe, però no tenen permisos d'edició) o bé editors (poden veure i editar l'informe). 
+Per acabar, podem compartir el nostre informe perquè altres usuaris puguin tenir accés. Això es pot fer des de la pantalla d'inici de Data Studio, seleccionant l'opció de compartir l'informe (Figura ~\ref{fig:ds6}) i afegint les adreces de correu dels qui vulguem fer lectors de l'informe (aquells qui poden veure l'informe, però no tenen permisos d'edició) o bé editors (poden veure i editar l'informe). 
 
 \begin{figure}[h!]
 \par
@@ -683,10 +687,10 @@ Per acabar, podem compartir el nostre informe perquè altres usuaris puguin teni
 
 \subsection{Connectem R a BigQuery}
 
-Per a entendre com funciona la connexió entre BigQuery i R, primer s'ha de definir el concepte de \emph{API} o interfície de programació d'aplicacions.
+Per a entendre com funciona la connexió entre BigQuery i R, primer s'ha de definir el concepte d'API (\emph{Application Programming Interface}) o interfície de programació d'aplicacions.
 
 
-Una API és un conjunt de processos, funcions i mètodes que ofereix una determinada biblioteca de programació que serveix com a capa d'abstracció perquè sigui emprada per un altre programa informàtic. Dit d'una altra manera, podem entendre les APIs com un codi que indica a les aplicacions com comunicar-se entre elles, de manera que puguin interactuar.
+Una API és un conjunt de processos, funcions i mètodes que ofereix una determinada biblioteca de programació i que serveix com a capa d'abstracció perquè sigui emprada per un altre programa informàtic. Dit d'una altra manera, podem entendre les APIs com un codi que indica a les aplicacions com comunicar-se entre elles, de manera que puguin interactuar.
 
 
 En el nostre cas, volem que R sigui capaç d'interactuar amb BigQuery, perquè així ens permeti realitzar les nostres consultes a la base de dades sense haver d'importar les dades a R. Haurem d'utilitzar les llibreries \texttt{bigrquery}\footnote{Una interfície per a la API de 'BigQuery' de Google} i \texttt{DBI}\footnote{Una definició d'interfície de base de dades per a la comunicació entre R i els sistemes de gestió de bases de dades relacionals (SGBD). Totes les classes d'aquest paquet són virtuals i han de ser esteses per les diferents implementacions de R/SGBD.} per aconseguir-ho. 
@@ -704,7 +708,7 @@ Asignem a l'objecte \texttt{projecte} el nom del nostre projecte, que a l'exempl
 projecte <- "el-meu-projecte-358912"
 \end{verbatim}
 
-I per últim, mitjançant la funció \texttt{dbConnect()} obrirem la connexió amb Bigquery indicant el nom del nostre projecte i la base de dades a la que volem accedir dins d'aquest, \texttt{dades\_projecte}. A l'apartat \emph{billing} s'haurà d'introduir l'identificador del projecte amb la font de facturació. Nosaltres indiquem el nom del nostre projecte, que està sotmès a les limitacions de la \emph{Sandbox} o zona de proves gratuïta.
+I per últim, mitjançant la funció \texttt{dbConnect()} obrirem la connexió amb Bigquery indicant el nom del nostre projecte i la base de dades a la qual volem accedir dins d'aquest, \texttt{dades\_projecte}. A l'apartat \emph{billing} s'haurà d'introduir l'identificador del projecte amb la font de facturació. Nosaltres indiquem el nom del nostre projecte, que està sotmès a les limitacions de la \emph{Sandbox} o zona de proves gratuïta.
 
 \begin{verbatim}
 dades <- dbConnect(
@@ -718,7 +722,7 @@ dades <- dbConnect(
 Executant aquest codi no es produeix gran cosa, tret que es crea una variable de connexió. Però la primera vegada que intentem fer ús d'aquesta connexió (per exemple, fent una consulta a una de les taules de la base de dades), se'ns demana que ens autentifiquem a través del nostre compte de Google en una finestra del navegador. Un cop fet això, ja podrem començar a consultar les nostres dades de BigQuery, així com els conjunts de dades públics. 
 
 
-\subsection{Consultes amb `bigrquery`}
+\subsection{Consultes amb el paquet `bigrquery`}
 
 Per a mostrar com seria una cosulta a la nostra taula des de R buscarem el llistat d'accidents que van ocórrer un cap de setmana a les 21:00.
 
@@ -728,7 +732,7 @@ query1 <- "SELECT ST_CASE
            WHERE (DAY = 1 or DAY = 7) and HOUR = 21 and MINUTE = 0"
 \end{verbatim}
 
-Un cop hem formulat la nostra \emph{query}, a través de la funció \texttt{dbGetQuery()}, ens comunicarem amb la API de Google. 
+Un cop hem formulat la nostra \emph{query}, a través de la funció \texttt{dbGetQuery()}, ens comunicarem amb la API de Google. A l'esquerra s'hi troba l'esquema de la comunicació, mentre que a la dreta està la funció utlitzada.
 
 \begin{multicols}{2}
 
@@ -777,7 +781,7 @@ Per portar a terme aquesta dinàmica es van necessitar dues sessions de dues hor
 Per portar a terme la sessió pràctica es va fer ús del conjunt de dades públic prèviament esmentat: \emph{Catalonia Cell Coverage}, que contenen informació sobré l'estat de cobertura de la telefonia mòvil que es va recollir en el periode dels anys des del 2015 fins al 2017.
 
 
-En primer lloc es presetava la taula de dades amb la qual s'havia de treballar, que conté les variables següents:
+En primer lloc es presentava la taula de dades amb la qual s'havia de treballar, que conté les variables següents:
 
 
 \begin{longtable}[H]{p{.20\textwidth} | p{.80\textwidth} } 
@@ -910,7 +914,7 @@ LIMIT 10
 
 \end{enumerate}
 
-\subsection{Comentaris del estudiants sobre la pràctica}
+\subsection{Comentaris dels estudiants sobre la pràctica}
 
 D'entre els estudiants matriculats a l'assignatura de Fitxers i Bases de Dades, van ser vint-i-un els qui van realitzar la pràctica i van valorar la seva interacció amb BigQuery. Les preguntes que van respondre aquests estudiants eren:
 
@@ -936,7 +940,7 @@ Responeu a les següents preguntes sobre l'ús de BigQuery. Valoreu (0: molt fà
 
 \end{itemize}
 
-A continuació es farà una recopilació dels resultats obtinguts, d'on es pot veure un resum numèric a la figura \ref{ig:val}.
+A continuació es farà una recopilació dels resultats obtinguts, d'on es pot veure un resum numèric a la figura \ref{fig:val}.
 
 \begin{figure}[h!]
 \begin{center}
@@ -951,7 +955,7 @@ A continuació es farà una recopilació dels resultats obtinguts, d'on es pot v
 Pel que fa a la connexió a BigQuery, la puntuació mitjana va ser de 5,44. Els estudiants no ho consideren fàcil, però tampoc li troben un grau de dificultat molt elevat a connectar-se a la plataforma per primera vegada. Alguns comenten que, en ser un entorn nou, els hi costa perquè no hi estan familiaritzats i els fa sortir de la seva zona de comfort.
 
 
-En relació a les consultes SQL (\textit{Structured Query Language}) a l'entorn BigQuery, la puntuació mitjana baixa a 4,06. És a dir, als estudiants, en general, els sembla més senzill l'ús de BigQuery que l'entrada a la plataforma. El llenguatge que s'utilitza a BigQuery és molt similar a d'altres vistos a ACCES, R o SAS, i així ho fan saber els estudiants.
+En relació a les consultes SQL (\textit{Structured Query Language}) a l'entorn BigQuery, la puntuació mitjana baixa a 4,06. És a dir, als estudiants, en general, els sembla més senzill l'ús de BigQuery que l'entrada a la plataforma. El llenguatge que s'utilitza a BigQuery és molt similar a d'altres vistos als programaris ACCES, R o SAS, i així ho fan saber els estudiants.
 
 
 En quant a la connexió amb R, la puntuació mitjana ha sigut de 6, una mica més elevada que les anteriors. S'ha trobat una mica més de complicació en aquest punt, ja que el funcionament de les APIs no s'havia tractat prèviament i era un concepte nou.
@@ -1037,7 +1041,7 @@ NO\_VEH            & Numèrica       & Nombre de vehicles implicats en l'acciden
 HIT\_RUN           & Categòrica     & Identificador de vehicle fugit (0 = No, 1 = Sí, 9 = Desconegut) \\
 TRAV\_SP & Numèrica   & Velocitat estimada (mph) del vehicle quan va tenir l’accident                \\
                 &                    & (997,998 i 999 = Desconegut)                 \\
-PREV\_SP & Categòrica & Indicador d’existència de límit de velocitat permesa just ) \\
+PREV\_SP & Categòrica & Indicador d’existència de límit de velocitat permesa just  \\
                 &                    & abans de l’accident (997,998 i 999 = Desconegut) \\ \hline
 \end{tabular}
 \caption{\label{vehicle-table}Llistat de variables de la taula Vehicle}
@@ -1097,7 +1101,7 @@ Estudiant aquestes taules sobre persones que s'han vist implicades, de forma dir
 
 \item Estudiar les relacions de dependència entre variables
 
-\item Desenvolupar un model de predicció que ens permeti establir si hi haurà víctimes mortals a un accident de trànsit en funció de les característiques que presenti aquest.
+\item Desenvolupar un model de predicció que ens permeti establir si hi haurà víctimes mortals o no a un accident de trànsit en funció de les característiques que presenti aquest.
 
 \end{itemize}
 
@@ -1107,7 +1111,7 @@ Estudiant aquestes taules sobre persones que s'han vist implicades, de forma dir
 La taula d'accidents està formada per 2078 casos (accidents) i 11 variables. En canvi, la taula de persones la conformen 7087 individus (files) i 15 variables (columnes).
 
 
-Les variables que tenim són DAY, HOUR, MINUTE, RUR\_URB, DAY\_WEEK, FATALS, DRUNK\_DR, NO\_PER, MORTS, NO\_VEHICLE, HIHAMORTS, NO\_FUGITS, AGE, SEX, PER\_TYP i DOA.
+Les variables que tenim són DAY, HOUR, MINUTE, RUR\_URB, DAY\_WEEK, FATALS, DRUNK\_DR, NO\_PER, MORTS, NO\_VEHICLE, HIHAMORTS, NO\_FUGITS, AGE, SEX, PER\_TYP i DOA, definides prèviament.
 
 \subsubsection{Dades mancants}
 
@@ -1162,16 +1166,16 @@ En el cas de les variables numèriques amb \texttt{missings}, que són l'edat (A
 %\label{table:t1}
 \end{table}
 
-Un cop transformades aquestes dades, es poden visualitzar els \emph{missings} per cada variable, tant en terme absolut com relatiu. A les taules \ref{table:t1} i \ref{table:t2} s'hi poden trobar les variables de les tauless d'accidents i de persones, respectivament, juntament amb el nombre de dades mancants que presenten, i el tant per cent que aquestes suposen al total de la informació de la variable.
+Un cop transformades aquestes dades, es poden visualitzar els \emph{missings} per cada variable, tant en terme absolut com relatiu. A les taules \ref{table:t1} i \ref{table:t2} s'hi poden trobar les variables de les taules d'accidents i de persones, respectivament, juntament amb el nombre de dades mancants que presenten, i el tant per cent que aquestes suposen al total de la informació de la variable.
 
 
-Tal i com es pot observar, a la taula d'accidents s'hi troben \emph{missings} per a les variables \texttt{HOUR} i \texttt{MINUTES}, mentre que per a la base de dades de persones, hi ha \emph{missings} per a les variables \texttt{HOUR}, \texttt{MINUTES} i \texttt{AGE}. En ambdós casos, totes les variables són numèriques i, per aquest motiu es pot usar l'algoritme KNN per a la imputació de valors a les dades mancants.
+Tal i com es pot observar, a la taula d'accidents s'hi troben \emph{missings} per a les variables \texttt{HOUR} i \texttt{MINUTES}, mentre que per la taula de persones, hi ha \emph{missings} per a les variables \texttt{HOUR}, \texttt{MINUTES} i \texttt{AGE}. En ambdós casos, totes les variables són numèriques i, per aquest motiu es pot usar l'algoritme KNN per a la imputació de valors a les dades mancants.
 
 
 \emph{K-nearest neighbors} (KNN) és un tipus d'algoritme d'aprenentatge supervisat que s'utilitza tant per a la regressió com per a la classificació. La seva funció és intentar predir la classe correcta per a unes dades de prova (que, en el nostre cas, seran les variables que presenten dades mancants) en base a la seva similitut amb altres mostres de dades conegudes (en el nostre cas, les variables completes). Tot això es fa assumint que les dades amb trets similars es troben juntes, i utilitza mesures de distància en el seu nucli.
 
 
-Un cop s'ha aplicat l'algoritme per a les variables corresponents, es pot veure, a continuació, com cap de les dues bases de dades presenta cap \textit{missing} a les variables conflictives.
+Un cop s'ha aplicat l'algoritme per a les variables corresponents, es pot veure, a continuació, com cap de les dues taules presenta cap \textit{missing} a les variables conflictives.
 
 
 
@@ -1205,7 +1209,7 @@ Recordem que les taules \ref{table:t3} i \ref{table:t4} i mostren les bases de d
 
 \subsubsection{Dades atípiques}
 
-Pel que fa a les dades atípiques (\textit{outliers}), en destaca el nombre de persones implicades a l'accident. Més específicament, hi ha un cas en que 53 persones estan involucrades en un accident. A priori, res ens fa pensar que aquesta dada, tot i ser atípica, no pugui ser certa. Per exemple, un accident pot tenir un nombre elevat de persones involucades si involucra un autobús com a vehicle, per exemple. Això no obstant, a l'hora de la segmentació les dades es podrien veure afectades per aquest valor, ja que alguns algoritmes són molt sensibles als \textit{outliers}.
+Pel que fa a les dades atípiques (\textit{outliers}), en destaca el nombre de persones implicades a l'accident. Més específicament, hi ha un cas en que 53 persones estan involucrades en un accident. A priori, res ens fa pensar que aquesta dada, tot i ser atípica, no pugui ser certa. Per exemple, un accident pot tenir un nombre elevat de persones involucades si involucra un autobús com a vehicle. Això no obstant, a l'hora de la segmentació les dades es podrien veure afectades per aquest valor, ja que alguns algoritmes són molt sensibles als \textit{outliers}.
 
 Al següent gràfic (figura \ref{fig:F1}) es representa la variable nombre de persones (NO\_PER), on es poden identificar de forma clara aquests valors atípics. També es pot trobar un resum numèric de la variable a la taula \ref{table:Fig1a}, que indica el valor màxim que pren la variable.
 
@@ -1225,7 +1229,7 @@ Al següent gràfic (figura \ref{fig:F1}) es representa la variable nombre de pe
 N.Valid & Min & Q1 & Mediana & Mitjana  & Desv. estàndar & Q3 & Max & IQR \\ \hline
 7087    & 1   & 2  & 3       & 4.015098 & 4.938707       & 5  & 53  & 3   \\ \hline
 \end{tabular}
-\caption{Resum numeric de la variable Nombre de persones \label{table:Fig1a}}
+\caption{Resum numèric de la variable Nombre de persones \label{table:Fig1a}}
 \end{table}
 
 
@@ -1248,13 +1252,13 @@ Per tal d'assegurar-nos que aquesta dada no afecta al nostre anàlisi, i tenint 
 N.Valid & Min & Q1 & Mediana & Mitjana  & Desv. estàndar & Q3 & Max & IQR \\ \hline
 7034    & 1   & 2  & 3       & 3.64005 & 2.521077       & 4  & 19  & 2   \\ \hline
 \end{tabular}
-\caption{Resum numeric de la variable Nombre de persones}
+\caption{Resum numèric de la variable Nombre de persones}
 \label{tab:Fig2-table}
 \end{table}
 
 \subsubsection{Categoritzar}
 
-En el cas de les dades mancants que es troben en variables categòriques, el que es farà serà factoritzar-les i, seguidament, definir els nivells que presenta el factor. Així, per exemple, la variable \textbf{PER\_TYP} presenta 8 nivells que s'han d'agrupar en 3 (Conductor, Ocupant i Altres). 
+En el cas de les dades mancants que es troben a variables categòriques, el que es farà serà factoritzar-les i, seguidament, definir els nivells que presenta el factor. Així, per exemple, la variable PER\_TYP presenta 8 nivells que s'han d'agrupar en 3 (Conductor, Ocupant i Altres). 
 
 
 A continuació es mostren els canvis realitzats a algunes de les variables categòriques de la base de dades:
@@ -1292,7 +1296,7 @@ A continuació es mostren els canvis realitzats a algunes de les variables categ
 
 \end{itemize}
 
-Per la variable variable \texttt{SEX} hi ha les categories anomenades "No registrat" i "Desconegut", que representen aquelles persones de les quals no tenim informació del seu sexe. Com aquestes categories no ens aporten informació d'utilitat a l'hora de realitzar l'estudi ni per a realitzar models predictius, prescindirem dels individus que corresponguin a aquestes per a realitzar el nostre anàlisi.
+Per la variable variable \texttt{SEX} hi ha les categories anomenades ``No registrat'' i ``Desconegut'', que representen aquelles persones de les quals no tenim informació sobre el seu sexe. Com aquestes categories no ens aporten informació d'utilitat a l'hora de realitzar l'estudi ni per a realitzar models predictius, prescindirem dels individus que corresponguin a aquestes per a realitzar el nostre anàlisi.
 
 \textbf{RUR\_URB}: Informació sobre la localització (1 = Rural, 2 = Urbà, 6 = Via no classificada, 8 = No registrat, 9 = Desconegut). 
 
@@ -1326,9 +1330,9 @@ Per la variable variable \texttt{SEX} hi ha les categories anomenades "No regist
 
 \end{itemize}
 
-Per aquesta última variable, \texttt{DOA}, hi ha una categoria anomenada "Desconegut", que representa aquelles persones que no se sap si sobreviuen a l'accident o no. Ja que en aquest estudi el fet de sobreviure o no a l'accident és de gran interès, i aquesta categoria  no ens aporta informació útil, prescindirem dels individus enmarcats en aquesta categoria per a realitzar el nostre anàlisi. A més a més, agruparem les categories 7 i 8 (mort a l'accident i mort al trasllat, respectivament) en una única categoria.
+Per aquesta última variable, \texttt{DOA}, hi ha una categoria anomenada "Desconegut", que representa aquelles persones que no se sap si sobreviuen a l'accident o no. Ja que en aquest estudi el fet de sobreviure o no a l'accident és de gran interès, i aquesta categoria  no ens aporta informació útil, prescindirem dels individus enmarcats en aquesta categoria per a realitzar el nostre anàlisi. A més a més, agruparem les categories 7 i 8 (mort a l'accident i mort al trasllat, respectivament) en una única.
 
-Per últim, es crearan dues variables noves a partir de \texttt{HOURS} i \texttt{DAY}, que ja són presents a ambdós conjunts de dades. Aquest pas es realitza perquè les variables \texttt{HOURS} i \texttt{DAY} tenen un rang de valors molt elevat que ens aporta poca informació. 
+Per últim, es crearan dues variables noves a partir de \texttt{HOURS} i \texttt{DAY}, que ja són presents a ambdós taules. Aquest pas es realitza perquè les variables \texttt{HOURS} i \texttt{DAY} tenen un rang de valors molt elevat que aporta poca informació. 
 
 \textbf{HOURS\_agrupat}
 
@@ -1444,13 +1448,13 @@ MORTS       & Numèrica & Nombre de morts en l’accident                       
 NO\_PER     & Numèrica & Nombre de persones implicades en l’accident          \\
 NO\_VEHICLE & Numèrica & Nombre de vehicles implicats en l’accident           \\ \hline
 \end{tabular}
-\caption{Variables numeriques vinculades als accidents}
+\caption{Variables numèriques vinculades als accidents}
 \label{tab:num-table}
 \end{table}
 
 Per a comprovar que les dades són correctes i que s'han tractat bé en termes de \emph{missings} i \emph{outliers}, farem ús del resum numèric de cada variable que es mostra a la taula \ref{tab:num2-table}. 
 
-Les variables \texttt{HOUR} i \texttt{MINUTE} prenen valors entre 0 i 23 i entre 0 i 59 respectivament, els quals són rangs esperats i no donen peu a cap dada atípica en la seva distribució. A la tercera fila de la taula es troba el nombre de víctimes de l'accident, \texttt{FATALS}, que assenyala que no hi ha cap accident en què no hi hagi, com a mínim, una víctima. També veiem com el nombre màxim de víctimes és 5, però en termes generals i d'acord amb els quartils 1, 2 i 3 i la mitjana s'observa que la gran majoria dels accidents (el 75\%) només en presenten una. Així mateix, pel que fa al nombre de conductors beguts involucrats a l'accident, \texttt{DRUNK\_DR}, aquesta variable pren el valor 0 en la majoria dels casos (el 75\% com a mínim, com indica el tercer quartil). Això no obstant, hi ha casos en què hi ha fins a 2 conductors beguts involucrats en un mateix accident. 
+Les variables \texttt{HOUR} i \texttt{MINUTE} prenen valors entre 0 i 23 i entre 0 i 59 respectivament, els quals són rangs esperats i no donen peu a cap dada atípica en la seva distribució. A la tercera fila de la taula es troba el nombre de víctimes a l'accident, \texttt{FATALS}, que assenyala que no hi ha cap accident en què no hi hagi, com a mínim, una víctima. També veiem com el nombre màxim de víctimes és 5, però en termes generals i d'acord amb els quartils 1, 2 i 3 i la mitjana s'observa que la gran majoria dels accidents (el 75\%) només en presenten una. Així mateix, pel que fa al nombre de conductors beguts involucrats a l'accident, \texttt{DRUNK\_DR}, aquesta variable pren el valor 0 en la majoria dels casos (el 75\% com a mínim, com indica el tercer quartil). Això no obstant, hi ha casos en què hi ha fins a 2 conductors beguts involucrats en un mateix accident. 
 
 \begin{table}[H]
 \centering
@@ -1481,7 +1485,7 @@ Pel que fa a \texttt{MORTS}, es pot veure com en el 25\% dels casos, com a míni
 Per acabar, en tots els accidents de trànsit hi ha un mínim d'un vehicle, i així ho mostra la variable \texttt{NO\_VEHICLE}. L'accident amb més vehicles implicats en té 6.
 
 
-Quant als \emph{missings}, la primera columna de la taula és un recompte dels casos vàlids per a cada variable, és a dir, aquells que no presenten valors mancants per a aquella variable concreta. Es pot comprovar com el mètode d'imputació s'ha realitzat correctament, perquè totes les variables presenten el mateix recompte de casos vàlids, que coincideix amb el nombre d'accidents total a la base de dades.
+Quant als \emph{missings}, la primera columna de la taula és un recompte dels casos vàlids per a cada variable, és a dir, aquells que no presenten valors mancants per a aquella variable concreta. Es pot comprovar com el mètode d'imputació s'ha realitzat correctament, perquè totes les variables presenten el mateix recompte de casos vàlids, que coincideix amb el nombre d'accidents total a la taula.
 
 \textbf{Variables vinculades a les persones}
 
@@ -1502,7 +1506,7 @@ NO\_VEHICLE & Numèrica & Nombre de vehicles implicats en l’accident          
 NO\_FUGITS  & Numèrica & Nombre de vehicles fugits implicats en l’accident    \\
 AGE         & Numèrica & Edat de la persona                                   \\ \hline
 \end{tabular}
-\caption{Variables numeriques vinculades a les persones}
+\caption{Variables numèriques vinculades a les persones}
 \label{tab:num3-table}
 \end{table}
 
@@ -1530,7 +1534,7 @@ AGE         & 6904    & 0   & 23.5 & 37      & 39.9005 & 20.4028      & 55 & 98 
 
 Pel que fa al nombre de vehicles fugits a l'accident, el tercer quartil indica que al 75\% dels casos no hi ha cap vehicle fugit, i si en fixem en el valor màxim que pren aquesta variable, el cas amb més vehicles fugits en presenta 3. Finalment, sobre l'edat de les persones, el rang de valors va des de 0 fins a 98 anys, és a dir, en alguns accidents hi ha implicats nadons, i en altres a persones de mitjana edat. 
 
-Novament, ens trobem que la primera columna de la taula és un recompte dels casos vàlids per a cada variable, és a dir, aquells que no presenten valors mancants per a aquella variable concreta. Es pot comprovar com el mètode d'imputació s'ha realitzat correctament, perquè totes les variables presenten el mateix recompte de casos vàlids, que coincideix amb el nombre d'accidents total.
+Novament, ens trobem que la primera columna de la taula és un recompte dels casos vàlids per a cada variable, és a dir, aquells que no presenten valors mancants per a aquella variable concreta. Es pot comprovar com el mètode d'imputació s'ha realitzat correctament, perquè totes les variables presenten el mateix recompte de casos vàlids, que coincideix amb el nombre de persones total.
 
 
 
@@ -1618,7 +1622,7 @@ HIHAMORTS    & 1. No  & 1176 (42.3\%) & \multicolumn{1}{r}{0} \\
 \end{tabular}
 \end{table}
 
-Aquesta és la variable resposta de la taula, és a dir, aquella que ens interessa predir a partir de la relació amb la resta de variables de la taula. Pren dues categories (sí i no) i, pel que es pot veure, està una mica desbalancejada. Això vol dir que trobem més accidents a la taula en què hi ha hagut víctimes mortals que en què no s'hagin donat. La característica del balanceig, si no es compleix, pot ser un inconvenient a l'hora de crear el model, ja que pot donar més pes a uns casos per sobre dels altres. Tanmateix, com la diferència és petita, s'ha decidit treballar amb les dades que tenim, sense aplicar cap tècnica de balanceig que podria afectar les dades.
+Aquesta és la variable resposta de la taula, és a dir, aquella que ens interessa predir a partir de la relació amb la resta de variables de la taula. Pren dues categories (sí i no) i, pel que es pot veure, està una mica desbalancejada. Això vol dir que trobem més accidents a la taula en què hi ha hagut víctimes mortals que en què no s'hagin donat. La característica del balanceig, si no es compleix, pot ser un inconvenient a l'hora de crear el model, ja que pot donar més pes a uns casos per sobre dels altres. Tanmateix, com la diferència és petita, s'ha decidit treballar amb les dades que tenim, sense aplicar cap tècnica de balanceig que podria afectar a aquestes.
 
 
 \textbf{Variables vinculades a les persones}
@@ -1653,7 +1657,7 @@ PER\_TYP    & 1. Conductor  & 4057 (58.8\%) & \multicolumn{1}{r}{0} \\
 \end{tabular}
 \end{table}
 
-Quant al tipus de persona, se'n desconeix la informació d'aproximadament l'11\% dels individus, mentre que gairebé el 60\% de les persones involucrades als accidents eren conductors. Per tant, d'aquí es pot extreure que a la majoria de vehicles que van patir un accident en aquest període de temps només viatjava una persona, el conductor o conductora del vehicle.
+Quant al tipus de persona, se'n desconeix la informació d'aproximadament l'11\% dels individus, mentre que gairebé el 60\% de les persones involucrades als accidents eren conductors. Per tant, d'aquí es pot extreure que en la majoria de vehicles que van patir un accident en aquest període de temps només viatjava una persona, el conductor o conductora del vehicle.
 
 
 \textbf{DOA}: Tipus de víctima (0 = sobreviu, resta de codis = mor). Tipus de variable: Factor
@@ -1677,7 +1681,7 @@ Per acabar, pel tipus de víctima, que és la variable resposta en aquest cas, n
 Per acabar l'anàlisi descriptiva de les dades, s'estudiarà la relació que existeix entre diferents parells de variables. Aquest tipus d'anàlisi ajudarà a esbrinar si existeix una associació entre les variables i, en cas afirmatiu, quina és la força d'aquesta.
 
 
-Per a la visualització d'aquestes relacions entre variables s'ha fet d'ús d'una plataforma de Google anomenada \href{https://datastudio.google.com/overview}{Looker Studio}. Aquesta permet convertir les dades en panells o informes complets, fàcils de llegir i de compartir, així com totalment personalitzables. 
+Per a la visualització d'aquestes relacions entre variables s'ha fet ús de la plataforma de Google, \href{https://datastudio.google.com/overview}{Looker Studio}. Aquesta permet convertir les dades en panells o informes complets, fàcils de llegir i de compartir, així com totalment personalitzables. 
 
 
 Amb Looker Studio es poden elaborar fàcilment informes sobre dades procedents d'una gran varietat de fonts, sense necessitat de programar. En tan sols uns instants, permet la connexió a grans conjunts de dades com els que es troben a BigQuery. Amb aquesta finalitat, s'han pujat les taules preprocessades altra vegada a BigQuery, i s'ha establert la connexió amb l'eina de visualització.
@@ -1714,7 +1718,7 @@ Si es té en compte la informació d'aquestes últimes gràfiques, es podria pen
 \end{figure}
 
 
-Si centrem l'atenció en les hores del dia, a la figura \ref{fig:G2} es poden veure les freqüències absolutes quant a la quantitat de morts en els diferents moments del dia. A l'esquerra, es divideix el dia en les seves hores, i s'observa com l'hora en què es produeixen més accidents és a les 6 de la tarda. Perquè la gràfica sigui més informativa, s'han agrupat les hores segons els moments del dia per crear la gràfica de la dreta. 
+Si centrem l'atenció en les hores del dia, a la figura \ref{fig:G2} es poden veure les freqüències absolutes quant a la quantitat de morts en els diferents moments del dia. A l'esquerra, es divideix el dia en les seves hores, i s'observa com l'hora en què es produeixen més accidents és a les 6 de la tarda. Perquè la gràfica sigui més informativa, s'han agrupat les hores segons els moments del dia per crear la gràfica de la dreta, amb la informació de la variables HOURS\_agrupat.
 
 
 En definitiva, de les dues gràfiques s'extreu que la majoria de les morts es produeixen a la tarda i a la matinada, mentre que el moment del dia on hi ha menys morts és el migdia.
@@ -1758,17 +1762,18 @@ Si es considera aquesta informació de forma relativa, aproximadament el 39\% de
 \subsection{Anàlisi per components principals}
 
 
-La nostra base de dades depurada té un total de 7 variables numèriques. Per tant, l'anàlisi de components principals tindrà un total de 7 components. Després de realitzar els càlculs corresponents, obtenim l'ACP de les variables numèriques a la figura \ref{fig:ACP1}.
+Per fer aquest anàlisi s'utsarà la taula d'accidents depurada, que té un total de 7 variables numèriques. Per tant, l'anàlisi de components principals tindrà un total de 7 components. Després de realitzar els càlculs corresponents, obtenim l'ACP de les variables numèriques a la figura \ref{fig:ACP1}.
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=14.5cm]{acp1}
 \end{center}
+\caption{Coeficients de les variables per les 7 components principals}
 \label{fig:ACP1}
 \end{figure}
 
 
-Sabem que cada component representa una inèrcia concreta. Ho podem veure gràficament en els següent gràfic de barres (Figura \ref{fig:ACP2}).
+Sabem que cada component representa una inèrcia concreta. Ho podem veure gràficament en el següent gràfic de barres (Figura \ref{fig:ACP2}).
 
 
 \begin{figure}[H]
@@ -1871,7 +1876,7 @@ Per tant, el que es farà serà crear un gràfic per a cada variable categòrica
 \end{figure}
 
 
-Amb la variable \texttt{Dia} veiem que les categories no formen cap patró rellevant respecte a les components. N'hi ha moltes, cosa que ens dificulta veure quines són les que expliquen millor una component o altra.
+Amb la variable \texttt{Dia} veiem que les categories no formen cap patró rellevant respecte a les components. N'hi ha moltes, cosa que dificulta veure quines són les que expliquen millor una component o altra.
 
 
 
@@ -1886,7 +1891,7 @@ Amb la variable \texttt{Dia} veiem que les categories no formen cap patró relle
 \end{figure}
 
 
-Per la variable Localització (\texttt{RUR\_URB}) podem veure clarament que les categories ``Urbà'' i ``Rural'' expliquen la segona component, ja que són més properes a aquesta, mentre que la categoria ``Desconegut'' està més lligada a la primera component.
+Per la variable Localització (\texttt{RUR\_URB}) s'observa clarament que les categories ``Urbà'' i ``Rural'' expliquen la segona component, ja que són més properes a aquesta, mentre que la categoria ``Desconegut'' està més lligada a la primera component.
 
 
 \textbf{Variable Dia de la setmana}
@@ -1926,7 +1931,7 @@ Per la variable \texttt{HIHAMORTS} tenim dues categories que presenten una corre
 \label{fig:ACP11}
 \end{figure}
 
-Per la variable hora agrupada (\texttt{HOUR\_agrupat}) tenim cinc categories. D'entre aquestes, els accidents que queden millor explicats per les primeres components són els que es donen a la matinada. Sembla que les categories ``migdia'' i ``nit'' estan més lligades a la primera component, mentre que ``matinada'' ho està a la segona. A més, la categoria que queda menys explicada és el matí.
+Per la variable hora agrupada (\texttt{HOUR\_agrupat}) hi ha cinc categories. D'entre aquestes, els accidents que queden millor explicats per les primeres components són els que es donen a la matinada. Sembla que les categories ``migdia'' i ``nit'' estan més lligades a la primera component, mentre que ``matinada'' ho està a la segona. A més, la categoria que queda menys explicada és el matí.
 
 
 
@@ -1959,7 +1964,7 @@ La regressió logística és un enfocament estadístic que s'utilitza pels probl
 
 \subsubsection{Entrenament del model}
 
-Abans de crear el model a la consola de BigQuery, dividirem la nostra base de dades en dues, les dades d'entrenament, o \emph{train}, que representaran aproximadament el 80\% del total, i les dades de prova, o \emph{test}, que en seran el 20\%. El conjunt \emph{train} s'utilitzarà per entrenar el model, mentre que \emph{test} s'utilitzarà un cop creat el model, i servirà per comprovar el bon funcionament del model. Aquesta divisió de dades sovint és emprada per evitar el sobre ajust del model, que és un problema que es dona quan un model s'ajusta massa bé a les dades d'entrenament i no aconsegueix ajustar-se de forma fiable a dades addicionals.
+Abans de crear el model a la consola de BigQuery, dividirem la nostra base de dades en dues, les dades d'entrenament, o \emph{train}, que representaran aproximadament el 80\% del total, i les dades de prova, o \emph{test}, que en seran el 20\%. El conjunt \emph{train} s'utilitzarà per entrenar el model, mentre que \emph{test} s'utilitzarà un cop creat el model, i servirà per comprovar el bon funcionament d'aquest. Aquesta divisió de dades sovint és emprada per evitar el sobre ajust del model, que és un problema que es dona quan un model s'ajusta massa bé a les dades d'entrenament i no aconsegueix ajustar-se de forma fiable a dades addicionals.
 
 
 \begin{table}[H]
@@ -2041,7 +2046,7 @@ Per entendre com ha sigut l'entrenament d'aquest model, donarem un cop d'ull als
 
 
 
-La funció de pèrdua és un mètode per avaluar que tan bé un algoritme modela o s'ajusta a les dades d'entrenament. Si les prediccions es desvien massa dels resultats reals, la funció de pèrdua pren valors elevats. En canvi, si té l'ajuda d'una funció d'optimització, la funció de pèrdua aprèn a reduir l'error de predicció a cada iteració. En aquest sentit, en el nostre model no es redueix prou l'error de predicció, ja que comencem amb un valor de 0,684 abans de començar les iteracions, i acabem amb 0,636 a la cinquena iteració.
+La funció de pèrdua és un mètode per avaluar que tan bé un algoritme modela o s'ajusta a les dades d'entrenament. Si les prediccions es desvien massa dels resultats reals, la funció de pèrdua pren valors elevats. En canvi, si té l'ajuda d'una funció d'optimització, la funció de pèrdua aprèn a reduir l'error de predicció a cada iteració. En aquest sentit, en el nostre model no es redueix prou l'error de predicció, ja que es comença amb un valor de 0,684 abans de començar les iteracions, i s'acaba amb 0,636 a la cinquena iteració.
 
 
 
@@ -2049,7 +2054,7 @@ La següent mètrica que es troba és la duració de les iteracions. Aquest és 
 
 
 
-En últim lloc, es troba la taxa d'aprenentatge o \emph{learning rate}. Aquest valor es calcula mitjançant l'algoritme de descens del gradient, i afecta la velocitat en què aquest algoritme convergeix en les ponderacions òptimes pels paràmetres. Una taxa d'aprenentatge massa elevada podria impedir que les ponderacions arribin a les ponderacions òptimes, mentre que una taxa petita podria requerir moltes iteracions per arribar a calcular-les.
+En últim lloc, es troba la taxa d'aprenentatge o \emph{learning rate}. Aquest valor es calcula mitjançant l'algoritme de descens del gradient, i afecta la velocitat en què aquest algoritme convergeix en les ponderacions òptimes pels paràmetres. Una taxa d'aprenentatge massa elevada podria impedir que les ponderacions arribin a ser les òptimes, mentre que una taxa petita podria requerir moltes iteracions per arribar a calcular-les.
 
 
 
@@ -2057,7 +2062,7 @@ Seguidament, es pot avaluar el rendiment del model a partir de les dades de prov
 
 
 
-Una de les primeres mètriques que trobem és la precisió del model, que és el tant per cent de les dades que s'han classificat correctament. Aquesta mètrica pren valors entre 0 i 1, i en el nostre cas és de 0,6336, és a dir, el model ha predit en el 63,36\% de les dades la classe correcta de la variable resposta. 
+Una de les primeres mètriques que trobem és la precisió del model, que és el tant per cent de les dades que s'han classificat correctament. Aquesta mètrica pren valors entre 0 i 1, i en el nostre cas és de 0,6336, és a dir, el model ha predit pel 63,36\% de les dades la classe correcta de la variable resposta. 
 
 
 
@@ -2078,7 +2083,7 @@ D'altra banda, la puntuació F1 es calcula a través de la mitjana harmònica en
 
 
 
-Per acabar, es troben les mètriques de pèrdua logística (\emph{log loss}) i àrea sota la corba ROC (AUC). La corba ROC és un gràfic que mostra el rendiment d'un model de classificació en tots els llindars de classificació, presentant la taxa de falsos positius a l'eix d'abscisses i la de veritables positius a l'eix d'ordenades. L'AUC mesura l'àrea sota la corba d'aquest model i, segons el valor que prengui es pot saber com de bo o dolent és el model:
+Per acabar, es troben les mètriques de pèrdua logística (\emph{log loss}) i àrea sota la corba ROC (AUC). La corba ROC és un gràfic que mostra el rendiment d'un model de classificació en tots els llindars de classificació, presentant la taxa de falsos positius a l'eix d'abscisses i la de veritables positius a l'eix d'ordenades. L'AUC mesura l'àrea sota la corba d'aquest model i, segons el valor que prengui es pot saber com de bo o dolent és aquest:
 
 
 
@@ -2206,6 +2211,18 @@ Altrament, les variables categòriques, \texttt{RUR\_URB}, \texttt{DAY\_WEEK} i 
 
 Si ens fixem en la variable \texttt{RUR\_URB}, es pot calcular que si, en comptes d'ubicar-se l'accident en una zona urbana, s'ha donat en una localització rural, la probabilitat canvia en un factor de $e^{0,4165228} = 1,519911759$, mentre que si la zona és desconeguda, el canvi és de $e^{-0,0342466} = 0,9663331775$.
 
+\newpage
+
+\section{Recopilació del material a Github}
+
+El codi en R i SQL, així com les dades utilitzades per la realització d'aquest treball es troben a un repositori de Github al que es pot arribar a partir de l'enllaç següent: \url{https://github.com/AnnaSalazar/TFG}.
+
+
+A partir d'aquest material, es poden reproduir els resultats als quals s'ha arribat, i es poden visualitzar les comandes íntegres fetes servir en cada secció del treball.
+
+El repositori està organitzat de manera que s'hi troben totes les dades, les originals i les preprocessades, així com el codi pel tractament i transformació d'aquestes. D'altra banda, hi ha una carpeta on es troben les valoracions dels estudiants, anonimitzades, per la consulta d'aquests i, per últim, el codi de l'anàlisi per components principals i de la creació del model logístic.
+
+Tota aquesta informació està exposada en un arxiu README al mateix repositori, per facilitar la navegació dins d'aquest.
 
 \newpage
 
@@ -2220,6 +2237,8 @@ La primera dificultat amb la qual ens vam trobar va ser que, en ser BigQuery una
 Quant a la implementació de BigQuery a l'aula, tot i que les sessions es van donar sense gaires complicacions pels estudiants i els comentaris van ser positius, no s'ha analitzat la valoració que van fer més enllà de la mitjana i la variància entre les puntuacions per falta de representativitat. Si es pogués haver realitzat la mateixa pràctica a un grup més gran, es podrien extreure conclusions que ajudessin a millorar el material de cara a l'any següent, o la manera de treballar amb aquest.
 
 En últim lloc, pel que fa a l'anàlisi d'un conjunt de dades pròpiament, s'ha trobat que BigQuery permet alguns tipus d'anàlisi, però d'altres no. Això pot ser degut al fet que s'hagi volgut enfocar cap a l'aprenentatge automàtic o \textit{machine learning}, i per això alguns altres tipus d'anàlisi com el de components principals no estan al seu abast, o són molt més complicats de realitzar en comparació a totes les alternatives que presenta R amb la seva gran varietat de paquets. Potser en un futur aquesta problemàtica es resolgui i BigQuery arribi a ser una eina completa per l'anàlisi estadística.
+
+La realització d'aquest treball ha sigut una experiència molt positiva, personalment, ja que ha suposat portar a les aules una cosa que no s'havia fet fins ara. Evidentment, no és factible estar actualitzat sobre tots els programes que existeixen actualment per l'anàlisi de dades, però com a estudiant trobo molt atractiu que s'explorin les possibilitats que existeixen i s'entengui a quines necessitats responen aquest tipus de programes emergents.
 
 
 \newpage
@@ -2262,18 +2281,7 @@ En últim lloc, pel que fa a l'anàlisi d'un conjunt de dades pròpiament, s'ha 
 \end{thebibliography} 
 
 
-\newpage
 
-\section{Annex}
-
-El codi en R i SQL, així com les dades utilitzades per la realització d'aquest treball es troben a un repositori de Github al que es pot arribar a partir de l'enllaç següent: \url{https://github.com/AnnaSalazar/TFG}.
-
-
-A partir d'aquest material, es poden reproduir els resultats als quals s'ha arribat, i es poden visualitzar les comandes íntegres fetes servir en cada secció del treball.
-
-El repositori està organitzat de manera que s'hi troben totes les dades, les originals i les preprocessades, així com el codi pel tractament i transformació d'aquestes. D'altra banda, hi ha una carpeta on es troben les valoracions dels estudiants, anonimitzades, per la consulta d'aquests i, per últim, el codi de l'anàlisi per components principals i de la creació del model logístic.
-
-Tota aquesta informació està exposada en un arxiu README al mateix repositori, per facilitar la navegació dins d'aquest.
 
 
 \end{document}
