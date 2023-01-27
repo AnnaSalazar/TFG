@@ -1,10 +1,12 @@
-# TFG - Accidents de cotxe
+# TFG - BigQuery
 
 ## Entorn de desenvolupament del projecte
 
-Aquest projecte s'ha realitzat mitjançant el llenguatge de programació [RStudio](https://www.rstudio.com/products/rstudio/download/): Versió 4.2.0
+Aquest projecte s'ha realitzat mitjançant 2 llenguatges de programació:
+- SQL: a partir de la interfície [BigQuery](https://cloud.google.com/bigquery?hl=es)
+- R: mitjançant el programari [RStudio](https://www.rstudio.com/products/rstudio/download/) (Versió 4.2.0)
 
-Específicament, els paquets necessàris pel desenvolupament del projecte són els següents:
+Específicament, els paquets necessàris pel desenvolupament del projecte a l'entorn R són els següents:
 - `bigrquery`
 - `kableExtra`
 - `DBI`
@@ -22,7 +24,22 @@ Específicament, els paquets necessàris pel desenvolupament del projecte són e
 
 Per a l'emmagatzemament de les dades s'ha fet servir la plataforma [BigQuery](https://cloud.google.com/bigquery?hl=es), i per a la visualització d'aquestes s'ha creat una conexió amb [Data Studio](https://datastudio.google.com/overview).
 
-## Font d'obtenció de les dades
+## Introducció
+
+L’objectiu d’aquest treball és conèixer un dels recursos de la plataforma Google Cloud, anomenat BigQuery. A partir de l’enteniment de com funciona la computació al núvol i l’emmagatzemament de dades en el mateix entorn, es vol crear un material pedagògic per a incloure en el programari de l’assignatura de Fitxers i Bases de Dades del grau d’Estadística.
+
+Amb aquest propòsit en ment, el treball es divideix en tres apartats principals. En primer lloc, s’aprofundirà en la descripció de la plataforma al llarg de les primeres cinc seccions. Primer es descriurà BigQuery a alt nivell per, més endavant, poder entendre l’estructura de la interfície d’usuari i les maneres en què es pot interactuar amb el sistema. En aquest apartat també s’inclouran les connexions amb altres plataformes i *softwares* per a poder treure el màxim profit de les dades d’estudi. Seguidament, el segon apartat està conformat per una única secció, que contempla l’aplicació de BigQuery a l’entorn de classe i inclou la valoració dels mateixos estudiants sobre la seva experiència i visió. En últim lloc, es presenta l’anàlisi d’una base de dades mitjançant la connexió amb el programari R. En aquest apartat, es realitza part de l’exploració de les dades a R i part a BigQuery, tot tenint en compte les limitacions del llenguatge que s’utilitza en cada entorn i els recursos visuals que ofereixen.
+
+Dins d'aquest repositori es pot trobar:
+
+A la carpeta [Data Studio](https://github.com/AnnaSalazar/TFG/tree/main/Data%20Studio), un curt video exemplificant com es faria una gràfica en aquest entorn, i un document amb la descripció de la plataforma. També s'hi troben els arxius amb els gràfics obtinguts.
+
+A [Valoracio_classe](https://github.com/AnnaSalazar/TFG/tree/main/Valoracio_classe) s'hi troben tots els arxius amb les valoracions dels alumnes sobre la plataforma, així com el codi per general els gràfics de caixa exposats al treball.
+
+Per últim, a la carpeta [Dades originals](https://github.com/AnnaSalazar/TFG/tree/main/Dades%20originals) es troben les dades analitzades a l'última secció del treball, i el codi del preprocessament i l'anàlisi per components principals a [scripts R](https://github.com/AnnaSalazar/TFG/tree/main/scripts%20R). Pel que fa a la regressió logística, tota la informació s'hi troba a [BigQueryML]().
+
+
+## Metodologia
 
 Les bases de dades que seran utilitzades al llarg de l'estudi provenen de l'agència estatal de trànsit dels Estats Units i contenen tres taules, entre les quals s'hi troba un llistat d’accidents de tràfic ocorreguts al desembre de 2015 als Estats Units, juntament amb un recompte de totes les persones (conductors, passatgers o vianants) involucrades als accidents i, finalment, un inventari de tots els vehicles involucrats als accidents. 
 
@@ -74,32 +91,8 @@ L'enllaç a la base esmentada és el següent:
 
 
 
-## Objectius del projecte
 
-Estudiant aquesta base de dades sobre persones que s'han vist implicades, de forma directa o indirecta, en accidents de trànsit es preten:
 
-- Descriure els tipus d'accidents que estan registrats
 
-- Analitzar els diferents perfils de persones que pateixen accidents de trànsit
-
-- Desenvolupar un model de predicció que ens permeti establir el tipus de víctima que serà cada persona depenent les característiques de l'accident i els vehicles. 
-
-- Estudiar les relacions de dependència entre variables
-
-## Estructura del projecte
-
-S'ha dividit l'anàlisi en diverses tasques:
-
-1. Investigar sobre BigQuery i familiaritzar-se amb les funcionalitats del programa
-
-2. Definició del projecte
-
-3. Preprocessament de les dades
-
-4. Familiaritzar-se amb l'entorn Data Studio i la seva connexió amb BigQuery
-
-5. Anàlisi descriptiva
-
-...
 
 
