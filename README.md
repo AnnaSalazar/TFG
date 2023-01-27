@@ -22,7 +22,7 @@ Específicament, els paquets necessàris pel desenvolupament del projecte a l'en
 - `forcats`
 - `sqldf`
 
-Per a l'emmagatzemament de les dades s'ha fet servir la plataforma [BigQuery](https://cloud.google.com/bigquery?hl=es), i per a la visualització d'aquestes s'ha creat una conexió amb [Data Studio](https://datastudio.google.com/overview).
+Per a l'emmagatzemament de les dades s'ha fet servir la plataforma [BigQuery](https://cloud.google.com/bigquery?hl=es), i per a la visualització d'aquestes s'ha creat una conexió amb [Looker Studio](https://datastudio.google.com/overview).
 
 ## Introducció
 
@@ -41,13 +41,40 @@ Per últim, a la carpeta [Dades originals](https://github.com/AnnaSalazar/TFG/tr
 
 ## Metodologia
 
-Les bases de dades que seran utilitzades al llarg de l'estudi provenen de l'agència estatal de trànsit dels Estats Units i contenen tres taules, entre les quals s'hi troba un llistat d’accidents de tràfic ocorreguts al desembre de 2015 als Estats Units, juntament amb un recompte de totes les persones (conductors, passatgers o vianants) involucrades als accidents i, finalment, un inventari de tots els vehicles involucrats als accidents. 
+Per poder fer un seguiment del treball i exemplificar tota la informació teòrica que s’anirà veient en el transcurs d’aquest, s’ha fet ús de dos conjunts de dades.
 
-L'enllaç a la base esmentada és el següent: 
+Per una banda, s’ha tractat una base de dades pública a l’entorn de BigQuery, anomenada [Catalonia Cell Coverage](https://console.cloud.google.com/marketplace/product/gencat/cell_coverage?hl=es-419). Aquesta conté informació sobre la cobertura de telefonia mòbil de la població catalana que va ser recopilada des de l’any 2015 fins al 2017, ambdós inclosos. Algunes de les variables que es van tenir en compte en aquest estudi van ser el senyal mitjà del dispositiu, el nom de la xarxa i de l’operador, la velocitat estimada de la font i el codi postal del lloc on es va adquirir la telemetria.
 
+| Variable           | Tipus         | Descripció                                                                                                        |
+|--------------------|---------------|-------------------------------------------------------------------------------------------------------------------|
+| date            | Data    | Data de telemetria en format AAAA-MM-DD                                                                                             |
+| hour                | Temps    | Hora de telemetria en format HH24:MM:SS                                                                                  |
+| lat               | Numèrica      | Latitud                                                                             |
+| long             | Numèrica      | Longitud                                                                             |
+| signal            | Numèrica    | Senyal mitjana |
+| network           | Categòrica    | Nom de la xarxa                                                  |
+| operator             | Categòrica      | Nom de l’operador                                                                                     |
+| status           | Numèrica      | Codi de l’estat = {0, 1, 2, 3}                                                             |
+| description            | Categòrica    | Descripció de l’estat: En servei (0), Fora de servei (1), Estat d’emergència (2), Apagat (3).|
+| net                | Categòrica    | Tipus de xarxa = 2G, 3G, 4G                                                                                  |
+| speed               | Numèrica      | Velocitat estimada de la font                                                                            |
+| satellites             | Numèrica      | Nombre de satèl·lits GPS                                                                           |
+| precission            | Numèrica    | Constant que decriu la precisió del proveïdor |
+| provider           | Categòrica    | Nom del proveïdor de la posició                                                 |
+| activity             | Categòrica      | Activitat de l’usuari: en un vehicle, parat, a peu, inclinat, amb bicicleta i desconegut                                                                                    |
+| downloadSpeed           | Numèrica      | Velocitat de descàrrega actual                                                             |
+| uploadSpeed            | Numèrica    | Velocitat de càrrega actual |
+| postal_code           | Categòrica    | Codi postal                                                 |
+| town_name             | Categòrica      | Nom de la ciutat on es va adquirir la telemetria                                                                                   |
+| position_geom           | Numèrica      | Representació geogràfica de la posició                                                              |
+
+
+Per altra part, s’han utilitzat unes dades que provenen de l’agència estatal de trànsit de Washington, Estats Units. L’Administració Nacional de Seguretat del Trànsit a les Carreteres, National Highway Traffic Safety Administration (NHTSA) en anglès, va fer públiques tres taules que feien referència als accidents ocorreguts al llarg de l’any 2015, les persones involucrades en aquests (siguin conductors, passatgers o vianants) i un inventari de tots els vehicles que van ser afectats. Les dades tractades són una mostra que conté tots els accidents produïts el mes de desembre d’aquell any. 
+
+Aquesta informació es pot trobar al web de la NHTSA: 
 <https://www.transportation.gov/briefing-room/traffic-fatalities-sharply-2015>
 
-## Descripció de les dades
+
 
 **Accident** és un llistat d’accidents de trànsit ocorreguts al desembre de 2015 als Estats Units.
 
