@@ -6,7 +6,7 @@ Aquest projecte s'ha realitzat mitjançant 2 llenguatges de programació:
 - SQL: a partir de la interfície [BigQuery](https://cloud.google.com/bigquery?hl=es)
 - R: mitjançant el programari [RStudio](https://www.rstudio.com/products/rstudio/download/) (Versió 4.2.0)
 
-Específicament, els paquets necessàris pel desenvolupament del projecte a l'entorn R són els següents:
+Específicament, els paquets necessaris pel desenvolupament del projecte a l'entorn R són els següents:
 - `bigrquery`
 - `kableExtra`
 - `DBI`
